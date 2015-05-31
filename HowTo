@@ -2,7 +2,7 @@
 
 gem install activerecord
 
-gem install standalone_migrations
+gem install standalone_migrations (https://github.com/thuss/standalone-migrations)
 
 gem install sqlite3
 
