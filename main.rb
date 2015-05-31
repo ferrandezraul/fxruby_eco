@@ -9,18 +9,20 @@
 
 # add current dir to LOAD_PATH 
 $LOAD_PATH.unshift '.'
+$LOAD_PATH.unshift './app/models/'
 
 require 'fox16'
 require 'active_record'
 require 'sqlite3'
 require 'yaml'
-require 'logger' 
+require 'logger'
+require 'product' 
 
 include Fox
 
 #ActiveRecord::Base.logger = Logger.new('database.log')
-#configuration = YAML::load(IO.read("#{Dir.pwd}/config/database.yml"))
-#ActiveRecord::Base.establish_connection(configuration['development'])
+configuration = YAML::load(IO.read("#{Dir.pwd}/db/config.yml"))
+ActiveRecord::Base.establish_connection(configuration['development'])
 
 class EcocityAdmin < FXMainWindow
 
@@ -41,6 +43,8 @@ class EcocityAdmin < FXMainWindow
 
   def add_menu_bar
     # Add menu
+    Product.create( :name => 'Soca', :price => 3.50 )
+
   end
   
   def store_data
