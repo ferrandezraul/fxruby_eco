@@ -1,8 +1,11 @@
 1. Dependencies
 
 gem install activerecord
-gem install fxruby
+
+gem install standalone_migrations
+
 gem install sqlite3
 
+gem install fxruby
 
 2.  rake migrate

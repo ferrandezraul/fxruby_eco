@@ -18,9 +18,9 @@ require 'logger'
 
 include Fox
 
-ActiveRecord::Base.logger = Logger.new('database.log')
-configuration = YAML::load(IO.read("#{Dir.pwd}/config/database.yml"))
-ActiveRecord::Base.establish_connection(configuration['development'])
+#ActiveRecord::Base.logger = Logger.new('database.log')
+#configuration = YAML::load(IO.read("#{Dir.pwd}/config/database.yml"))
+#ActiveRecord::Base.establish_connection(configuration['development'])
 
 class EcocityAdmin < FXMainWindow
 
