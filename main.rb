@@ -20,16 +20,16 @@ require 'product'
 
 include Fox
 
-#ActiveRecord::Base.logger = Logger.new('database.log')
-configuration = YAML::load(IO.read("#{Dir.pwd}/db/config.yml"))
-ActiveRecord::Base.establish_connection(configuration['development'])
-
 class EcocityAdmin < FXMainWindow
 
   def initialize(app)
     $APPLOG = Logger.new('app.log', 'monthly') 
+
+    setup_database_conection
+
     super(app, "Ecocity Admin", :width => 600, :height => 400)
-    add_menu_bar
+    
+    add_menu_bar    
 
     self.connect(SEL_CLOSE, method(:on_close))
   end
@@ -39,6 +39,12 @@ class EcocityAdmin < FXMainWindow
     puts "Storing data .."
     store_data
     exit
+  end
+
+  def setup_database_conection
+    ActiveRecord::Base.logger = Logger.new('database.log')
+    configuration = YAML::load(IO.read("#{Dir.pwd}/db/config.yml"))
+    ActiveRecord::Base.establish_connection(configuration['development'])
   end  
 
   def add_menu_bar
