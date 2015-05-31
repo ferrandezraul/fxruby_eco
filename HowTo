@@ -1,0 +1,8 @@
+1. Dependencies
+
+gem install activerecord
+gem install fxruby
+gem install sqlite3
+
+
+2.  rake db::migrate
