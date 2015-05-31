@@ -26,11 +26,11 @@ include Fox
 class EcocityAdmin < FXMainWindow
 
   def initialize(app)
+    super(app, "Ecocity Admin", :width => 600, :height => 400)
+
     $APPLOG = Logger.new('app.log', 'monthly') 
 
     setup_database_conection
-
-    super(app, "Ecocity Admin", :width => 600, :height => 400)
 
     add_menu_bar
 
@@ -60,10 +60,17 @@ class EcocityAdmin < FXMainWindow
 
   def load_sample_data
     Product.create( :name => 'Soca', :price => 3.50 )
+    Product.create( :name => 'Socas', :price => 3.50 )
+    Product.create( :name => 'Socag', :price => 3.50 )
+    Product.create( :name => 'Socaj', :price => 3.50 )
+    Product.create( :name => 'Socak', :price => 3.50 )
+    Product.create( :name => 'Socal', :price => 3.50 )
+    Product.create( :name => 'Socan', :price => 3.50 )
+    Product.create( :name => 'Socab', :price => 3.50 )
   end
 
   def add_products_view
-    ProductsView.new( self, Product.all)
+    ProductsView.new( self, Product.all )
   end
   
   def store_data

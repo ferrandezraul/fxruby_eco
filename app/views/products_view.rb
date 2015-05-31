@@ -1,24 +1,33 @@
-class ProductsView < Fox::FXMatrix
+include Fox
+
+class ProductsView < FXTable
   attr_reader :product
   
   def initialize(parent, products)
-    super(parent, :opts => LAYOUT_FILL)    
+    super(parent, :opts => LAYOUT_FILL)
+
     @products = products
 
-    table = FXTable.new(self, :opts => LAYOUT_FILL)
-    table.setTableSize(@products.count, 2)
+    $APPLOG.debug "Number of products: #{@products.count}"
 
-    table.setColumnText(0, "Name")
-    table.setColumnText(1, "Price")
+    setTableSize(@products.count, 2)
 
-    table.rowHeaderMode = ~LAYOUT_FIX_WIDTH
-    table.columnHeader.setItemJustify(0, FXHeaderItem::CENTER_X)
-    table.columnHeader.setItemJustify(1, FXHeaderItem::CENTER_X)
+    setColumnText(0, "Name")
+    setColumnText(1, "Price")
+
+    rowHeaderMode = ~LAYOUT_FIX_WIDTH
+    columnHeader.setItemJustify(0, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(1, FXHeaderItem::CENTER_X)
 
     @products.each_with_index do | product, index |
-      table.setItemText( index, 0, product.name )
-      table.setItemText( index, 1, product.price )
+      setItemText( index, 0, product.name )
+      setItemText( index, 1, product.price.to_s )
     end
+  end
+
+  def create
+    super
+    show()
   end
 
 end
