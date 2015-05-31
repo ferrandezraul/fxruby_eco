@@ -10,13 +10,16 @@
 # add current dir to LOAD_PATH 
 $LOAD_PATH.unshift '.'
 $LOAD_PATH.unshift './app/models/'
+$LOAD_PATH.unshift './app/views/'
 
 require 'fox16'
 require 'active_record'
 require 'sqlite3'
 require 'yaml'
 require 'logger'
+
 require 'product' 
+require 'products_view'
 
 include Fox
 
@@ -28,8 +31,12 @@ class EcocityAdmin < FXMainWindow
     setup_database_conection
 
     super(app, "Ecocity Admin", :width => 600, :height => 400)
-    
-    add_menu_bar    
+
+    add_menu_bar
+
+    load_sample_data
+
+    add_products_view    
 
     self.connect(SEL_CLOSE, method(:on_close))
   end
@@ -49,8 +56,14 @@ class EcocityAdmin < FXMainWindow
 
   def add_menu_bar
     # Add menu
-    Product.create( :name => 'Soca', :price => 3.50 )
+  end
 
+  def load_sample_data
+    Product.create( :name => 'Soca', :price => 3.50 )
+  end
+
+  def add_products_view
+    ProductsView.new( self, Product.all)
   end
   
   def store_data
