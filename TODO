@@ -1,1 +1,0 @@
-Clean database. On every start up use find_or_create with active_record

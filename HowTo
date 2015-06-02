@@ -1,11 +1,15 @@
 1. Dependencies
 
-gem install activerecord
+	sudo apt-get install libfox-1.6-dev  
 
-gem install standalone_migrations (https://github.com/thuss/standalone-migrations)
+	gem install activerecord
 
-gem install sqlite3
+	gem install standalone_migrations (https://github.com/thuss/standalone-migrations)
 
-gem install fxruby
+	gem install sqlite3
 
-2.  rake migrate
+	gem install fxruby
+
+2.  How to use:
+	Run rake db:migrate to prepare database.
+	Run ruby main.rb

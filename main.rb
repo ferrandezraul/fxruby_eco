@@ -59,14 +59,8 @@ class EcocityAdmin < FXMainWindow
   end
 
   def load_sample_data
-    Product.create( :name => 'Soca', :price => 3.50 )
-    Product.create( :name => 'Socas', :price => 3.50 )
-    Product.create( :name => 'Socag', :price => 3.50 )
-    Product.create( :name => 'Socaj', :price => 3.50 )
-    Product.create( :name => 'Socak', :price => 3.50 )
-    Product.create( :name => 'Socal', :price => 3.50 )
-    Product.create( :name => 'Socan', :price => 3.50 )
-    Product.create( :name => 'Socab', :price => 3.50 )
+    Product.find_or_create_by( :name => 'Soca', :price => 3.50 )
+    Product.find_or_create_by( :name => 'Croscat', :price => 3.50 )
   end
 
   def add_products_view
