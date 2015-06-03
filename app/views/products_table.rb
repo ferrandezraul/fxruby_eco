@@ -23,11 +23,19 @@ class ProductsTable < FXTable
       setItemText( index, 0, product.name )
       setItemText( index, 1, product.price.to_s )
     end
+
+    self.connect(SEL_CHANGED, method(:on_cell_changed))
   end
 
   def create
     super
     show()
+  end
+
+  def on_cell_changed(table, cell, table_pos)
+    puts "Here one #{table.to_s} which is #{table.class.name}"
+    puts "Here two #{cell} which is #{cell.class.name}"
+    puts "Here three #{table_pos.to_s} which is #{table_pos.class.name}"
   end
 
 end
