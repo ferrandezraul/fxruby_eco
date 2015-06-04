@@ -20,11 +20,12 @@ class ProductsTable < FXTable
     columnHeader.setItemJustify(1, FXHeaderItem::CENTER_X)
 
     @products.each_with_index do | product, index |
+      #setItemData( index 0, product )
       setItemText( index, 0, product.name )
       setItemText( index, 1, product.price.to_s )
     end
 
-    self.connect(SEL_CHANGED, method(:on_cell_changed))
+    self.connect(SEL_REPLACED, method(:on_cell_changed))
   end
 
   def create
@@ -32,10 +33,29 @@ class ProductsTable < FXTable
     show()
   end
 
-  def on_cell_changed(table, cell, table_pos)
-    puts "Here one #{table.to_s} which is #{table.class.name}"
-    puts "Here two #{cell} which is #{cell.class.name}"
-    puts "Here three #{table_pos.to_s} which is #{table_pos.class.name}"
+  def on_cell_changed(sender, sel, table_pos)
+    column = table_pos.fm.col
+    row = table_pos.fm.row
+
+    puts "Update row #{row}"
+    puts "Update column #{column}"
+
+    p_name = getItemText( row, 0 )
+    p_price = getItemText( row, 1 )
+
+    puts "Update product with name #{p_name} and price #{p_price}"
+
+    # New Data to set
+    puts sel.to_s
+    puts sel.to_json
+    puts sel.to_i
+
+    product = Product.find_by( :name => p_name, :price => p_price )
+
+    puts "Not found" if product == nil
+
+    puts product.to_json if product
+
   end
 
 end
