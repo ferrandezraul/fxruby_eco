@@ -59,8 +59,8 @@ class EcocityAdmin < FXMainWindow
   end
 
   def load_sample_data
-    Product.find_or_create_by( :name => 'Soca', :price => 3.50 )
-    Product.find_or_create_by( :name => 'Croscat', :price => 3.50 )
+    Product.find_or_create_by( :name => 'Soca' )
+    Product.find_or_create_by( :name => 'Croscat' )
   end
 
   def add_products_view
