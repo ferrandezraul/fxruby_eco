@@ -2,6 +2,11 @@ include Fox
 
 class ProductsTable < FXTable
   attr_reader :product
+
+  COLUMN_ID = 0
+  COLUMN_NAME = 1
+  COLUMN_PRICE = 2
+  NUM_COLUMNS = 3
   
   def initialize(parent, products)
     super(parent, :opts => LAYOUT_FILL)
@@ -10,21 +15,21 @@ class ProductsTable < FXTable
 
     $APPLOG.debug "Number of products: #{@products.count}"
 
-    setTableSize(@products.count, 3)
+    setTableSize(@products.count, NUM_COLUMNS)
 
-    setColumnText(0, "ID")
-    setColumnText(1, "Name")
-    setColumnText(2, "Price")
+    setColumnText(COLUMN_ID, "ID")
+    setColumnText(COLUMN_NAME, "Name")
+    setColumnText(COLUMN_PRICE, "Price")
 
     rowHeaderMode = ~LAYOUT_FIX_WIDTH
-    columnHeader.setItemJustify(0, FXHeaderItem::CENTER_X)
-    columnHeader.setItemJustify(1, FXHeaderItem::CENTER_X)
-    columnHeader.setItemJustify(2, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_ID, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_NAME, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_PRICE, FXHeaderItem::CENTER_X)
 
     @products.each_with_index do | product, index |
-      setItemText( index, 0, product.id.to_s )
-      setItemText( index, 1, product.name )
-      setItemText( index, 2, product.price.to_s )
+      setItemText( index, COLUMN_ID, product.id.to_s )
+      setItemText( index, COLUMN_NAME, product.name )
+      setItemText( index, COLUMN_PRICE, sprintf('%.2f', product.price ) )
     end
 
     self.connect(SEL_REPLACED, method(:on_cell_changed))
@@ -43,24 +48,29 @@ class ProductsTable < FXTable
     column = table_pos.fm.col
     row = table_pos.fm.row
 
-    puts "Update row #{row}"
-    puts "Update column #{column}"
-
-    product_id = getItemText( row, 0 ).to_i
-    product = Product.find_by( :id => product_id )
-
-    #puts product.to_json if product
-
     case column
-    when 1
-      new_name = getItemText( row, 1 )
+    when COLUMN_ID
+      FXMessageBox.warning( self, MBOX_OK, "Id is not editable", "You can not edit the id!" )
+      product = Product.find_by!( :name => getItemText( row, COLUMN_NAME ),
+                                  :price => getItemText( row, COLUMN_PRICE ) )
+
+      setItemText( row, COLUMN_ID, product.id.to_s )
+    when COLUMN_NAME
+      product_id = getItemText( row, COLUMN_ID ).to_i
+      new_name = getItemText( row, COLUMN_NAME )
+
       Product.update( product_id, :name => new_name)      
-    when 2
-      new_price = getItemText( row, 2 )
-      Product.update( product_id, :price => new_price) 
+    when COLUMN_PRICE
+      product_id = getItemText( row, COLUMN_ID ).to_i
+      new_price = getItemText( row, COLUMN_PRICE ).to_f
+      setItemText( row, COLUMN_PRICE, sprintf('%.2f', new_price.round(2) ) )
+
+      Product.update( product_id, :price => new_price.round(2) ) 
     else
       puts "You gave me #{column} -- I have no idea what to do with that."
     end    
+
+    #puts product.to_json if product
 
   end
 
