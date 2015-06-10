@@ -36,7 +36,16 @@ class EcocityAdmin < FXMainWindow
 
     load_sample_data
 
-    add_products_view    
+    tabbook = FXTabBook.new(self, :opts => LAYOUT_FILL)
+
+    products_tab = FXTabItem.new(tabbook, "Products") 
+    ProductsView.new( tabbook, Product.all )
+    customers_tab = FXTabItem.new(tabbook, "Customers") 
+    customers_page = FXVerticalFrame.new(tabbook, :opts => FRAME_RAISED|LAYOUT_FILL)
+    invoices_tab = FXTabItem.new(tabbook, "Invoices") 
+    invoices_page = FXVerticalFrame.new(tabbook, :opts => FRAME_RAISED|LAYOUT_FILL)
+
+    #add_products_view    
 
     self.connect(SEL_CLOSE, method(:on_close))
   end

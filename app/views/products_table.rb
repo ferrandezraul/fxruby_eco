@@ -51,6 +51,8 @@ class ProductsTable < FXTable
     case column
     when COLUMN_ID
       FXMessageBox.warning( self, MBOX_OK, "Id is not editable", "You can not edit the id!" )
+
+      # Revert id in view
       product = Product.find_by!( :name => getItemText( row, COLUMN_NAME ),
                                   :price => getItemText( row, COLUMN_PRICE ) )
 
