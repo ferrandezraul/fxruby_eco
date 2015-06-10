@@ -1,4 +1,5 @@
 require 'products_table'
+require 'product_dialog'
 
 include Fox
 
@@ -11,11 +12,18 @@ class ProductsView < FXPacker
     # button to add a new product
     button_new_product = FXButton.new( self, "Add new product", :opts => BUTTON_NORMAL)
 	button_new_product.connect(SEL_COMMAND) do |sender, sel, data| 
-		# Show dialog for entering data
-		FXMessageBox.warning( self, 
-							  MBOX_OK, 
-							  "Create new product dialog", 
-							  "Coming soon ...!" )
+
+		new_product_dialog = ProductDialog.new( self )
+		if new_product_dialog.execute != 0
+		    name = new_product_dialog.product[:name].value
+		    price = new_product_dialog.product[:price].value
+
+		    # Show dialog for entering data
+			FXMessageBox.warning( self, 
+								  MBOX_OK, 
+								  "Create new product", 
+								  "New product #{name} with a price #{price}" )
+		end
 	end
 
     ProductsTable.new( self, products )
