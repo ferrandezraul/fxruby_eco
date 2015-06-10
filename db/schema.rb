@@ -13,6 +13,13 @@
 
 ActiveRecord::Schema.define(version: 1) do
 
+  create_table "customers", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "nif"
+    t.string "customer_type"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string  "name"
     t.decimal "price",  precision: 2, scale: 2

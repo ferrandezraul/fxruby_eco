@@ -9,7 +9,7 @@ class ProductsView < FXPacker
     super(parent, :opts => LAYOUT_FILL)
 
     # button to add a new product
-    button_new_product = FXButton.new( self, "Add new product", :opts => BUTTON_NORMAL|LAYOUT_CENTER_X)
+    button_new_product = FXButton.new( self, "Add new product", :opts => BUTTON_NORMAL)
 	button_new_product.connect(SEL_COMMAND) do |sender, sel, data| 
 		# Show dialog for entering data
 		FXMessageBox.warning( self, 

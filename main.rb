@@ -19,7 +19,9 @@ require 'yaml'
 require 'logger'
 
 require 'product' 
+require 'customer'
 require 'products_view'
+require 'customers_view'
 
 include Fox
 
@@ -41,7 +43,7 @@ class EcocityAdmin < FXMainWindow
     products_tab = FXTabItem.new(tabbook, "Products") 
     ProductsView.new( tabbook, Product.all )
     customers_tab = FXTabItem.new(tabbook, "Customers") 
-    customers_page = FXVerticalFrame.new(tabbook, :opts => FRAME_RAISED|LAYOUT_FILL)
+    CustomersView.new( tabbook, Customer.all )
     invoices_tab = FXTabItem.new(tabbook, "Invoices") 
     invoices_page = FXVerticalFrame.new(tabbook, :opts => FRAME_RAISED|LAYOUT_FILL)
 
@@ -68,8 +70,17 @@ class EcocityAdmin < FXMainWindow
   end
 
   def load_sample_data
-    Product.find_or_create_by( :name => 'Soca' )
-    Product.find_or_create_by( :name => 'Croscat' )
+    sample_product = Product.find_by( :name => 'Soca' )
+
+    Product.create!( :name => 'Soca',
+                     :price => 3.50 ) if sample_product == nil
+
+    sample_customer = Customer.find_by( :name => 'Raul' )
+
+    Customer.create!( :name => 'Raul',
+                      :address => 'Skalitzer Str. 59, Berlin',
+                      :nif => '77xxx678-A',
+                      :customer_type => 'Cooperativa' ) if sample_customer == nil
   end
 
   def add_products_view
