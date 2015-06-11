@@ -13,10 +13,10 @@ class ProductsView < FXPacker
     button_new_product = FXButton.new( self, "Add new product", :opts => BUTTON_NORMAL)
 	button_new_product.connect(SEL_COMMAND) do |sender, sel, data| 
 
-		new_product_dialog = ProductDialog.new( self )
-		if new_product_dialog.execute != 0
-		    name = new_product_dialog.product[:name].value
-		    price = new_product_dialog.product[:price].value
+		product_dialog = ProductDialog.new( self )
+		if product_dialog.execute != 0
+		    name = product_dialog.product[:name].value
+		    price = product_dialog.product[:price].value
 
 		    # Show dialog for entering data
 			FXMessageBox.warning( self, 

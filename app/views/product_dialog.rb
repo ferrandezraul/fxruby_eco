@@ -44,6 +44,11 @@ class ProductDialog < FXDialogBox
 	      :price => FXDataTarget.new
 	    }
 
+	    # Initialize FXDataTarget
+	    # Needed in order to catch changes from GUI
+	    @product[:name].value = String.new
+	    @product[:price].value = String.new
+
 	    FXTextField.new(form, 20, :target => @product[:name], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
 
