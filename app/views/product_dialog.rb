@@ -23,7 +23,7 @@ class ProductDialog < FXDialogBox
 		# launched the dialog box returns a nonzero value. 
 		# If the dialog box receives the ID_CANCEL message instead,
 		# it will ensure that execute( ) returns zero.
-		FXButton.new( buttons, "OK",
+		ok_button = FXButton.new( buttons, "OK",
 					  :target => self, 
 					  :selector => FXDialogBox::ID_ACCEPT,
 					  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
@@ -32,6 +32,18 @@ class ProductDialog < FXDialogBox
 					  :target => self, 
 					  :selector => FXDialogBox::ID_CANCEL,
     				  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
+
+		# Disable ok button if there are no values on product attributes
+		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
+			sender.enabled = is_data_filled?
+		end
+
+		# Connect signal button pressed with sending an ID_ACCEPT event 
+		# from this FXDialogBox. Note that the cancel button is automatically tied
+		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
+		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
+		     self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+		end
 	end
 
 	def construct_product_page(page)
@@ -55,5 +67,9 @@ class ProductDialog < FXDialogBox
 	    FXLabel.new(form, "Price:")
 	    FXTextField.new(form, 20, :target => @product[:price], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
-	  end
+	 end
+
+	 def is_data_filled?
+	 	( @product[:name].value.length > 0 ) && ( @product[:price].value.length > 0 )
+	 end
 end
