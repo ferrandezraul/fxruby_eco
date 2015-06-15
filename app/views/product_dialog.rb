@@ -12,7 +12,7 @@ class ProductDialog < FXDialogBox
 
 	def add_terminating_buttons
 		buttons = FXHorizontalFrame.new(self, 
-										:opts => LAYOUT_FILL_X|LAYOUT_SIDE_BOTTOM|PACK_UNIFORM_WIDTH) 
+					:opts => LAYOUT_FILL_X|LAYOUT_SIDE_BOTTOM|PACK_UNIFORM_WIDTH) 
 
 		# Taking advantage of the fact that the FXDialogBox class from which this dialog
 		# is subclassed defines two message identifiers, ID_ACCEPT and ID_CANCEL, 

@@ -33,6 +33,7 @@ class ProductsTable < FXTable
     end
 
     self.connect(SEL_REPLACED, method(:on_cell_changed))
+    self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))
   end
 
   def create
@@ -74,6 +75,17 @@ class ProductsTable < FXTable
 
     #puts product.to_json if product
 
+  end
+
+  def on_cell_double_clicled( sender, sel, table_pos)
+    row = table_pos.row
+
+    product = Product.find_by!( :id => getItemText( row, COLUMN_ID ) )
+
+    FXMessageBox::warning(self, 
+                          MBOX_OK, 
+                          "menu to delete", 
+                          "delete product #{product.name}?" )
   end
 
 end
