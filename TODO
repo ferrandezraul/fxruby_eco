@@ -1,4 +1,5 @@
-Improve products dialog. It should return a product object.
 
 add new products on table
 remove products on table
+	currently if product deleted by double clicked
+	it leaves an space

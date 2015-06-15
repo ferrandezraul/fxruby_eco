@@ -13,7 +13,7 @@ class ProductsView < FXPacker
     button_new_product = FXButton.new( self, "Add new product", :opts => BUTTON_NORMAL)
 	button_new_product.connect(SEL_COMMAND, method(:on_add_product) )
 
-    ProductsTable.new( self, products )
+    @table = ProductsTable.new( self, products )
   end
 
   def on_add_product( sender, sel, data )
@@ -22,11 +22,13 @@ class ProductsView < FXPacker
 	    name = product_dialog.product[:name].value
 	    price = product_dialog.product[:price].value
 
-	    # Show dialog for entering data
-		FXMessageBox.warning( self, 
-							  MBOX_OK, 
-							  "Create new product", 
-							  "New product #{name} with a price #{price}" )
+	    # TODO validate that price is a float
+	    product = Product.create!( :name => name,
+                         :price => price )
+
+	    @table.add_product( product )
+
+
 	end
   end
 

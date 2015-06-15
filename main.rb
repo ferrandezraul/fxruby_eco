@@ -65,30 +65,40 @@ class EcocityAdmin < FXMainWindow
     ActiveRecord::Base.establish_connection(configuration['development'])
   end  
 
-  def add_menu_bar
-    # Add menu
-  end
-
   def load_sample_data
     sample_product = Product.find_by( :name => 'Soca' )
 
-    Product.create!( :name => 'Soca',
-                     :price => 3.50 ) if sample_product == nil
+    if sample_product == nil
+      $APPLOG.debug "Creating Soca product ..."
+      puts "Creating Soca product ..."
+
+      Product.create!( :name => 'Soca',
+                       :price => 3.50 )
+    end
 
     sample_customer = Customer.find_by( :name => 'Raul' )
 
-    Customer.create!( :name => 'Raul',
-                      :address => 'Skalitzer Str. 59, Berlin',
-                      :nif => '77xxx678-A',
-                      :customer_type => 'Cooperativa' ) if sample_customer == nil
+    if sample_customer == nil
+      APPLOG.debug "Creating user raul ..."
+      puts "Creating user raul ..."
+
+      Customer.create!( :name => 'Raul',
+                        :address => 'Skalitzer Str. 59, Berlin',
+                        :nif => '77xxx678-A',
+                        :customer_type => 'Cooperativa' )
+    end
   end
 
   def add_products_view
     ProductsView.new( self, Product.all )
   end
-  
+
   def store_data
     # TODO
+  end
+
+  def add_menu_bar
+    # Add menu
   end
 
   def create

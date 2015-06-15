@@ -36,6 +36,14 @@ class ProductsTable < FXTable
     self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))
   end
 
+  def add_product( product )
+    num_rows = getNumRows
+    appendRows( 1 )
+    setItemText( num_rows, COLUMN_ID, product.id.to_s )
+    setItemText( num_rows, COLUMN_NAME, product.name )
+    setItemText( num_rows, COLUMN_PRICE, sprintf('%.2f', product.price ) )
+  end
+
   def create
     super
     show()
@@ -82,10 +90,16 @@ class ProductsTable < FXTable
 
     product = Product.find_by!( :id => getItemText( row, COLUMN_ID ) )
 
-    FXMessageBox::warning(self, 
-                          MBOX_OK, 
-                          "menu to delete", 
-                          "delete product #{product.name}?" )
+    answer = FXMessageBox.question( self,
+                                    MBOX_YES_NO,
+                                    "Just one question...", "Do you want to delete #{product.name}?" )
+    if answer == MBOX_CLICKED_YES
+      product.destroy
+      removeItem( row, COLUMN_ID )
+      removeItem(row, COLUMN_NAME )
+      removeItem( row, COLUMN_PRICE )
+    end
+
   end
 
 end
