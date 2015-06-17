@@ -95,9 +95,7 @@ class ProductsTable < FXTable
                                     "Just one question...", "Do you want to delete #{product.name}?" )
     if answer == MBOX_CLICKED_YES
       product.destroy
-      removeItem( row, COLUMN_ID )
-      removeItem(row, COLUMN_NAME )
-      removeItem( row, COLUMN_PRICE )
+      removeRows( row ) # Removes one row by default
     end
 
   end
