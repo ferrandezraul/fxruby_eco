@@ -85,7 +85,7 @@ class EcocityAdmin < FXMainWindow
       Customer.create!( :name => 'Raul',
                         :address => 'Skalitzer Str. 59, Berlin',
                         :nif => '77xxx678-A',
-                        :customer_type => 'Cooperativa' )
+                        :customer_type => Customer::Type::COOPERATIVA )
     end
   end
 

@@ -11,7 +11,7 @@ class CustomersTable < FXTable
   NUM_COLUMNS = 5
   
   def initialize(parent, customers)
-    super(parent, :opts => LAYOUT_FILL)
+    super(parent, :opts => LAYOUT_FILL|TABLE_COL_SIZABLE)
 
     @customers = customers
 

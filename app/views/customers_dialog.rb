@@ -79,13 +79,15 @@ class CustomerDialog < FXDialogBox
 	    combo_box = FXComboBox.new(form, 20, :target => @customer[:type], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
 
-	    combo_box.appendItem( "TIENDA" )
-	    combo_box.appendItem( "COOPERATIVA" )
-	    combo_box.appendItem( "CLIENTE" )
+	    combo_box.appendItem( Customer::Type::COOPERATIVA )
+	    combo_box.appendItem( Customer::Type::TIENDA )
+	    combo_box.appendItem( Customer::Type::CLIENTE )
+
+	    combo_box.editable = false
 	 end
 
 	 def is_data_filled?
-	 	( @customer[:name].value.length > 0 ) && ( @customer[:address].value.length > 0 ) && ( @customer[:nif].value.length > 0 )
+	 	( @customer[:name].value.length > 0 ) && ( @customer[:address].value.length > 0 ) && ( @customer[:nif].value.length > 0 ) && ( @customer[:type].value.length > 0 )
 	 end
 
 	 def is_name_valid?
