@@ -79,7 +79,7 @@ class EcocityAdmin < FXMainWindow
     sample_customer = Customer.find_by( :name => 'Raul' )
 
     if sample_customer == nil
-      APPLOG.debug "Creating user raul ..."
+      $APPLOG.debug "Creating user raul ..."
       puts "Creating user raul ..."
 
       Customer.create!( :name => 'Raul',
