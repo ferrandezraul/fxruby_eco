@@ -34,8 +34,9 @@ class ProductDialog < FXDialogBox
     				  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
 
 		# Disable ok button if there are no values on product attributes
+		# or price is not valid
 		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
-			sender.enabled = is_data_filled?
+			sender.enabled = is_data_filled? && is_price_valid? && is_name_valid?
 		end
 
 		# Connect signal button pressed with sending an ID_ACCEPT event 
@@ -71,5 +72,13 @@ class ProductDialog < FXDialogBox
 
 	 def is_data_filled?
 	 	( @product[:name].value.length > 0 ) && ( @product[:price].value.length > 0 )
+	 end
+
+	 def is_price_valid?
+	 	@product[:price].value =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/
+	 end
+
+	 def is_name_valid?
+	 	!Product.exists?( :name => @product[:name].value )
 	 end
 end
