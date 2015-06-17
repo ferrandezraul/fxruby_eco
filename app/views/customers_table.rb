@@ -43,9 +43,14 @@ class CustomersTable < FXTable
     self.connect(SEL_REPLACED, method(:on_cell_changed))
   end
 
-  def create
-    super
-    show()
+  def add_customer( customer )
+    num_rows = getNumRows
+    appendRows( 1 )
+    setItemText( num_rows, COLUMN_ID, customer.id.to_s )
+    setItemText( num_rows, COLUMN_NAME, customer.name )
+    setItemText( num_rows, COLUMN_ADDRESS, customer.address )
+    setItemText( num_rows, COLUMN_NIF, customer.nif )
+    setItemText( num_rows, COLUMN_CUSTOMER_TYPE, customer.customer_type )
   end
 
   def on_cell_changed(sender, sel, table_pos)
@@ -85,9 +90,13 @@ class CustomersTable < FXTable
     else
       puts "You gave me #{column} -- I have no idea what to do with that."
     end    
-
     #puts product.to_json if product
 
+  end
+
+  def create
+    super
+    show()
   end
 
 end

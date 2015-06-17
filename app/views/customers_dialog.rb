@@ -1,12 +1,12 @@
-class ProductDialog < FXDialogBox 
-	attr_accessor :product
+class CustomerDialog < FXDialogBox 
+	attr_accessor :customer
 	
 	def initialize(owner)
-		super(owner, "New Product", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE) 
+		super(owner, "New Customer", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE) 
 
 		add_terminating_buttons
 
-		construct_product_page( self )
+		construct_page( self )
 	end
 
 	def add_terminating_buttons
@@ -35,7 +35,7 @@ class ProductDialog < FXDialogBox
 		# Disable ok button if there are no values on product attributes
 		# or price is not valid
 		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
-			sender.enabled = is_data_filled? && is_price_valid? && is_name_valid?
+			sender.enabled = is_data_filled? && is_name_valid?
 		end
 
 		# Connect signal button pressed with sending an ID_ACCEPT event 
@@ -46,37 +46,49 @@ class ProductDialog < FXDialogBox
 		end
 	end
 
-	def construct_product_page(page)	    
-	    @product = {
+	def construct_page(page)	    
+	    @customer = {
 	      :name => FXDataTarget.new,
-	      :price => FXDataTarget.new
+	      :address => FXDataTarget.new,
+	      :nif => FXDataTarget.new,
+	      :type => FXDataTarget.new
 	    }
 
 	    # Initialize FXDataTarget
 	    # Needed in order to catch changes from GUI
-	    @product[:name].value = String.new
-	    @product[:price].value = String.new
+	    @customer[:name].value = String.new
+	    @customer[:address].value = String.new
+	    @customer[:nif].value = String.new
+	    @customer[:type].value = String.new
 
 	    form = FXMatrix.new( page, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
-	    
+
 	    FXLabel.new( form, "Name:")
-	    FXTextField.new(form, 20, :target => @product[:name], :selector => FXDataTarget::ID_VALUE,
+	    FXTextField.new(form, 20, :target => @customer[:name], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
 
-	    FXLabel.new(form, "Price:")
-	    FXTextField.new(form, 20, :target => @product[:price], :selector => FXDataTarget::ID_VALUE,
+	    FXLabel.new(form, "Address:")
+	    FXTextField.new(form, 20, :target => @customer[:address], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+
+	    FXLabel.new(form, "N.I.F.:")
+	    FXTextField.new(form, 20, :target => @customer[:nif], :selector => FXDataTarget::ID_VALUE,
+	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+
+	    FXLabel.new(form, "Type:")
+	    combo_box = FXComboBox.new(form, 20, :target => @customer[:type], :selector => FXDataTarget::ID_VALUE,
+	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+
+	    combo_box.appendItem( "TIENDA" )
+	    combo_box.appendItem( "COOPERATIVA" )
+	    combo_box.appendItem( "CLIENTE" )
 	 end
 
 	 def is_data_filled?
-	 	( @product[:name].value.length > 0 ) && ( @product[:price].value.length > 0 )
-	 end
-
-	 def is_price_valid?
-	 	@product[:price].value =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/
+	 	( @customer[:name].value.length > 0 ) && ( @customer[:address].value.length > 0 ) && ( @customer[:nif].value.length > 0 )
 	 end
 
 	 def is_name_valid?
-	 	!Product.exists?( :name => @product[:name].value )
+	 	!Customer.exists?( :name => @customer[:name].value )
 	 end
 end

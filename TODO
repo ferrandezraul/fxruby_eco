@@ -1,2 +1,4 @@
-add new customers
+add new customers (avoid empty type, and select default type)
 remove customers
+
+expand columns in tables
