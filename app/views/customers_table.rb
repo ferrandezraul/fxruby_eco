@@ -41,6 +41,7 @@ class CustomersTable < FXTable
     end
 
     self.connect(SEL_REPLACED, method(:on_cell_changed))
+    self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))
   end
 
   def add_customer( customer )
@@ -92,6 +93,23 @@ class CustomersTable < FXTable
     end    
     #puts product.to_json if product
 
+  end
+
+  def on_cell_double_clicled( sender, sel, table_pos)
+    row = table_pos.row
+    customer = Customer.find_by!( :id => getItemText( row, COLUMN_ID ) )
+
+    delete_customer?( row, customer )
+  end
+
+  def delete_customer?( row, customer )
+    answer = FXMessageBox.question( self,
+                                    MBOX_YES_NO,
+                                    "Just one question...", "Do you want to delete #{customer.name}?" )
+    if answer == MBOX_CLICKED_YES
+      customer.destroy
+      removeRows( row ) # Removes one row by default
+    end
   end
 
   def create

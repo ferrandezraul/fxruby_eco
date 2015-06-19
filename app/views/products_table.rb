@@ -87,9 +87,12 @@ class ProductsTable < FXTable
 
   def on_cell_double_clicled( sender, sel, table_pos)
     row = table_pos.row
-
     product = Product.find_by!( :id => getItemText( row, COLUMN_ID ) )
 
+    delete_product?( row, product )
+  end
+
+  def delete_product?( row, product )
     answer = FXMessageBox.question( self,
                                     MBOX_YES_NO,
                                     "Just one question...", "Do you want to delete #{product.name}?" )
@@ -97,7 +100,6 @@ class ProductsTable < FXTable
       product.destroy
       removeRows( row ) # Removes one row by default
     end
-
   end
 
 end

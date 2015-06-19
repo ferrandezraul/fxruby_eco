@@ -4,7 +4,6 @@ require 'customers_dialog'
 include Fox
 
 class CustomersView < FXPacker
-  attr_reader :customer
   
   def initialize(parent, customers)
     super(parent, :opts => LAYOUT_FILL)
