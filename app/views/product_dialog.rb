@@ -4,6 +4,16 @@ class ProductDialog < FXDialogBox
 	def initialize(owner)
 		super(owner, "New Product", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE) 
 
+		@product = {
+	      :name => FXDataTarget.new,
+	      :price => FXDataTarget.new
+	    }
+
+	    # Initialize FXDataTarget
+	    # Needed in order to catch changes from GUI
+	    @product[:name].value = String.new
+	    @product[:price].value = String.new
+
 		add_terminating_buttons
 
 		construct_product_page( self )
@@ -47,16 +57,6 @@ class ProductDialog < FXDialogBox
 	end
 
 	def construct_product_page(page)	    
-	    @product = {
-	      :name => FXDataTarget.new,
-	      :price => FXDataTarget.new
-	    }
-
-	    # Initialize FXDataTarget
-	    # Needed in order to catch changes from GUI
-	    @product[:name].value = String.new
-	    @product[:price].value = String.new
-
 	    form = FXMatrix.new( page, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
 	    
 	    FXLabel.new( form, "Name:")
