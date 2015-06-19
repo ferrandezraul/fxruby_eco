@@ -40,22 +40,21 @@ class EcocityAdmin < FXMainWindow
 
     tabbook = FXTabBook.new(self, :opts => LAYOUT_FILL)
 
-    products_tab = FXTabItem.new(tabbook, "Products") 
+    FXTabItem.new(tabbook, "Products") 
     ProductsView.new( tabbook, Product.all )
-    customers_tab = FXTabItem.new(tabbook, "Customers") 
-    CustomersView.new( tabbook, Customer.all )
-    invoices_tab = FXTabItem.new(tabbook, "Invoices") 
-    invoices_page = FXVerticalFrame.new(tabbook, :opts => FRAME_RAISED|LAYOUT_FILL)
 
-    #add_products_view    
+    FXTabItem.new(tabbook, "Customers") 
+    CustomersView.new( tabbook, Customer.all )
+
+    FXTabItem.new(tabbook, "Invoices") 
+    FXVerticalFrame.new(tabbook, :opts => FRAME_RAISED|LAYOUT_FILL)
 
     self.connect(SEL_CLOSE, method(:on_close))
   end
 
   def on_close(sender, sel, event)
-    $APPLOG.debug "Storing data .."
-    puts "Storing data .."
-    store_data
+    $APPLOG.debug "Closing .."
+    puts "Closing .."
     exit
   end
 
@@ -87,14 +86,6 @@ class EcocityAdmin < FXMainWindow
                         :nif => '77xxx678-A',
                         :customer_type => Customer::Type::COOPERATIVA )
     end
-  end
-
-  def add_products_view
-    ProductsView.new( self, Product.all )
-  end
-
-  def store_data
-    # TODO
   end
 
   def add_menu_bar

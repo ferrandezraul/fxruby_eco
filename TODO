@@ -1,4 +1,8 @@
+create invoices view
+create invoice dialog
+Hide columns id (hide them and don't delete them since they are needed to get objects)
 
-remove customers
 
+
+Small improvements
 columns can be manually extended, but extend automatically based on content?
