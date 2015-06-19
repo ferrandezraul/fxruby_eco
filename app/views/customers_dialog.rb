@@ -84,6 +84,8 @@ class CustomerDialog < FXDialogBox
 	    combo_box.appendItem( Customer::Type::CLIENTE )
 
 	    combo_box.editable = false
+	    
+	    combo_box.setCurrentItem(1, true)
 	 end
 
 	 def is_data_filled?
