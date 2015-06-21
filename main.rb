@@ -118,49 +118,47 @@ class EcocityAdmin < FXMainWindow
 
   def import_products_as_csv
     answer = FXMessageBox.question( self, MBOX_YES_NO,
-      "Watch out!", "This will delete all existing products and load your db/products.csv file. Go ahead?" )
-
-    if !File.exist?('db/products.csv')
-      FXMessageBox.warning( self, MBOX_OK, "No file found", "No file db/products.csv found!")
-      return
-    end
+      "Watch out!", "This will delete all existing products. Go ahead?" )
 
     if answer == MBOX_CLICKED_YES
-      Product.destroy_all
+      dialog = FXFileDialog.new(self, "Open CSV File with products") 
+      dialog.patternList = [ "All Files (*)", "CSV Files (*.csv)" ]
+      if dialog.execute != 0
+        Product.destroy_all
 
-      # TODO (handle errors in csv)
-      CSV.foreach("db/products.csv", :headers => true) do |csv_row|
-        #puts "Row is #{csv_row}" #puts "Row is #{csv_row.class}" #puts "Row inspect is #{csv_row.inspect}"
-        #puts "Row inspect is #{csv_row.to_hash}"
-        Product.create!( csv_row.to_hash )
+        # TODO (handle errors in csv)
+        CSV.foreach(dialog.filename, :headers => true) do |csv_row|
+          #puts "Row is #{csv_row}" #puts "Row is #{csv_row.class}" #puts "Row inspect is #{csv_row.inspect}"
+          #puts "Row inspect is #{csv_row.to_hash}"
+          Product.create!( csv_row.to_hash )
+        end
+
+        # Update UI !!
+      @products_view.reset(Product.all)
       end
-
-      # Update UI !!
-      @products_view.reset( Product.all)
     end
   end
 
   def import_customers_as_csv
     answer = FXMessageBox.question( self, MBOX_YES_NO,
-      "Watch out!", "This will delete all existing customers and load your db/customers.csv file. Go ahead?" )
-
-    if !File.exist?('db/customers.csv')
-      FXMessageBox.warning( self, MBOX_OK, "No file found", "No file db/customers.csv found!")
-      return
-    end
+      "Watch out!", "This will delete all existing customers. Go ahead?" )
 
     if answer == MBOX_CLICKED_YES
-      Customer.destroy_all
+      dialog = FXFileDialog.new(self, "Open CSV File with customers") 
+      dialog.patternList = [ "All Files (*)", "CSV Files (*.csv)" ]
+      if dialog.execute != 0
+        Customer.destroy_all
 
-      # TODO (handle errors in csv)
-      CSV.foreach("db/customers.csv", :headers => true) do |csv_row|
-        #puts "Row is #{csv_row}" #puts "Row is #{csv_row.class}" #puts "Row inspect is #{csv_row.inspect}"
-        #puts "Row inspect is #{csv_row.to_hash}"
-        Customer.create!( csv_row.to_hash )
-      end
+        # TODO (handle errors in csv)
+        CSV.foreach(dialog.filename, :headers => true) do |csv_row|
+          #puts "Row is #{csv_row}" #puts "Row is #{csv_row.class}" #puts "Row inspect is #{csv_row.inspect}"
+          #puts "Row inspect is #{csv_row.to_hash}"
+          Customer.create!( csv_row.to_hash )
+        end
 
-      # Update UI !!
+        # Update UI !!
       @customers_view.reset( Customer.all)
+      end
     end
   end
 

@@ -1,8 +1,8 @@
-Chose file to import/export as products (validate first the file!)
 create invoices view
 create invoice dialog
 
 Small improvements
-columns can be manually extended, but extend automatically based on content?
+Columns can be manually extended, but extend automatically based on content?
 Order products when header is pressed
 Hide columns id (hide them and don't delete them since they are needed to get objects)
+Validate csv files when importing 
