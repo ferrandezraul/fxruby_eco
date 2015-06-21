@@ -29,5 +29,8 @@ class ProductsView < FXPacker
     end
   end
 
+  def reset( products )
+    @table.reset( products )
+  end
 
 end

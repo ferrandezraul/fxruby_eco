@@ -42,7 +42,7 @@ class EcocityAdmin < FXMainWindow
     tabbook = FXTabBook.new(self, :opts => LAYOUT_FILL)
 
     FXTabItem.new(tabbook, "Products") 
-    ProductsView.new( tabbook, Product.all )
+    @products_view = ProductsView.new( tabbook, Product.all )
 
     FXTabItem.new(tabbook, "Customers") 
     CustomersView.new( tabbook, Customer.all )
@@ -64,30 +64,6 @@ class EcocityAdmin < FXMainWindow
     configuration = YAML::load(IO.read("#{Dir.pwd}/db/config.yml"))
     ActiveRecord::Base.establish_connection(configuration['development'])
   end  
-
-  def load_sample_data
-    sample_product = Product.find_by( :name => 'Soca' )
-
-    if sample_product == nil
-      $APPLOG.debug "Creating Soca product ..."
-      puts "Creating Soca product ..."
-
-      Product.create!( :name => 'Soca',
-                       :price => 3.50 )
-    end
-
-    sample_customer = Customer.find_by( :name => 'Raul' )
-
-    if sample_customer == nil
-      $APPLOG.debug "Creating user raul ..."
-      puts "Creating user raul ..."
-
-      Customer.create!( :name => 'Raul',
-                        :address => 'Skalitzer Str. 59, Berlin',
-                        :nif => '77xxx678-A',
-                        :customer_type => Customer::Type::COOPERATIVA )
-    end
-  end
 
   def add_menu_bar
     menu_bar = FXMenuBar.new(self, :opts => LAYOUT_SIDE_TOP|LAYOUT_FILL_X)
@@ -115,6 +91,7 @@ class EcocityAdmin < FXMainWindow
     end
 
     FXMenuTitle.new(menu_bar, "Export", :popupMenu => export_menu_pane)
+    FXMenuTitle.new(menu_bar, "Import", :popupMenu => import_menu_pane)
   end
 
   def export_products_as_csv
@@ -136,7 +113,29 @@ class EcocityAdmin < FXMainWindow
   end
 
   def import_products_as_csv
-    # TODO
+    answer = FXMessageBox.question( self, MBOX_YES_NO,
+      "Watch out!", "This will delete all existing products and load your db/products.csv file. Do you accept it?" )
+
+    if !File.exist?('db/products.csv')
+      FXMessageBox.warning( self, MBOX_OK, "No file found", "No file db/products.csv found!")
+      return
+    end
+
+    if answer == MBOX_CLICKED_YES
+      Product.destroy_all
+
+      # TODO (handle errors in csv)
+      CSV.foreach("db/products.csv", :headers => true) do |csv_row|
+        #puts "Row is #{csv_row}"
+        #puts "Row is #{csv_row.class}"
+        #puts "Row inspect is #{csv_row.inspect}"
+        #puts "Row inspect is #{csv_row.to_hash}"
+        Product.create!( csv_row.to_hash )
+      end
+
+      # Update UI !!
+      @products_view.reset( Product.all)
+    end
   end
 
   def import_customers_as_csv

@@ -15,7 +15,14 @@ class ProductsTable < FXTable
 
     $APPLOG.debug "Number of products: #{@products.count}"
 
-    setTableSize(@products.count, NUM_COLUMNS)
+    fill_table(@products)
+
+    self.connect(SEL_REPLACED, method(:on_cell_changed))
+    self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))
+  end
+
+  def fill_table(products)
+    setTableSize(products.count, NUM_COLUMNS)
 
     setColumnText(COLUMN_ID, "ID")
     setColumnText(COLUMN_NAME, "Name")
@@ -25,14 +32,11 @@ class ProductsTable < FXTable
     columnHeader.setItemJustify(COLUMN_NAME, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_PRICE, FXHeaderItem::CENTER_X)
 
-    @products.each_with_index do | product, index |
+    products.each_with_index do | product, index |
       setItemText( index, COLUMN_ID, product.id.to_s )
       setItemText( index, COLUMN_NAME, product.name )
       setItemText( index, COLUMN_PRICE, sprintf('%.2f', product.price ) )
     end
-
-    self.connect(SEL_REPLACED, method(:on_cell_changed))
-    self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))
   end
 
   def add_product( product )
@@ -41,6 +45,11 @@ class ProductsTable < FXTable
     setItemText( num_rows, COLUMN_ID, product.id.to_s )
     setItemText( num_rows, COLUMN_NAME, product.name )
     setItemText( num_rows, COLUMN_PRICE, sprintf('%.2f', product.price ) )
+  end
+
+  def reset( products )
+    clearItems
+    fill_table(products)
   end
 
   def create
@@ -96,7 +105,7 @@ class ProductsTable < FXTable
                                     MBOX_YES_NO,
                                     "Just one question...", "Do you want to delete #{product.name}?" )
     if answer == MBOX_CLICKED_YES
-      product.destroy
+      product.destroy!
       removeRows( row ) # Removes one row by default
     end
   end
