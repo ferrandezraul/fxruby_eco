@@ -93,27 +93,35 @@ class EcocityAdmin < FXMainWindow
   end
 
   def export_products_as_csv
-    CSV.open("db/products.csv", "wb") do |csv|
-      csv << Product.attribute_names
-      Product.all.each do |product|
-        csv << product.attributes.values
+    dialog = FXFileDialog.new(self, "Export CSV File with products") 
+    dialog.patternList = [ "All Files (*)", "CSV Files (*.csv)" ]
+    if dialog.execute != 0
+      CSV.open(dialog.filename, "wb") do |csv|
+        csv << Product.attribute_names
+        Product.all.each do |product|
+          csv << product.attributes.values
+        end
       end
-    end
 
-    FXMessageBox.warning( self, MBOX_OK, "Products Exported", 
-      "Products exported in db/products.csv")
+      FXMessageBox.warning( self, MBOX_OK, "Products Exported", 
+        "Products exported in #{dialog.filename}")
+    end
   end
 
   def export_customers_as_csv
-    CSV.open("db/customers.csv", "wb") do |csv|
-      csv << Customer.attribute_names
-      Customer.all.each do |customer|
-        csv << customer.attributes.values
+    dialog = FXFileDialog.new(self, "Export CSV File with products") 
+    dialog.patternList = [ "All Files (*)", "CSV Files (*.csv)" ]
+    if dialog.execute != 0
+      CSV.open(dialog.filename, "wb") do |csv|
+        csv << Customer.attribute_names
+        Customer.all.each do |customer|
+          csv << customer.attributes.values
+        end
       end
-    end
 
-    FXMessageBox.warning( self, MBOX_OK, "Customers Exported", 
-      "Customers exported in db/customers.csv")
+      FXMessageBox.warning( self, MBOX_OK, "Customers Exported", 
+        "Customers exported in #{dialog.filename}")
+    end
   end
 
   def import_products_as_csv
@@ -134,7 +142,9 @@ class EcocityAdmin < FXMainWindow
         end
 
         # Update UI !!
-      @products_view.reset(Product.all)
+        @products_view.reset(Product.all)
+        FXMessageBox.warning( self, MBOX_OK, "#{Product.count} Products Imported", 
+          "#{Product.count} Products Imported")
       end
     end
   end
@@ -157,7 +167,9 @@ class EcocityAdmin < FXMainWindow
         end
 
         # Update UI !!
-      @customers_view.reset( Customer.all)
+      @customers_view.reset(Customer.all)
+      FXMessageBox.warning( self, MBOX_OK, "#{Customer.count} Customer Imported", 
+          "#{Customer.count} Customer Imported")
       end
     end
   end
