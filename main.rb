@@ -91,19 +91,30 @@ class EcocityAdmin < FXMainWindow
 
   def add_menu_bar
     menu_bar = FXMenuBar.new(self, :opts => LAYOUT_SIDE_TOP|LAYOUT_FILL_X)
-    file_menu_pane = FXMenuPane.new(self)
+    export_menu_pane = FXMenuPane.new(self)
+    import_menu_pane = FXMenuPane.new(self)
 
-    export_products_command = FXMenuCommand.new(file_menu_pane, "Export Products as CSV")
+    export_products_command = FXMenuCommand.new(export_menu_pane, "Export Products as CSV")
     export_products_command.connect(SEL_COMMAND) do
       export_products_as_csv
     end
 
-    export_customers_command = FXMenuCommand.new(file_menu_pane, "Export Customers as CSV")
+    export_customers_command = FXMenuCommand.new(export_menu_pane, "Export Customers as CSV")
     export_customers_command.connect(SEL_COMMAND) do
       export_customers_as_csv
     end
 
-    file_menu_title = FXMenuTitle.new(menu_bar, "Export", :popupMenu => file_menu_pane)
+    import_products_command = FXMenuCommand.new(import_menu_pane, "Import Products as CSV")
+    import_products_command.connect(SEL_COMMAND) do
+      import_products_as_csv
+    end
+
+    import_customers_command = FXMenuCommand.new(import_menu_pane, "Import Customers as CSV")
+    import_customers_command.connect(SEL_COMMAND) do
+      import_customers_as_csv
+    end
+
+    FXMenuTitle.new(menu_bar, "Export", :popupMenu => export_menu_pane)
   end
 
   def export_products_as_csv
@@ -122,6 +133,14 @@ class EcocityAdmin < FXMainWindow
         csv << customer.attributes.values
       end
     end
+  end
+
+  def import_products_as_csv
+    # TODO
+  end
+
+  def import_customers_as_csv
+    # TODO
   end
 
   def create
