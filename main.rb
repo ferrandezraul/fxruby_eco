@@ -37,15 +37,13 @@ class EcocityAdmin < FXMainWindow
 
     add_menu_bar
 
-    load_sample_data
-
     tabbook = FXTabBook.new(self, :opts => LAYOUT_FILL)
 
     FXTabItem.new(tabbook, "Products") 
     @products_view = ProductsView.new( tabbook, Product.all )
 
     FXTabItem.new(tabbook, "Customers") 
-    CustomersView.new( tabbook, Customer.all )
+    @customers_view = CustomersView.new( tabbook, Customer.all )
 
     FXTabItem.new(tabbook, "Invoices") 
     FXVerticalFrame.new(tabbook, :opts => FRAME_RAISED|LAYOUT_FILL)
@@ -101,6 +99,9 @@ class EcocityAdmin < FXMainWindow
         csv << product.attributes.values
       end
     end
+
+    FXMessageBox.warning( self, MBOX_OK, "Products Exported", 
+      "Products exported in db/products.csv")
   end
 
   def export_customers_as_csv
@@ -110,11 +111,14 @@ class EcocityAdmin < FXMainWindow
         csv << customer.attributes.values
       end
     end
+
+    FXMessageBox.warning( self, MBOX_OK, "Customers Exported", 
+      "Customers exported in db/customers.csv")
   end
 
   def import_products_as_csv
     answer = FXMessageBox.question( self, MBOX_YES_NO,
-      "Watch out!", "This will delete all existing products and load your db/products.csv file. Do you accept it?" )
+      "Watch out!", "This will delete all existing products and load your db/products.csv file. Go ahead?" )
 
     if !File.exist?('db/products.csv')
       FXMessageBox.warning( self, MBOX_OK, "No file found", "No file db/products.csv found!")
@@ -126,9 +130,7 @@ class EcocityAdmin < FXMainWindow
 
       # TODO (handle errors in csv)
       CSV.foreach("db/products.csv", :headers => true) do |csv_row|
-        #puts "Row is #{csv_row}"
-        #puts "Row is #{csv_row.class}"
-        #puts "Row inspect is #{csv_row.inspect}"
+        #puts "Row is #{csv_row}" #puts "Row is #{csv_row.class}" #puts "Row inspect is #{csv_row.inspect}"
         #puts "Row inspect is #{csv_row.to_hash}"
         Product.create!( csv_row.to_hash )
       end
@@ -139,7 +141,27 @@ class EcocityAdmin < FXMainWindow
   end
 
   def import_customers_as_csv
-    # TODO
+    answer = FXMessageBox.question( self, MBOX_YES_NO,
+      "Watch out!", "This will delete all existing customers and load your db/customers.csv file. Go ahead?" )
+
+    if !File.exist?('db/customers.csv')
+      FXMessageBox.warning( self, MBOX_OK, "No file found", "No file db/customers.csv found!")
+      return
+    end
+
+    if answer == MBOX_CLICKED_YES
+      Customer.destroy_all
+
+      # TODO (handle errors in csv)
+      CSV.foreach("db/customers.csv", :headers => true) do |csv_row|
+        #puts "Row is #{csv_row}" #puts "Row is #{csv_row.class}" #puts "Row inspect is #{csv_row.inspect}"
+        #puts "Row inspect is #{csv_row.to_hash}"
+        Customer.create!( csv_row.to_hash )
+      end
+
+      # Update UI !!
+      @customers_view.reset( Customer.all)
+    end
   end
 
   def create

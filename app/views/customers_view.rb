@@ -32,4 +32,8 @@ class CustomersView < FXPacker
 
   end
 
+  def reset( customers )
+  	@table.reset( customers )
+  end
+
 end
