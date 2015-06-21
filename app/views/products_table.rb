@@ -21,7 +21,6 @@ class ProductsTable < FXTable
     setColumnText(COLUMN_NAME, "Name")
     setColumnText(COLUMN_PRICE, "Price")
 
-    rowHeaderMode = ~LAYOUT_FIX_WIDTH
     columnHeader.setItemJustify(COLUMN_ID, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_NAME, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_PRICE, FXHeaderItem::CENTER_X)

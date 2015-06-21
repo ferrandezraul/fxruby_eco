@@ -1,8 +1,8 @@
+load csv file with products/Customers
 create invoices view
 create invoice dialog
-Hide columns id (hide them and don't delete them since they are needed to get objects)
-
-
 
 Small improvements
 columns can be manually extended, but extend automatically based on content?
+Order products when header is pressed
+Hide columns id (hide them and don't delete them since they are needed to get objects)
