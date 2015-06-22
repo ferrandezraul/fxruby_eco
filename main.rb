@@ -21,8 +21,10 @@ require 'csv'
 
 require 'product' 
 require 'customer'
+require 'order'
 require 'products_view'
 require 'customers_view'
+require 'orders_view'
 
 include Fox
 
@@ -45,8 +47,8 @@ class EcocityAdmin < FXMainWindow
     FXTabItem.new(tabbook, "Customers") 
     @customers_view = CustomersView.new( tabbook, Customer.all )
 
-    FXTabItem.new(tabbook, "Invoices") 
-    FXVerticalFrame.new(tabbook, :opts => FRAME_RAISED|LAYOUT_FILL)
+    FXTabItem.new(tabbook, "Orders") 
+    @orders_view = OrdersView.new( tabbook, Order.all )
 
     self.connect(SEL_CLOSE, method(:on_close))
   end
