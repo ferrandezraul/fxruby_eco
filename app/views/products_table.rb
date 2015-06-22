@@ -22,7 +22,7 @@ class ProductsTable < FXTable
   end
 
   def fill_table(products)
-    setTableSize(products.count, NUM_COLUMNS)
+    setTableSize(0, NUM_COLUMNS)
 
     setColumnText(COLUMN_ID, "ID")
     setColumnText(COLUMN_NAME, "Name")
@@ -32,10 +32,8 @@ class ProductsTable < FXTable
     columnHeader.setItemJustify(COLUMN_NAME, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_PRICE, FXHeaderItem::CENTER_X)
 
-    products.each_with_index do | product, index |
-      setItemText( index, COLUMN_ID, product.id.to_s )
-      setItemText( index, COLUMN_NAME, product.name )
-      setItemText( index, COLUMN_PRICE, sprintf('%.2f', product.price ) )
+    products.each do |product|
+      add_product(product)
     end
   end
 
@@ -50,11 +48,6 @@ class ProductsTable < FXTable
   def reset( products )
     clearItems
     fill_table(products)
-  end
-
-  def create
-    super
-    show()
   end
 
   def on_cell_changed(sender, sel, table_pos)
@@ -108,6 +101,11 @@ class ProductsTable < FXTable
       product.destroy!
       removeRows( row ) # Removes one row by default
     end
+  end
+
+  def create
+    super
+    show()
   end
 
 end

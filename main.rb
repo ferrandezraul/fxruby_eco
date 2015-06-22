@@ -90,13 +90,13 @@ class EcocityAdmin < FXMainWindow
       import_customers_as_csv
     end
 
-    FXMenuTitle.new(menu_bar, "Export", :popupMenu => export_menu_pane)
     FXMenuTitle.new(menu_bar, "Import", :popupMenu => import_menu_pane)
+    FXMenuTitle.new(menu_bar, "Export", :popupMenu => export_menu_pane)
   end
 
   def export_products_as_csv
     dialog = FXFileDialog.new(self, "Export CSV File with products") 
-    dialog.patternList = [ "All Files (*)", "CSV Files (*.csv)" ]
+    dialog.patternList = [ "CSV Files (*.csv)" ]
     if dialog.execute != 0
       CSV.open(dialog.filename, "wb") do |csv|
         csv << Product.attribute_names
@@ -112,7 +112,7 @@ class EcocityAdmin < FXMainWindow
 
   def export_customers_as_csv
     dialog = FXFileDialog.new(self, "Export CSV File with products") 
-    dialog.patternList = [ "All Files (*)", "CSV Files (*.csv)" ]
+    dialog.patternList = [ "CSV Files (*.csv)" ]
     if dialog.execute != 0
       CSV.open(dialog.filename, "wb") do |csv|
         csv << Customer.attribute_names
@@ -132,7 +132,7 @@ class EcocityAdmin < FXMainWindow
 
     if answer == MBOX_CLICKED_YES
       dialog = FXFileDialog.new(self, "Open CSV File with products") 
-      dialog.patternList = [ "All Files (*)", "CSV Files (*.csv)" ]
+      dialog.patternList = [ "CSV Files (*.csv)" ]
       if dialog.execute != 0
         Product.destroy_all
 
@@ -157,7 +157,7 @@ class EcocityAdmin < FXMainWindow
 
     if answer == MBOX_CLICKED_YES
       dialog = FXFileDialog.new(self, "Open CSV File with customers") 
-      dialog.patternList = [ "All Files (*)", "CSV Files (*.csv)" ]
+      dialog.patternList = [ "CSV Files (*.csv)" ]
       if dialog.execute != 0
         Customer.destroy_all
 

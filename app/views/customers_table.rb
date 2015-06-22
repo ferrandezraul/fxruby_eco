@@ -23,23 +23,8 @@ class CustomersTable < FXTable
     self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))
   end
 
-  def add_customer( customer )
-    num_rows = getNumRows
-    appendRows( 1 )
-    setItemText( num_rows, COLUMN_ID, customer.id.to_s )
-    setItemText( num_rows, COLUMN_NAME, customer.name )
-    setItemText( num_rows, COLUMN_ADDRESS, customer.address )
-    setItemText( num_rows, COLUMN_NIF, customer.nif )
-    setItemText( num_rows, COLUMN_CUSTOMER_TYPE, customer.customer_type )
-  end
-
-  def reset(customers)
-    clearItems
-    fill_table(customers)
-  end
-
   def fill_table(customers)
-    setTableSize(customers.count, NUM_COLUMNS)
+    setTableSize(0, NUM_COLUMNS)
 
     setColumnText(COLUMN_ID, "ID")
     setColumnText(COLUMN_NAME, "Name")
@@ -54,13 +39,24 @@ class CustomersTable < FXTable
     columnHeader.setItemJustify(COLUMN_NIF, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_CUSTOMER_TYPE, FXHeaderItem::CENTER_X)
 
-    customers.each_with_index do | customer, index |
-      setItemText( index, COLUMN_ID, customer.id.to_s )
-      setItemText( index, COLUMN_NAME, customer.name )
-      setItemText( index, COLUMN_ADDRESS, customer.address )
-      setItemText( index, COLUMN_NIF, customer.nif )
-      setItemText( index, COLUMN_CUSTOMER_TYPE, customer.customer_type )
+    customers.each do |customer|
+      add_customer(customer)
     end
+  end
+
+  def add_customer(customer)
+    num_rows = getNumRows
+    appendRows( 1 )
+    setItemText( num_rows, COLUMN_ID, customer.id.to_s )
+    setItemText( num_rows, COLUMN_NAME, customer.name )
+    setItemText( num_rows, COLUMN_ADDRESS, customer.address )
+    setItemText( num_rows, COLUMN_NIF, customer.nif )
+    setItemText( num_rows, COLUMN_CUSTOMER_TYPE, customer.customer_type )
+  end
+
+  def reset(customers)
+    clearItems
+    fill_table(customers)
   end
 
   def on_cell_changed(sender, sel, table_pos)

@@ -21,11 +21,6 @@ class OrdersTable < FXTable
     #self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))
   end
 
-  def reset(orders)
-    clearItems
-    fill_table(orders)
-  end
-
   def fill_table(orders)
     setTableSize(orders.count, NUM_COLUMNS)
 
@@ -40,12 +35,21 @@ class OrdersTable < FXTable
     columnHeader.setItemJustify(COLUMN_ITEMS, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_PRICE, FXHeaderItem::CENTER_X)
 
-    orders.each_with_index do | order, index |
-      setItemText( index, COLUMN_ID, order.id.to_s )
-      setItemText( index, COLUMN_CUSTOMER, order.customer.name )
-      setItemText( index, COLUMN_ITEMS, order.line_items )
-      setItemText( index, COLUMN_PRICE, order.price )
+    orders.each do |order|
+      add_order(order)
     end
+  end
+
+  def add_order(order)
+    setItemText( index, COLUMN_ID, order.id.to_s )
+    setItemText( index, COLUMN_CUSTOMER, order.customer.name )
+    setItemText( index, COLUMN_ITEMS, order.line_items )
+    setItemText( index, COLUMN_PRICE, order.price )
+  end
+
+  def reset(orders)
+    clearItems
+    fill_table(orders)
   end
 
   def create
