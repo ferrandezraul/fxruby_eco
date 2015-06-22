@@ -27,15 +27,6 @@ class OrderDialog < FXDialogBox
 		buttons = FXHorizontalFrame.new(self, 
 					:opts => LAYOUT_FILL_X|LAYOUT_SIDE_BOTTOM|PACK_UNIFORM_WIDTH) 
 
-		# Taking advantage of the fact that the FXDialogBox class from which this dialog
-		# is subclassed defines two message identifiers, ID_ACCEPT and ID_CANCEL, 
-		# that we can send directly from the OK and Cancel buttons to the dialog box to dismiss it.
-		# If the user clicks our OK button, it will send a message of type SEL_COMMAND,
-		# with identifier ID_ACCEPT, back to the dialog box object. When the dialog box receives
-		# that message, it will hide itself and ensure that the call to execute that originally
-		# launched the dialog box returns a nonzero value. 
-		# If the dialog box receives the ID_CANCEL message instead,
-		# it will ensure that execute( ) returns zero.
 		ok_button = FXButton.new( buttons, "OK",
 					  :target => self, 
 					  :selector => FXDialogBox::ID_ACCEPT,
@@ -76,9 +67,13 @@ class OrderDialog < FXDialogBox
 	    	customer_combo_box.appendItem( customer.name )
 	    end
 
-	    customer_combo_box.editable = false
-	    
+	    customer_combo_box.editable = false 
 	    customer_combo_box.setCurrentItem(1, true)
+
+	    add_item_button = FXButton.new( form, "Add Line Item", :opts => BUTTON_NORMAL)
+	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
+	    	# TODO create LineItem dialog
+	    end	    
 	 end
 
 	 def is_date_filled?

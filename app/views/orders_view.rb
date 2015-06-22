@@ -15,16 +15,13 @@ class OrdersView < FXPacker
 		order_dialog = OrderDialog.new( self )
 		if order_dialog.execute != 0
 		    date = order_dialog.order[:date].value
-		    name = order_dialog.order[:customer].value
-		    # address = order_dialog.customer[:address].value
-		    # nif = order_dialog.customer[:nif].value
-		    # tipo = order_dialog.customer[:type].value
-
+		    customer_name = order_dialog.order[:customer].value
+		    
 		    # customer = Order.create!( :name => name,
       #                                 :address => address,
       #                                 :nif => nif,
       #                                 :customer_type => tipo )
-			puts "Customer selected #{name}"
+			puts "Customer selected #{customer_name}"
 			puts "Date selected #{date}"
 		    # @table.add_customer( customer )
 	    end
