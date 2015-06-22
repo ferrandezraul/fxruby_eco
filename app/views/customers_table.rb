@@ -97,6 +97,19 @@ class CustomersTable < FXTable
       setItemText( row, COLUMN_NIF, new_nif )
 
       Customer.update( customer_id, :nif => new_nif )
+    when COLUMN_CUSTOMER_TYPE
+      customer_id = getItemText( row, COLUMN_ID ).to_i
+      new_type = getItemText( row, COLUMN_CUSTOMER_TYPE )
+
+      if ( ( new_type != Customer::Type::COOPERATIVA ) && ( new_type != Customer::Type::TIENDA ) && ( new_type != Customer::Type::CLIENTE ) )
+        FXMessageBox.warning( self, MBOX_OK, "Invalid customer type",
+          "Invalid customer type. Use #{Customer::Type::COOPERATIVA}, #{Customer::Type::TIENDA} or #{Customer::Type::CLIENTE}" )
+        # Revert change in view
+        setItemText( row, COLUMN_CUSTOMER_TYPE, Customer.find_by!( :id => getItemText( row, COLUMN_ID ) ).customer_type )
+      else
+        setItemText( row, COLUMN_CUSTOMER_TYPE, new_type )
+        Customer.update( customer_id, :customer_type => new_type )
+      end
     else
       puts "You gave me #{column} -- I have no idea what to do with that."
     end    
