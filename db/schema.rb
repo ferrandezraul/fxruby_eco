@@ -20,6 +20,17 @@ ActiveRecord::Schema.define(version: 1) do
     t.string "customer_type"
   end
 
+  create_table "line_items", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.datetime "order_date"
+    t.string   "order_number"
+    t.integer  "customer_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string  "name"
     t.decimal "price",  precision: 2, scale: 2
