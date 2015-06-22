@@ -24,6 +24,9 @@ class CustomersTable < FXTable
   end
 
   def fill_table(customers)
+    #setColumnHeaderMode = LAYOUT_FILL_X
+    #rowHeaderMode = LAYOUT_FILL_X
+
     setTableSize(0, NUM_COLUMNS)
 
     setColumnText(COLUMN_ID, "ID")
@@ -32,7 +35,6 @@ class CustomersTable < FXTable
     setColumnText(COLUMN_NIF, "NIF")
     setColumnText(COLUMN_CUSTOMER_TYPE, "Customer Type")
 
-    rowHeaderMode = ~LAYOUT_FIX_WIDTH
     columnHeader.setItemJustify(COLUMN_ID, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_NAME, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_ADDRESS, FXHeaderItem::CENTER_X)

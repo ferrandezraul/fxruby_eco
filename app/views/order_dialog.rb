@@ -1,4 +1,5 @@
 require 'fox16/calendar'
+require 'line_items_table'
 
 class OrderDialog < FXDialogBox 
 	attr_accessor :order
@@ -9,14 +10,18 @@ class OrderDialog < FXDialogBox
 		@order = {
 		  :date => FXDataTarget.new,
 	      :customer => FXDataTarget.new,
-	      :price => FXDataTarget.new
+	      :price => FXDataTarget.new,
+	      :line_items => FXDataTarget.new
 	    }
+
+	    @line_items = Array.new
 
 	    # Initialize FXDataTarget
 	    # Needed in order to catch changes from GUI
 	    @order[:date].value = String.new
 	    @order[:customer].value = String.new
 	    @order[:price].value = String.new
+	    @order[:line_items].value = String.new
 
 		add_terminating_buttons
 
@@ -55,11 +60,7 @@ class OrderDialog < FXDialogBox
 
 	    construct_date_form( form )
 	    construct_customer_form( form )
-
-	    add_item_button = FXButton.new( form, "Add Line Item", :opts => BUTTON_NORMAL)
-	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
-	    	# TODO create LineItem dialog
-	    end	    
+	    construct_line_items_form( form )    
 	end
 
 	def construct_date_form(matrix)
@@ -91,6 +92,21 @@ class OrderDialog < FXDialogBox
 	    customer_combo_box.setCurrentItem(1, true)
 	end
 
+	def construct_line_items_form(matrix)
+		add_item_button = FXButton.new( matrix, "Add Line Item", :opts => BUTTON_NORMAL)
+	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
+	    	# TODO create LineItem dialog
+	    	# line_item_dialog = LineItemDialog.new(self)
+	    	# if line_item_dialog.execute != 0
+	    	# 	item = line_item_dialog.item
+	    	# 	@line_items << item
+	    	# 	@line_items_table.add( item )
+	    	# end	    	
+	    end
+
+	    # TODO line items table
+	    @line_items_table = LineItemsTable.new( matrix, @line_items )	
+	end
 
 	def is_date_filled?
 	 	!@order[:date].value.empty?

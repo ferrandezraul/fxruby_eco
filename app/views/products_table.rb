@@ -24,6 +24,8 @@ class ProductsTable < FXTable
   def fill_table(products)
     setTableSize(0, NUM_COLUMNS)
 
+    columnHeaderMode = LAYOUT_FILL_X
+    rowHeaderMode = LAYOUT_FILL_X
     setColumnText(COLUMN_ID, "ID")
     setColumnText(COLUMN_NAME, "Name")
     setColumnText(COLUMN_PRICE, "Price")

@@ -24,12 +24,13 @@ class OrdersTable < FXTable
   def fill_table(orders)
     setTableSize(orders.count, NUM_COLUMNS)
 
+    rowHeaderMode = LAYOUT_FILL_X
+    
     setColumnText(COLUMN_ID, "ID")
     setColumnText(COLUMN_CUSTOMER, "Customer")
     setColumnText(COLUMN_ITEMS, "Line Items")
     setColumnText(COLUMN_PRICE, "Price")
 
-    rowHeaderMode = ~LAYOUT_FIX_WIDTH
     columnHeader.setItemJustify(COLUMN_ID, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_CUSTOMER, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_ITEMS, FXHeaderItem::CENTER_X)
