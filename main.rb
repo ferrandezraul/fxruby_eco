@@ -177,7 +177,7 @@ class EcocityAdmin < FXMainWindow
 
   def create
     super
-    show(PLACEMENT_SCREEN)
+    show(PLACEMENT_MAXIMIZED)
   end
 end
 

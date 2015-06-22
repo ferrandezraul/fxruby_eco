@@ -21,6 +21,8 @@ class OrderDialog < FXDialogBox
 		add_terminating_buttons
 
 		construct_page( self )
+
+		#show(PLACEMENT_SCREEN)
 	end
 
 	def add_terminating_buttons
@@ -74,9 +76,9 @@ class OrderDialog < FXDialogBox
 	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
 	    	# TODO create LineItem dialog
 	    end	    
-	 end
+	end
 
-	 def is_date_filled?
+	def is_date_filled?
 	 	!@order[:date].value.empty?
-	 end
+	end
 end
