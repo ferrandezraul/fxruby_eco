@@ -1,5 +1,6 @@
 continue with order dialog and orders_view
-	continue with date in order_dialog (expand --> create spliter)
+	extract code from order dialog and create a DateDialog, and CustomerPickerDialog
+	rename current customerDialog to NewCustomerDialog
 
 Small improvements
 Columns can be manually extended, but extend automatically based on content?

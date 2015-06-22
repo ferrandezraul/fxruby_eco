@@ -53,22 +53,34 @@ class OrderDialog < FXDialogBox
 	def construct_page(page)	    
 	    form = FXMatrix.new( page, :opts => MATRIX_BY_COLUMNS)
 
-	    date_form = FXMatrix.new( form, :opts => MATRIX_BY_ROWS )
+	    construct_date_form( form )
+	    construct_customer_form( form )
+
+	    add_item_button = FXButton.new( form, "Add Line Item", :opts => BUTTON_NORMAL)
+	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
+	    	# TODO create LineItem dialog
+	    end	    
+	end
+
+	def construct_date_form(matrix)
+		date_form = FXMatrix.new( matrix, :opts => MATRIX_BY_ROWS )
 	    
 	    FXLabel.new( date_form, "Date:")
 	    date = FXTextField.new( date_form, 30,
 	      :opts => TEXTFIELD_NORMAL)
 	    date.text = "Select a day from calendar"
 
-    	#FXMessageBox.warning( self, MBOX_OK, "Hit", "Hit!" )
     	@calendar = FXCalendar.new(date_form)
     	@calendar.connect(SEL_COMMAND) do |calendar, sel, time|
     		@order[:date].value = time.strftime("%d/%m/%Y") 
     		date.text = time.strftime("%d/%m/%Y") 
     	end
+    end
 
-	    FXLabel.new(form, "Customer:")
-	    customer_combo_box = FXComboBox.new(form, 20, :target => @order[:customer], :selector => FXDataTarget::ID_VALUE,
+    def construct_customer_form(matrix)
+    	FXLabel.new(matrix, "Customer:")
+	    customer_combo_box = FXComboBox.new(matrix, 20, 
+	      :target => @order[:customer], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
 
 	    Customer.all.each do | customer |
@@ -77,12 +89,8 @@ class OrderDialog < FXDialogBox
 
 	    customer_combo_box.editable = false 
 	    customer_combo_box.setCurrentItem(1, true)
-
-	    add_item_button = FXButton.new( form, "Add Line Item", :opts => BUTTON_NORMAL)
-	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
-	    	# TODO create LineItem dialog
-	    end	    
 	end
+
 
 	def is_date_filled?
 	 	!@order[:date].value.empty?
