@@ -21,8 +21,6 @@ class OrderDialog < FXDialogBox
 		add_terminating_buttons
 
 		construct_page( self )
-
-		#show(PLACEMENT_SCREEN)
 	end
 
 	def add_terminating_buttons
@@ -53,13 +51,21 @@ class OrderDialog < FXDialogBox
 	end
 
 	def construct_page(page)	    
-	    form = FXMatrix.new( page, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
+	    form = FXMatrix.new( page, :opts => MATRIX_BY_COLUMNS)
+
+	    date_form = FXMatrix.new( form, :opts => MATRIX_BY_ROWS )
 	    
-	    FXLabel.new( form, "Date:")
-	    @calendar = FXCalendar.new(form)
-	    @calendar.connect(SEL_COMMAND) do |sender, sel, time|
-	    	@order[:date].value = time.to_s
-	    end
+	    FXLabel.new( date_form, "Date:")
+	    date = FXTextField.new( date_form, 30,
+	      :opts => TEXTFIELD_NORMAL)
+	    date.text = "Select a day from calendar"
+
+    	#FXMessageBox.warning( self, MBOX_OK, "Hit", "Hit!" )
+    	@calendar = FXCalendar.new(date_form)
+    	@calendar.connect(SEL_COMMAND) do |calendar, sel, time|
+    		@order[:date].value = time.strftime("%d/%m/%Y") 
+    		date.text = time.strftime("%d/%m/%Y") 
+    	end
 
 	    FXLabel.new(form, "Customer:")
 	    customer_combo_box = FXComboBox.new(form, 20, :target => @order[:customer], :selector => FXDataTarget::ID_VALUE,

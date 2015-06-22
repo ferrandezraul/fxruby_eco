@@ -1,4 +1,5 @@
 continue with order dialog and orders_view
+	continue with date in order_dialog (expand --> create spliter)
 
 Small improvements
 Columns can be manually extended, but extend automatically based on content?
