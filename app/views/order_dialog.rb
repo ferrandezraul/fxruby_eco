@@ -46,27 +46,27 @@ class OrderDialog < FXDialogBox
 					  :selector => FXDialogBox::ID_CANCEL,
     				  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
 
-		# Disable ok button if there are no values on product attributes
-		# or price is not valid
-		#ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
-	#		sender.enabled = is_data_filled? && is_price_valid? && is_name_valid?
-	#	end
+		# Disable ok button if there are no values on order attributes
+		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
+			sender.enabled = is_date_filled?
+		end
 
 		# Connect signal button pressed with sending an ID_ACCEPT event 
 		# from this FXDialogBox. Note that the cancel button is automatically tied
 		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
-	#	ok_button.connect(SEL_COMMAND) do |sender, sel, data|
-#		     self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
-#		end
+		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
+		     self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+		end
 	end
 
 	def construct_page(page)	    
 	    form = FXMatrix.new( page, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
 	    
 	    FXLabel.new( form, "Date:")
-	    FXCalendar.new( form )
-	    # FXCalendar.new(form, :target => @order[:date], :selector => FXDataTarget::ID_VALUE,
-	    #   :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    @calendar = FXCalendar.new(form)
+	    @calendar.connect(SEL_COMMAND) do |sender, sel, time|
+	    	@order[:date].value = time.to_s
+	    end
 
 	    FXLabel.new(form, "Customer:")
 	    customer_combo_box = FXComboBox.new(form, 20, :target => @order[:customer], :selector => FXDataTarget::ID_VALUE,
@@ -79,5 +79,9 @@ class OrderDialog < FXDialogBox
 	    customer_combo_box.editable = false
 	    
 	    customer_combo_box.setCurrentItem(1, true)
+	 end
+
+	 def is_date_filled?
+	 	!@order[:date].value.empty?
 	 end
 end

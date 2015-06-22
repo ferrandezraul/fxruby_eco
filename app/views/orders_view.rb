@@ -14,7 +14,8 @@ class OrdersView < FXPacker
 		# Show dialog for entering data
 		order_dialog = OrderDialog.new( self )
 		if order_dialog.execute != 0
-		    # name = order_dialog.customer[:name].value
+		    date = order_dialog.order[:date].value
+		    name = order_dialog.order[:customer].value
 		    # address = order_dialog.customer[:address].value
 		    # nif = order_dialog.customer[:nif].value
 		    # tipo = order_dialog.customer[:type].value
@@ -23,7 +24,8 @@ class OrdersView < FXPacker
       #                                 :address => address,
       #                                 :nif => nif,
       #                                 :customer_type => tipo )
-
+			puts "Customer selected #{name}"
+			puts "Date selected #{date}"
 		    # @table.add_customer( customer )
 	    end
 	end
