@@ -13,7 +13,6 @@ $LOAD_PATH.unshift './app/models/'
 $LOAD_PATH.unshift './app/views/'
 
 require 'fox16'
-require 'active_record'
 require 'sqlite3'
 require 'yaml'
 require 'logger'
