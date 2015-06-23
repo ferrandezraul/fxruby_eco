@@ -7,7 +7,7 @@ class ProductsView < FXPacker
   attr_reader :product
   
   def initialize(parent, products)
-    super(parent, :opts => LAYOUT_FILL)
+    super(parent, :opts => LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
     # button to add a new product
     button_new_product = FXButton.new( self, "Add new product", :opts => BUTTON_NORMAL)

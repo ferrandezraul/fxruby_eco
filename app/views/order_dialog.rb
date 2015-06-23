@@ -5,7 +5,7 @@ class OrderDialog < FXDialogBox
 	attr_accessor :order
 	
 	def initialize(owner)
-		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE) 
+		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
 		@order = {
 		  :date => FXDataTarget.new,
@@ -56,7 +56,7 @@ class OrderDialog < FXDialogBox
 	end
 
 	def construct_page(page)	    
-	    form = FXMatrix.new( page, :opts => MATRIX_BY_COLUMNS)
+	    form = FXVerticalFrame.new( page, :opts => LAYOUT_FILL)
 
 	    construct_date_form( form )
 	    construct_customer_form( form )
@@ -64,7 +64,7 @@ class OrderDialog < FXDialogBox
 	end
 
 	def construct_date_form(matrix)
-		date_form = FXMatrix.new( matrix, :opts => MATRIX_BY_ROWS )
+		date_form = FXVerticalFrame.new( matrix, :opts => LAYOUT_FILL_X )
 	    
 	    FXLabel.new( date_form, "Date:")
 	    date = FXTextField.new( date_form, 30,
@@ -79,10 +79,10 @@ class OrderDialog < FXDialogBox
     end
 
     def construct_customer_form(matrix)
-    	FXLabel.new(matrix, "Customer:")
+    	FXLabel.new( matrix, "Customer:" )
 	    customer_combo_box = FXComboBox.new(matrix, 20, 
 	      :target => @order[:customer], :selector => FXDataTarget::ID_VALUE,
-	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X)
 
 	    Customer.all.each do | customer |
 	    	customer_combo_box.appendItem( customer.name )

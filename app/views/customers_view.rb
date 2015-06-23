@@ -6,7 +6,7 @@ include Fox
 class CustomersView < FXPacker
   
   def initialize(parent, customers)
-    super(parent, :opts => LAYOUT_FILL)
+    super(parent, :opts => LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
     # button to add a new product
     button_new_customer = FXButton.new( self, "Add new customer", :opts => BUTTON_NORMAL)
