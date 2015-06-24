@@ -1,5 +1,6 @@
 require 'fox16/calendar'
 require 'line_items_table'
+require 'line_item_dialog'
 
 class OrderDialog < FXDialogBox 
 	attr_accessor :order
@@ -25,7 +26,7 @@ class OrderDialog < FXDialogBox
 
 		add_terminating_buttons
 
-		construct_page( self )
+		construct_page
 	end
 
 	def add_terminating_buttons
@@ -55,8 +56,8 @@ class OrderDialog < FXDialogBox
 		end
 	end
 
-	def construct_page(page)	    
-	    form = FXVerticalFrame.new( page, :opts => LAYOUT_FILL)
+	def construct_page    
+	    form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
 
 	    construct_date_form( form )
 	    construct_customer_form( form )
@@ -97,13 +98,28 @@ class OrderDialog < FXDialogBox
 	def construct_line_items_form(matrix)
 		add_item_button = FXButton.new( matrix, "Add Line Item", :opts => BUTTON_NORMAL)
 	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
+
+	    	quantity = FXInputDialog.getInteger(0, self, "Quantity", "Quantity")
+
+	    	FXMessageBox.warning( self, MBOX_OK, "All right quantity is #{quantity}", 
+               "All right quantity is #{quantity}")
 	    	# TODO create LineItem dialog
-	    	# line_item_dialog = LineItemDialog.new(self)
-	    	# if line_item_dialog.execute != 0
-	    	# 	item = line_item_dialog.item
-	    	# 	@line_items << item
-	    	# 	@line_items_table.add( item )
-	    	# end	    	
+
+	    	line_item_dialog = LineItemDialog.new(self)
+	    	if line_item_dialog.execute != 0
+	    		item = line_item_dialog.line_item
+	    		puts "Weight is #{item[:weight]}"
+	    		puts "Product is #{item[:product]}"
+	    		puts "Price is #{item[:price]}"
+
+	    		# p = LineItem.new( :quantity => item[:quantity],
+	    		# 				  :weight => item[:weight],
+	    		# 				  :product => Product.find_by!( :name => item[:product] ),
+	    		# 				  :price => item[:price] )
+
+	    		# @line_items << p
+	    		# @line_items_table.add( p )
+	    	end	    	
 	    end
 
 	    # TODO line items table

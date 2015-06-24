@@ -6,7 +6,7 @@ class CustomerDialog < FXDialogBox
 
 		add_terminating_buttons
 
-		construct_page( self )
+		construct_page
 	end
 
 	def add_terminating_buttons
@@ -46,7 +46,7 @@ class CustomerDialog < FXDialogBox
 		end
 	end
 
-	def construct_page(page)	    
+	def construct_page	    
 	    @customer = {
 	      :name => FXDataTarget.new,
 	      :address => FXDataTarget.new,
@@ -61,7 +61,7 @@ class CustomerDialog < FXDialogBox
 	    @customer[:nif].value = String.new
 	    @customer[:type].value = String.new
 
-	    form = FXMatrix.new( page, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
+	    form = FXMatrix.new( self, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
 
 	    FXLabel.new( form, "Name:")
 	    FXTextField.new(form, 20, :target => @customer[:name], :selector => FXDataTarget::ID_VALUE,
@@ -84,7 +84,6 @@ class CustomerDialog < FXDialogBox
 	    combo_box.appendItem( Customer::Type::CLIENTE )
 
 	    combo_box.editable = false
-	    
 	    combo_box.setCurrentItem(1, true)
 	 end
 

@@ -16,7 +16,7 @@ class ProductDialog < FXDialogBox
 
 		add_terminating_buttons
 
-		construct_product_page( self )
+		construct_product_page
 	end
 
 	def add_terminating_buttons
@@ -56,8 +56,8 @@ class ProductDialog < FXDialogBox
 		end
 	end
 
-	def construct_product_page(page)	    
-	    form = FXMatrix.new( page, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
+	def construct_product_page	    
+	    form = FXMatrix.new( self, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
 	    
 	    FXLabel.new( form, "Name:")
 	    FXTextField.new(form, 20, :target => @product[:name], :selector => FXDataTarget::ID_VALUE,
