@@ -64,7 +64,7 @@ class OrderDialog < FXDialogBox
 	end
 
 	def construct_date_form(matrix)
-		date_form = FXVerticalFrame.new( matrix, :opts => LAYOUT_FILL_X )
+		date_form = FXHorizontalFrame.new( matrix, :opts => LAYOUT_FILL_X )
 	    
 	    FXLabel.new( date_form, "Date:")
 	    date = FXTextField.new( date_form, 30,
@@ -79,8 +79,10 @@ class OrderDialog < FXDialogBox
     end
 
     def construct_customer_form(matrix)
-    	FXLabel.new( matrix, "Customer:" )
-	    customer_combo_box = FXComboBox.new(matrix, 20, 
+    	customer_form = FXHorizontalFrame.new( matrix, :opts => LAYOUT_FILL_X )
+	    
+    	FXLabel.new( customer_form, "Customer:" )
+	    customer_combo_box = FXComboBox.new(customer_form, 20, 
 	      :target => @order[:customer], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X)
 

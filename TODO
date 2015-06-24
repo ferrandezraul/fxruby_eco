@@ -1,6 +1,6 @@
 continue with order dialog and orders_view
-	extract code from order dialog and create a DateDialog, and CustomerPickerDialog
-	rename current customerDialog to NewCustomerDialog
+	Improve layout, use FXVerticalFrame and FXHorizontalFrame
+	rename current customerDialog to NewCustomerDialog?
 
 Small improvements
 Columns can be manually extended, but extend automatically based on content?
