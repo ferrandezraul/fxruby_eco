@@ -56,11 +56,12 @@ class LineItemDialog < FXDialogBox
 	def construct_page	    
 	    form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
 
-	    h_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
+	    quantity_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
+	    product_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 
-	    quantity_button = FXButton.new( h_frame, "Add quantity" )
-	    quantity_label = FXLabel.new( h_frame, "0" )
-	    product_label = FXLabel.new( h_frame, "" )
+	    quantity_button = FXButton.new( quantity_frame, "Add quantity" )
+	    quantity_label = FXLabel.new( quantity_frame, "0", :opts => LAYOUT_FILL_X )
+	    quantity_label.justify = JUSTIFY_RIGHT
 
 	    quantity_button.connect(SEL_COMMAND) do |sender, sel, data|
 	    	@line_item[:quantity].value = FXInputDialog.getInteger(0, self, "Quantity", "Quantity").to_s
@@ -68,7 +69,7 @@ class LineItemDialog < FXDialogBox
 	    end
 
 		# p, cols, target = nil, selector = 0, opts = COMBOBOX_NORMAL, x = 0, y = 0, width = 0, height = 0, padLeft = DEFAULT_PAD, padRight = DEFAULT_PAD, padTop = DEFAULT_PAD, padBottom = DEFAULT_PAD)
-		product_combo_box = FXComboBox.new(h_frame, 20, nil, 0, COMBOBOX_NORMAL, 20, 20 )
+		product_combo_box = FXComboBox.new(product_frame, 20, nil, 0, LAYOUT_FILL_X, 20, 20 )
 
 	    Product.all.each do | product |
 	    	product_combo_box.appendItem( product.name )
@@ -83,7 +84,7 @@ class LineItemDialog < FXDialogBox
 	    	@line_item[:product].value = data
 	    end
 
-	    #FXLabel.new( h_frame, "Quantity" )
+	    #FXLabel.new( quantity_frame, "Quantity" )
 	    #@line_item[:quantity].value = FXInputDialog.getInteger(0, self, "Quantity", "Quantity").to_s
 
 	    # FXMessageBox.warning( form, MBOX_OK, "TODO line_item_dialog", "TODO line_item_dialog")  
