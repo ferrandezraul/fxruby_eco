@@ -58,6 +58,30 @@ class LineItemDialog < FXDialogBox
 
 	    h_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 
+	    quantity_button = FXButton.new( h_frame, "Add quantity" )
+	    quantity_label = FXLabel.new( h_frame, "0" )
+	    product_label = FXLabel.new( h_frame, "" )
+
+	    quantity_button.connect(SEL_COMMAND) do |sender, sel, data|
+	    	@line_item[:quantity].value = FXInputDialog.getInteger(0, self, "Quantity", "Quantity").to_s
+	    	quantity_label.text = @line_item[:quantity].value
+	    end
+
+		# p, cols, target = nil, selector = 0, opts = COMBOBOX_NORMAL, x = 0, y = 0, width = 0, height = 0, padLeft = DEFAULT_PAD, padRight = DEFAULT_PAD, padTop = DEFAULT_PAD, padBottom = DEFAULT_PAD)
+		product_combo_box = FXComboBox.new(h_frame, 20, nil, 0, COMBOBOX_NORMAL, 20, 20 )
+
+	    Product.all.each do | product |
+	    	product_combo_box.appendItem( product.name )
+	    end
+
+	    product_combo_box.editable = false 
+	    product_combo_box.setCurrentItem(1, true)
+	    #product_combo_box.numVisible( 5 ) # not working
+
+	    product_combo_box.connect(SEL_COMMAND) do |sender, sel, data|
+	    	product_label.text = data
+	    end
+
 	    #FXLabel.new( h_frame, "Quantity" )
 	    #@line_item[:quantity].value = FXInputDialog.getInteger(0, self, "Quantity", "Quantity").to_s
 

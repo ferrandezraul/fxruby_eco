@@ -98,13 +98,7 @@ class OrderDialog < FXDialogBox
 	def construct_line_items_form(matrix)
 		add_item_button = FXButton.new( matrix, "Add Line Item", :opts => BUTTON_NORMAL)
 	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
-
-	    	quantity = FXInputDialog.getInteger(0, self, "Quantity", "Quantity")
-
-	    	FXMessageBox.warning( self, MBOX_OK, "All right quantity is #{quantity}", 
-               "All right quantity is #{quantity}")
 	    	# TODO create LineItem dialog
-
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
 	    		item = line_item_dialog.line_item
