@@ -57,15 +57,25 @@ class LineItemDialog < FXDialogBox
 	    form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
 
 	    quantity_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
+	    weight_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 	    product_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 
 	    quantity_button = FXButton.new( quantity_frame, "Add quantity" )
-	    quantity_label = FXLabel.new( quantity_frame, "0", :opts => LAYOUT_FILL_X )
+	    quantity_label = FXLabel.new( quantity_frame, "x0", :opts => LAYOUT_FILL_X )
 	    quantity_label.justify = JUSTIFY_RIGHT
 
+	    weight_button = FXButton.new( weight_frame, "Add weight" )
+	    weight_label = FXLabel.new( weight_frame, "0 Kg", :opts => LAYOUT_FILL_X )
+	    weight_label.justify = JUSTIFY_RIGHT
+
 	    quantity_button.connect(SEL_COMMAND) do |sender, sel, data|
-	    	@line_item[:quantity].value = FXInputDialog.getInteger(0, self, "Quantity", "Quantity").to_s
+	    	@line_item[:quantity].value = FXInputDialog.getInteger(0, self, "Quantity", "Quantity", nil, 0, 1000).to_s
 	    	quantity_label.text = @line_item[:quantity].value
+	    end
+
+	    weight_button.connect(SEL_COMMAND) do |sender, sel, data|
+	    	@line_item[:weight].value = FXInputDialog.getReal(0, self, "Weight", "Weight", nil, 0, 1000).to_s
+	    	weight_label.text = @line_item[:weight].value
 	    end
 
 		# p, cols, target = nil, selector = 0, opts = COMBOBOX_NORMAL, x = 0, y = 0, width = 0, height = 0, padLeft = DEFAULT_PAD, padRight = DEFAULT_PAD, padTop = DEFAULT_PAD, padBottom = DEFAULT_PAD)
