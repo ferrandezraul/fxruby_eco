@@ -1,6 +1,5 @@
-continue with order dialog and orders_view
-	Improve layout, use FXVerticalFrame and FXHorizontalFrame
-	rename current customerDialog to NewCustomerDialog?
+continue with order dialog. Use combobox with data everywhere (refactor!!)
+Find out how FXDataTarget works with custom data.
 
 Small improvements
 Columns can be manually extended, but extend automatically based on content?

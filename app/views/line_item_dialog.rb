@@ -69,35 +69,37 @@ class LineItemDialog < FXDialogBox
 	    weight_label.justify = JUSTIFY_RIGHT
 
 	    quantity_button.connect(SEL_COMMAND) do |sender, sel, data|
-	    	@line_item[:quantity].value = FXInputDialog.getInteger(0, self, "Quantity", "Quantity", nil, 0, 1000).to_s
+	    	@line_item[:quantity].value = FXInputDialog.getInteger(0, self, 
+	    		"Quantity", "Quantity", nil, 0, 1000).to_s
+
 	    	quantity_label.text = @line_item[:quantity].value
 	    end
 
 	    weight_button.connect(SEL_COMMAND) do |sender, sel, data|
-	    	@line_item[:weight].value = FXInputDialog.getReal(0, self, "Weight", "Weight", nil, 0, 1000).to_s
+	    	@line_item[:weight].value = FXInputDialog.getReal(0, self, 
+	    		"Weight", "Weight", nil, 0, 1000).to_s
+
 	    	weight_label.text = @line_item[:weight].value
 	    end
 
-		# p, cols, target = nil, selector = 0, opts = COMBOBOX_NORMAL, x = 0, y = 0, width = 0, height = 0, padLeft = DEFAULT_PAD, padRight = DEFAULT_PAD, padTop = DEFAULT_PAD, padBottom = DEFAULT_PAD)
-		product_combo_box = FXComboBox.new(product_frame, 20, nil, 0, LAYOUT_FILL_X, 20, 20 )
+		product_combo_box = FXComboBox.new(product_frame, 
+			20, nil, 0, LAYOUT_FILL_X, 20, 20 ) # cols, target=nil, selector=0, opts=COMBOBOX_NORMAL, x=0, y=0, 
+												# width=0, height = 0, padLeft = DEFAULT_PAD, padRight = DEFAULT_PAD, padTop = DEFAULT_PAD, padBottom = DEFAULT_PAD)
 
 	    Product.all.each do | product |
-	    	product_combo_box.appendItem( product.name )
+	    	product_combo_box.appendItem( product.name, product )
 	    end
 
 	    product_combo_box.editable = false 
 	    product_combo_box.setCurrentItem(1, true)
 	    #product_combo_box.numVisible( 5 ) # not working
 
-	    product_combo_box.connect(SEL_COMMAND) do |sender, sel, data|
-	    	product_label.text = data
-	    	@line_item[:product].value = data
-	    end
-
-	    #FXLabel.new( quantity_frame, "Quantity" )
-	    #@line_item[:quantity].value = FXInputDialog.getInteger(0, self, "Quantity", "Quantity").to_s
-
-	    # FXMessageBox.warning( form, MBOX_OK, "TODO line_item_dialog", "TODO line_item_dialog")  
+	    product_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
+	    	index = sender.findItem(text)
+	    	product = sender.getItemData( index )
+	    	@line_item[:product].value = product.name # find out how FXDataTarget
+	    											  # works with custom data
+	    end 
 	end
 
 	def is_data_filled?
