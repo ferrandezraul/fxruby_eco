@@ -80,6 +80,7 @@ class LineItemDialog < FXDialogBox
 
 	    product_combo_box.connect(SEL_COMMAND) do |sender, sel, data|
 	    	product_label.text = data
+	    	@line_item[:product].value = data
 	    end
 
 	    #FXLabel.new( h_frame, "Quantity" )

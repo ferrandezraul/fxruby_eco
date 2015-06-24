@@ -102,9 +102,9 @@ class OrderDialog < FXDialogBox
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
 	    		item = line_item_dialog.line_item
-	    		puts "Weight is #{item[:weight]}"
-	    		puts "Product is #{item[:product]}"
-	    		puts "Price is #{item[:price]}"
+	    		puts "Weight is #{item[:quantity].value}"
+	    		puts "Product is #{item[:product].value}"
+	    		puts "Price is #{item[:price].value}"
 
 	    		# p = LineItem.new( :quantity => item[:quantity],
 	    		# 				  :weight => item[:weight],
