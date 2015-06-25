@@ -1,4 +1,4 @@
-1. Dependencies
+1. 	Dependencies
 
 	sudo apt-get install libfox-1.6-dev  
 
@@ -13,3 +13,9 @@
 2.  How to use:
 	Run rake db:migrate to prepare database.
 	Run ruby main.rb
+
+3.	Ctags for browsing your files within your editor.
+
+	With gems added to your Gemfile, when running bundle install
+	it generates ctag files in your current directory than can be loaded in your favorite
+	text editor like in sublime text.

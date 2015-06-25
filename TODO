@@ -1,3 +1,5 @@
+Run bundle install to generate ctags and load them in sublime
+
 continue with order dialog. Use combobox with data everywhere (refactor!!)
 Find out how FXDataTarget works with custom data.
 
