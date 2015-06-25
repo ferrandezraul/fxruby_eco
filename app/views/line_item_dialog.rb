@@ -50,6 +50,7 @@ class LineItemDialog < FXDialogBox
 	    quantity_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 	    weight_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 	    product_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
+	    price_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 
 	    quantity_button = FXButton.new( quantity_frame, "Add quantity" )
 	    quantity_label = FXLabel.new( quantity_frame, "x0", :opts => LAYOUT_FILL_X )
@@ -73,12 +74,20 @@ class LineItemDialog < FXDialogBox
 	    	weight_label.text = @weight.to_s 
 	    end
 
+	    product_label = FXLabel.new( product_frame, "Product:", :opts => LAYOUT_FILL_X )
+	    product_label.justify = JUSTIFY_LEFT
 	    # Attributes for FXComboBox.new
 	    # cols, target=nil, selector=0, opts=COMBOBOX_NORMAL, x=0, y=0, 
 		# width=0, height = 0, padLeft = DEFAULT_PAD, padRight = DEFAULT_PAD, 
 		# padTop = DEFAULT_PAD, padBottom = DEFAULT_PAD
 		product_combo_box = FXComboBox.new(product_frame, 
 			20, nil, 0, LAYOUT_FILL_X, 20, 20 ) 
+
+		price_label = FXLabel.new( product_frame, "Price:", :opts => LAYOUT_FILL_X )
+	    price_label.justify = JUSTIFY_RIGHT
+
+	    iva_label = FXLabel.new( product_frame, "IVA:", :opts => LAYOUT_FILL_X )
+	    iva_label.justify = JUSTIFY_RIGHT
 
 	    Product.all.each do | product |
 	    	product_combo_box.appendItem( product.name, product )
@@ -87,6 +96,8 @@ class LineItemDialog < FXDialogBox
 	    product_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
 	    	index = sender.findItem(text)
 	    	@product = sender.getItemData( index )
+	    	price_label.text = "Price: #{@product.price} EUR"
+	    	#iva_label.text = "IVA: #{@product.iva} EUR"
 	    end 
 
 	    # This needs to be after the connection above
