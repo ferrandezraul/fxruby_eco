@@ -2,27 +2,18 @@ require 'fox16/calendar'
 require 'line_items_table'
 
 class LineItemDialog < FXDialogBox 
-	attr_accessor :line_item
+	attr_accessor :quantity
+	attr_accessor :weight
+	attr_accessor :product
 	
 	def initialize(owner)
 		super(owner, "New Line Item", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
-		@line_item = {
-		  :quantity => FXDataTarget.new,
-	      :weight => FXDataTarget.new,
-	      :product => FXDataTarget.new,
-	      :price => FXDataTarget.new
-	    }
-
-	    # Initialize FXDataTarget
-	    # Needed in order to catch changes from GUI
-	    @line_item[:quantity].value = String.new
-	    @line_item[:weight].value = String.new
-	    @line_item[:product].value = String.new
-	    @line_item[:price].value = String.new
+		@quantity = 0
+		@weight = 0
+		@product = nil
 
 		add_terminating_buttons
-
 		construct_page
 	end
 
@@ -69,41 +60,47 @@ class LineItemDialog < FXDialogBox
 	    weight_label.justify = JUSTIFY_RIGHT
 
 	    quantity_button.connect(SEL_COMMAND) do |sender, sel, data|
-	    	@line_item[:quantity].value = FXInputDialog.getInteger(0, self, 
-	    		"Quantity", "Quantity", nil, 0, 1000).to_s
+	    	@quantity = FXInputDialog.getInteger(0, self, 
+	    		"Quantity", "Quantity", nil, 0, 1000)
 
-	    	quantity_label.text = @line_item[:quantity].value
+	    	quantity_label.text = @quantity.to_s
 	    end
 
 	    weight_button.connect(SEL_COMMAND) do |sender, sel, data|
-	    	@line_item[:weight].value = FXInputDialog.getReal(0, self, 
-	    		"Weight", "Weight", nil, 0, 1000).to_s
+	    	@weight = FXInputDialog.getReal(0, self, 
+	    		"Weight", "Weight", nil, 0, 1000)
 
-	    	weight_label.text = @line_item[:weight].value
+	    	weight_label.text = @weight.to_s 
 	    end
 
+	    # Attributes for FXComboBox.new
+	    # cols, target=nil, selector=0, opts=COMBOBOX_NORMAL, x=0, y=0, 
+		# width=0, height = 0, padLeft = DEFAULT_PAD, padRight = DEFAULT_PAD, 
+		# padTop = DEFAULT_PAD, padBottom = DEFAULT_PAD
 		product_combo_box = FXComboBox.new(product_frame, 
-			20, nil, 0, LAYOUT_FILL_X, 20, 20 ) # cols, target=nil, selector=0, opts=COMBOBOX_NORMAL, x=0, y=0, 
-												# width=0, height = 0, padLeft = DEFAULT_PAD, padRight = DEFAULT_PAD, padTop = DEFAULT_PAD, padBottom = DEFAULT_PAD)
+			20, nil, 0, LAYOUT_FILL_X, 20, 20 ) 
 
 	    Product.all.each do | product |
 	    	product_combo_box.appendItem( product.name, product )
 	    end
 
-	    product_combo_box.editable = false 
-	    product_combo_box.setCurrentItem(1, true)
-	    #product_combo_box.numVisible( 5 ) # not working
-
 	    product_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
 	    	index = sender.findItem(text)
-	    	product = sender.getItemData( index )
-	    	@line_item[:product].value = product.name # find out how FXDataTarget
-	    											  # works with custom data
+	    	@product = sender.getItemData( index )
 	    end 
+
+	    # This needs to be after the connection above
+	    # otherwise @product = nil although current product in combobox is not nil
+	    product_combo_box.setCurrentItem(1, true)
+	    product_combo_box.editable = false 
+	    #product_combo_box.numVisible( 5 ) # not working
 	end
 
 	def is_data_filled?
-		# TODO
-		true
+		if @quantity > 0 && @weight > 0 && @product
+			true
+		else
+			false
+		end
 	end
 end

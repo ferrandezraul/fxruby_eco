@@ -101,10 +101,9 @@ class OrderDialog < FXDialogBox
 	    	# TODO create LineItem dialog
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
-	    		item = line_item_dialog.line_item
-	    		puts "Weight is #{item[:quantity].value}"
-	    		puts "Product is #{item[:product].value}"
-	    		puts "Price is #{item[:price].value}"
+    			puts "Quantity is #{line_item_dialog.quantity}"
+	    		puts "Product is #{line_item_dialog.product.name}"
+	    		puts "Weight is #{line_item_dialog.weight}"
 
 	    		# p = LineItem.new( :quantity => item[:quantity],
 	    		# 				  :weight => item[:weight],
@@ -113,6 +112,7 @@ class OrderDialog < FXDialogBox
 
 	    		# @line_items << p
 	    		# @line_items_table.add( p )
+
 	    	end	    	
 	    end
 
@@ -121,6 +121,15 @@ class OrderDialog < FXDialogBox
 	end
 
 	def is_date_filled?
-	 	!@order[:date].value.empty?
+	 	is_date_filled? && any_line_item?
 	end
+
+	def is_date_filled?
+		!@order[:date].value.empty?
+	end
+
+	def any_line_item?
+		# TODO
+	end
+
 end
