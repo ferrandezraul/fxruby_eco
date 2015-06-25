@@ -97,7 +97,7 @@ class LineItemDialog < FXDialogBox
 	    	index = sender.findItem(text)
 	    	@product = sender.getItemData( index )
 	    	price_label.text = "Price: #{@product.price} EUR"
-	    	#iva_label.text = "IVA: #{@product.iva} EUR"
+	    	iva_label.text = "IVA: #{@product.taxes} %"
 	    end 
 
 	    # This needs to be after the connection above

@@ -6,13 +6,15 @@ class ProductDialog < FXDialogBox
 
 		@product = {
 	      :name => FXDataTarget.new,
-	      :price => FXDataTarget.new
+	      :price => FXDataTarget.new,
+	      :taxes => FXDataTarget.new
 	    }
 
 	    # Initialize FXDataTarget
 	    # Needed in order to catch changes from GUI
 	    @product[:name].value = String.new
 	    @product[:price].value = String.new
+	    @product[:taxes].value = String.new
 
 		add_terminating_buttons
 
@@ -66,10 +68,22 @@ class ProductDialog < FXDialogBox
 	    FXLabel.new(form, "Price:")
 	    FXTextField.new(form, 20, :target => @product[:price], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+
+	    taxes_button = FXButton.new( form, "IVA" )
+	    taxes_label = FXLabel.new( form, "0 %" )
+		taxes_button.connect(SEL_COMMAND) do |sender, sel, data|
+	    	taxes = FXInputDialog.getReal(0, self, 
+	    		"IVA", "IVA", nil, 0, 20)
+
+	    	taxes_label.text = "#{taxes.to_s} %"
+	    	@product[:taxes].value = taxes.to_s
+	    end
 	 end
 
 	 def is_data_filled?
-	 	( @product[:name].value.length > 0 ) && ( @product[:price].value.length > 0 )
+	 	( @product[:name].value.length > 0 ) \
+	 	&& ( @product[:price].value.length > 0 ) \
+	 	&& ( @product[:taxes].value.length > 0 )
 	 end
 
 	 def is_price_valid?

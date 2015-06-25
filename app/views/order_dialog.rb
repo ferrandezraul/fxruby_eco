@@ -92,7 +92,7 @@ class OrderDialog < FXDialogBox
 	    end
 
 	    customer_combo_box.editable = false 
-	    customer_combo_box.setCurrentItem(1, true)
+	    customer_combo_box.setCurrentItem(1, true) # crashes if combobox empty
 	end
 
 	def construct_line_items_form(matrix)

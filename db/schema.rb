@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 1) do
     t.string  "name"
     t.decimal "price",  precision: 2, scale: 2
     t.decimal "weight", precision: 2, scale: 2
+    t.decimal "taxes",  precision: 2, scale: 2
   end
 
 end

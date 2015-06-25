@@ -8,6 +8,7 @@ class Schema < ActiveRecord::Migration
       t.string :name
       t.decimal :price, precision: 2, scale: 2
       t.decimal :weight, precision: 2, scale: 2
+      t.decimal :taxes, precision: 2, scale: 2 
     end
 
     create_table :customers, force: true do |t|

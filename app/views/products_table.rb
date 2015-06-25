@@ -6,7 +6,8 @@ class ProductsTable < FXTable
   COLUMN_ID = 0
   COLUMN_NAME = 1
   COLUMN_PRICE = 2
-  NUM_COLUMNS = 3
+  COLUMN_TAXES = 3
+  NUM_COLUMNS = 4
   
   def initialize(parent, products)
     super(parent, :opts => LAYOUT_FILL|TABLE_COL_SIZABLE)
@@ -29,10 +30,12 @@ class ProductsTable < FXTable
     setColumnText(COLUMN_ID, "ID")
     setColumnText(COLUMN_NAME, "Name")
     setColumnText(COLUMN_PRICE, "Price")
+    setColumnText(COLUMN_TAXES, "IVA")
 
     columnHeader.setItemJustify(COLUMN_ID, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_NAME, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_PRICE, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_TAXES, FXHeaderItem::CENTER_X)
 
     products.each do |product|
       add_product(product)
@@ -44,7 +47,8 @@ class ProductsTable < FXTable
     appendRows( 1 )
     setItemText( num_rows, COLUMN_ID, product.id.to_s )
     setItemText( num_rows, COLUMN_NAME, product.name )
-    setItemText( num_rows, COLUMN_PRICE, sprintf('%.2f', product.price ) )
+    setItemText( num_rows, COLUMN_PRICE, "#{ sprintf('%.2f', product.price ) }" )
+    setItemText( num_rows, COLUMN_TAXES, "#{ sprintf('%.2f', product.taxes ) }" )
   end
 
   def reset( products )
@@ -80,6 +84,11 @@ class ProductsTable < FXTable
       setItemText( row, COLUMN_PRICE, sprintf('%.2f', new_price.round(2) ) )
 
       Product.update( product_id, :price => new_price.round(2) ) 
+    when COLUMN_TAXES
+      product_id = getItemText( row, COLUMN_ID ).to_i
+      new_taxes = getItemText( row, COLUMN_TAXES )
+
+      Product.update( product_id, :taxes => new_taxes) 
     else
       puts "You gave me #{column} -- I have no idea what to do with that."
     end    

@@ -1,3 +1,9 @@
+Borrar los FXButton para el iva y cantidad y peso y usar
+una regular expression como en el products_dialog, para validar la entrada. 
+
+Intentar que line_item_dialog devuelva un to_hash que se pueda utilizar como
+en main.cpp import_products_as_csv donde se crean objetos pasando un hash y no teniendo que especificar cada attributo. Muy util cuando se refactoriza!!
+
 Run bundle install to generate ctags and load them in sublime
 
 continue with order dialog. Use combobox with data everywhere (refactor!!)

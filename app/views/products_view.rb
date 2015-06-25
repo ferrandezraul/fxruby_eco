@@ -10,7 +10,9 @@ class ProductsView < FXPacker
     super(parent, :opts => LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
     # button to add a new product
-    button_new_product = FXButton.new( self, "Add new product", :opts => BUTTON_NORMAL)
+    button_new_product = FXButton.new( self, 
+      "Add new product", :opts => BUTTON_NORMAL)
+    
 	  button_new_product.connect(SEL_COMMAND, method(:on_add_product) )
 
     @table = ProductsTable.new( self, products )
@@ -19,11 +21,9 @@ class ProductsView < FXPacker
   def on_add_product( sender, sel, data )
   	product_dialog = ProductDialog.new( self )
 	  if product_dialog.execute != 0
-	    name = product_dialog.product[:name].value
-	    price = product_dialog.product[:price].value
-
-	    product = Product.create!( :name => name,
-                                 :price => price )
+	    product = Product.create!( :name => product_dialog.product[:name].value,
+                                 :price => product_dialog.product[:price].value,
+                                 :taxes => product_dialog.product[:taxes].value )
 
 	    @table.add_product( product )
     end
