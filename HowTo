@@ -16,6 +16,29 @@
 
 3.	Ctags for browsing your files within your editor.
 
-	With gems added to your Gemfile, when running bundle install
+	With gem 'guard-ctags-bundler' added to your Gemfile, when running bundle install
 	it generates ctag files in your current directory than can be loaded in your favorite
 	text editor like in sublime text.
+
+	Modify your ctags settings in sublime and set:
+
+	"command"   :  "ctags_for_ruby",
+	"extra_tag_files": [".gemtags", "tags"]
+
+	Be sure to save a file called ctags_for_ruby, inside a path contained in your $PATH env with this content:
+
+    #!/usr/bin/env ruby
+
+    # use the path to the ruby you wish to use
+    system "find /home/raul/.rvm/rubies/ruby-2.1.1/ -name '*.rb' | ctags -f .tags -L -"
+
+    puts 'Atento!!!!'
+    system "which ruby"
+
+    if File.exist? './Gemfile'
+      require 'bundler'
+      paths = Bundler.load.specs.map(&:full_gem_path).join(' ')
+      puts paths
+      system "ctags -R -f .gemtags #{paths}"
+    end
+
