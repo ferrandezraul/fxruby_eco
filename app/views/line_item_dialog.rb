@@ -51,20 +51,18 @@ class LineItemDialog < FXDialogBox
 
 	def construct_page	    
 	    form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
+	    matrix = FXMatrix.new( form, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
 
-	    quantity_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
-	    weight_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 	    product_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 	    price_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 	    
-	    FXLabel.new( quantity_frame, "Quantity:" )
-	    FXTextField.new(quantity_frame, 20, :target => @item[:quantity], :selector => FXDataTarget::ID_VALUE,
+	    FXLabel.new( matrix, "Quantity:" )
+	    FXTextField.new(matrix, 20, :target => @item[:quantity], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
 
-	    FXLabel.new( weight_frame, "Weight:" )
-	    FXTextField.new(weight_frame, 20, :target => @item[:weight], :selector => FXDataTarget::ID_VALUE,
+	    FXLabel.new( matrix, "Weight:" )
+	    FXTextField.new(matrix, 20, :target => @item[:weight], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
-	    FXLabel.new( weight_frame, "Kg" )
 
 	    product_label = FXLabel.new( product_frame, "Product:" )
 	    product_label.justify = JUSTIFY_LEFT
@@ -73,7 +71,7 @@ class LineItemDialog < FXDialogBox
 		# width=0, height = 0, padLeft = DEFAULT_PAD, padRight = DEFAULT_PAD, 
 		# padTop = DEFAULT_PAD, padBottom = DEFAULT_PAD
 		product_combo_box = FXComboBox.new(product_frame, 
-			20, nil, 0, LAYOUT_FILL_X, 20, 20 ) 
+			20, nil, 0, LAYOUT_FILL_Y, 20, 20 ) 
 
 		price_label = FXLabel.new( product_frame, "Price:", :opts => LAYOUT_FILL_X )
 	    price_label.justify = JUSTIFY_RIGHT
