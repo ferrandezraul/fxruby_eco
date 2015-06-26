@@ -9,8 +9,8 @@ class OrderDialog < FXDialogBox
 		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
 		@order = {
-		  :date => FXDataTarget.new,
-	      :customer => FXDataTarget.new,
+		  :date => Time.now,
+	      :customer => nil,
 	      :price => FXDataTarget.new,
 	      :line_items => FXDataTarget.new
 	    }
@@ -45,7 +45,7 @@ class OrderDialog < FXDialogBox
 
 		# Disable ok button if there are no values on order attributes
 		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
-			sender.enabled = is_date_filled?
+			sender.enabled = is_data_filled?
 		end
 
 		# Connect signal button pressed with sending an ID_ACCEPT event 
@@ -70,11 +70,11 @@ class OrderDialog < FXDialogBox
 	    FXLabel.new( date_form, "Date:")
 	    date = FXTextField.new( date_form, 30,
 	      :opts => TEXTFIELD_NORMAL)
-	    date.text = "Select a day from calendar"
+	    date.text = "#{Time.now.strftime("%d/%m/%Y")}"
 
     	@calendar = FXCalendar.new(date_form)
     	@calendar.connect(SEL_COMMAND) do |calendar, sel, time|
-    		@order[:date].value = time.strftime("%d/%m/%Y") 
+    		@order[:date] = time
     		date.text = time.strftime("%d/%m/%Y") 
     	end
     end
@@ -88,7 +88,12 @@ class OrderDialog < FXDialogBox
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X)
 
 	    Customer.all.each do | customer |
-	    	customer_combo_box.appendItem( customer.name )
+	    	customer_combo_box.appendItem( customer.name, customer )
+	    end
+
+	    customer_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
+	    	index = sender.findItem(text)
+	    	@order[:customer] = sender.getItemData( index )
 	    end
 
 	    customer_combo_box.editable = false 
@@ -105,9 +110,10 @@ class OrderDialog < FXDialogBox
 	    		puts "Product is #{line_item_dialog.item[:product].name}"
 	    		puts "Weight is #{line_item_dialog.item[:weight]}"
 
+	    		Order.new( :customer_id => @order[:customer])
 	    		# p = LineItem.new( :quantity => item[:quantity],
 	    		# 				  :weight => item[:weight],
-	    		# 				  :product => Product.find_by!( :name => item[:product] ),
+	    		# 				  :product => item[:product],
 	    		# 				  :price => item[:price] )
 
 	    		# @line_items << p
@@ -120,16 +126,14 @@ class OrderDialog < FXDialogBox
 	    @line_items_table = LineItemsTable.new( matrix, @line_items )	
 	end
 
-	def is_date_filled?
-	 	is_date_filled? && any_line_item?
-	end
-
-	def is_date_filled?
-		!@order[:date].value.empty?
+	def is_data_filled?
+	 	# TODO
+	 	any_line_item?
 	end
 
 	def any_line_item?
 		# TODO
+		true
 	end
 
 end

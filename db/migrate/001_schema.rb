@@ -19,13 +19,14 @@ class Schema < ActiveRecord::Migration
     end
 
     create_table :orders do |t|
-      t.datetime :order_date
-      t.string   :order_number
+      t.datetime :date
       t.belongs_to  :customer
     end
 
     create_table :line_items do |t|
-      t.belongs_to :product # has one product
+      t.integer :quantity
+      t.decimal :weight, precision: 2, scale: 2
+      t.has_one :product # has one product
       t.belongs_to :order   # belongs to an order
     end
 

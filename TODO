@@ -1,4 +1,4 @@
-refactor dialogos as in product_dialog
+create your first line item http://edgeguides.rubyonrails.org/active_record_migrations.html
 
 Intentar que line_item_dialog devuelva un to_hash que se pueda utilizar como
 en main.cpp import_products_as_csv donde se crean objetos pasando un hash y no teniendo que especificar cada attributo. Muy util cuando se refactoriza!!
