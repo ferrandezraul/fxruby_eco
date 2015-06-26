@@ -2,7 +2,7 @@ class ProductDialog < FXDialogBox
 	attr_accessor :product
 	
 	def initialize(owner)
-		super(owner, "New Product", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE) 
+		super(owner, "New Product", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE, 0, 0, 500) 
 
 		@product = {
 	      :name => FXDataTarget.new,
@@ -16,9 +16,8 @@ class ProductDialog < FXDialogBox
 	    @product[:price].value = String.new
 	    @product[:taxes].value = String.new
 
+	    construct_product_page
 		add_terminating_buttons
-
-		construct_product_page
 	end
 
 	def add_terminating_buttons
@@ -44,17 +43,22 @@ class ProductDialog < FXDialogBox
 					  :selector => FXDialogBox::ID_CANCEL,
     				  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
 
-		# Disable ok button if there are no values on product attributes
-		# or price is not valid
+		# Disable ok button if there are no valid attributes
 		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
-			sender.enabled = is_data_filled? && is_price_valid? && is_name_valid?
+			sender.enabled = is_data_filled?
 		end
 
 		# Connect signal button pressed with sending an ID_ACCEPT event 
 		# from this FXDialogBox. Note that the cancel button is automatically tied
 		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
-		     self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+			 if !is_name_valid?
+			 	FXMessageBox.warning( self, MBOX_OK, 
+			 		"There is already a product with this name",
+			 		"There is already a product with this name" )
+			 else
+		     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+		     end
 		end
 	end
 
@@ -62,21 +66,35 @@ class ProductDialog < FXDialogBox
 	    form = FXMatrix.new( self, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
 	    
 	    FXLabel.new( form, "Name:")
-	    FXTextField.new(form, 20, :target => @product[:name], :selector => FXDataTarget::ID_VALUE,
+	    name = FXTextField.new(form, 20, :target => @product[:name], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
 
 	    FXLabel.new(form, "Price:")
-	    FXTextField.new(form, 20, :target => @product[:price], :selector => FXDataTarget::ID_VALUE,
-	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    price = FXTextField.new(form, 20, 
+	    	:target => @product[:price], 
+	    	:selector => FXDataTarget::ID_VALUE, 
+	    	:opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    price.text = "Press any key and enter price ..."
 
-	    taxes_button = FXButton.new( form, "IVA" )
-	    taxes_label = FXLabel.new( form, "0 %" )
-		taxes_button.connect(SEL_COMMAND) do |sender, sel, data|
+	    price.connect(SEL_KEYPRESS) do |sender, sel, data|
+	    	precio = FXInputDialog.getReal(0, self, 
+	    		"Price", "Price", nil, 0, 1000)
+	    	@product[:price].value = precio.to_s
+	    	sender.text = "#{precio.to_s} EUR"
+	    end
+
+	    FXLabel.new(form, "IVA:")
+	    tax = FXTextField.new(form, 20, 
+	    	:target => @product[:taxes], 
+	    	:selector => FXDataTarget::ID_VALUE, 
+	    	:opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    tax.text = "Press any key and enter IVA ..."
+
+	    tax.connect(SEL_KEYPRESS) do |sender, sel, data|
 	    	taxes = FXInputDialog.getReal(0, self, 
 	    		"IVA", "IVA", nil, 0, 20)
-
-	    	taxes_label.text = "#{taxes.to_s} %"
 	    	@product[:taxes].value = taxes.to_s
+	    	sender.text = "#{taxes.to_s} %"
 	    end
 	 end
 
@@ -84,10 +102,6 @@ class ProductDialog < FXDialogBox
 	 	( @product[:name].value.length > 0 ) \
 	 	&& ( @product[:price].value.length > 0 ) \
 	 	&& ( @product[:taxes].value.length > 0 )
-	 end
-
-	 def is_price_valid?
-	 	@product[:price].value =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/
 	 end
 
 	 def is_name_valid?
