@@ -18,16 +18,13 @@ class Schema < ActiveRecord::Migration
       t.string :customer_type
     end
 
-    create_table :orders do |t|
-      t.datetime :date
-      t.belongs_to  :customer
+    create_table :orders, force: true do |t|
+      t.date :date
     end
 
     create_table :line_items do |t|
       t.integer :quantity
       t.decimal :weight, precision: 2, scale: 2
-      t.has_one :product # has one product
-      t.belongs_to :order   # belongs to an order
     end
 
   end

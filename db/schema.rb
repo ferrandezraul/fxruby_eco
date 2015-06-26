@@ -21,14 +21,12 @@ ActiveRecord::Schema.define(version: 1) do
   end
 
   create_table "line_items", force: :cascade do |t|
-    t.integer "product_id"
-    t.integer "order_id"
+    t.integer "quantity"
+    t.decimal "weight",   precision: 2, scale: 2
   end
 
   create_table "orders", force: :cascade do |t|
-    t.datetime "order_date"
-    t.string   "order_number"
-    t.integer  "customer_id"
+    t.date "date"
   end
 
   create_table "products", force: :cascade do |t|

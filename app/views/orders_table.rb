@@ -22,8 +22,9 @@ class OrdersTable < FXTable
   end
 
   def fill_table(orders)
-    setTableSize(orders.count, NUM_COLUMNS)
+    setTableSize(0, NUM_COLUMNS)
 
+    columnHeaderMode = LAYOUT_FILL_X
     rowHeaderMode = LAYOUT_FILL_X
     
     setColumnText(COLUMN_ID, "ID")
@@ -42,10 +43,13 @@ class OrdersTable < FXTable
   end
 
   def add_order(order)
-    setItemText( index, COLUMN_ID, order.id.to_s )
-    setItemText( index, COLUMN_CUSTOMER, order.customer.name )
-    setItemText( index, COLUMN_ITEMS, order.line_items )
-    setItemText( index, COLUMN_PRICE, order.price )
+    num_rows = getNumRows
+    appendRows( 1 )
+
+    setItemText( num_rows, COLUMN_ID, order.id.to_s )
+    setItemText( num_rows, COLUMN_CUSTOMER, order.customer.name )
+    #setItemText( num_rows, COLUMN_ITEMS, order.line_items )
+    #setItemText( num_rows, COLUMN_PRICE, order.price )
   end
 
   def reset(orders)

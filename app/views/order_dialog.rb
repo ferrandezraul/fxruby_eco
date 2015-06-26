@@ -1,4 +1,7 @@
 require 'fox16/calendar'
+
+require 'order'
+require 'line_item'
 require 'line_items_table'
 require 'line_item_dialog'
 
@@ -11,22 +14,11 @@ class OrderDialog < FXDialogBox
 		@order = {
 		  :date => Time.now,
 	      :customer => nil,
-	      :price => FXDataTarget.new,
-	      :line_items => FXDataTarget.new
+	      :line_items => Array.new
 	    }
 
-	    @line_items = Array.new
-
-	    # Initialize FXDataTarget
-	    # Needed in order to catch changes from GUI
-	    @order[:date].value = String.new
-	    @order[:customer].value = String.new
-	    @order[:price].value = String.new
-	    @order[:line_items].value = String.new
-
-		add_terminating_buttons
-
 		construct_page
+		add_terminating_buttons
 	end
 
 	def add_terminating_buttons
@@ -109,12 +101,20 @@ class OrderDialog < FXDialogBox
     			puts "Quantity is #{line_item_dialog.item[:quantity]}"
 	    		puts "Product is #{line_item_dialog.item[:product].name}"
 	    		puts "Weight is #{line_item_dialog.item[:weight]}"
+	    		puts "Customer is #{@order[:customer].name}"
 
-	    		Order.new( :customer_id => @order[:customer])
-	    		# p = LineItem.new( :quantity => item[:quantity],
-	    		# 				  :weight => item[:weight],
-	    		# 				  :product => item[:product],
-	    		# 				  :price => item[:price] )
+				@order[:customer].build_order( :date => @order[:date] )
+				@order[:customer].save!
+
+				# @the_order = Order.create( :date => @order[:date] )
+				# @the_order.customer = @order[:customer]
+				# @the_order.save!
+				
+	    		# p = LineItem.create!( :quantity => line_item_dialog.item[:quantity],
+	    		# 				      :weight => line_item_dialog.item[:weight],
+	    		# 				      :product => line_item_dialog.item[:product] )
+
+	    		#Order.new( :customer_id => @order[:customer])
 
 	    		# @line_items << p
 	    		# @line_items_table.add( p )
@@ -123,7 +123,7 @@ class OrderDialog < FXDialogBox
 	    end
 
 	    # TODO line items table
-	    @line_items_table = LineItemsTable.new( matrix, @line_items )	
+	    @line_items_table = LineItemsTable.new( matrix, Array.new )	
 	end
 
 	def is_data_filled?
