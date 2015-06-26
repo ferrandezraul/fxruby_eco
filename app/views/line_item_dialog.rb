@@ -8,15 +8,10 @@ class LineItemDialog < FXDialogBox
 		super(owner, "New Line Item", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
 		@item = {
-	      :quantity => FXDataTarget.new,
-	      :weight => FXDataTarget.new,
+	      :quantity => 0,
+	      :weight => 0,
 	      :product => nil
 	    }
-
-	    # Initialize FXDataTarget
-	    # Needed in order to catch changes from GUI
-	    @item[:quantity].value = String.new
-	    @item[:weight].value = String.new
 
 		construct_page
 		add_terminating_buttons
@@ -58,30 +53,24 @@ class LineItemDialog < FXDialogBox
 	    
 	    FXLabel.new( matrix, "Quantity:" )
 	    quantity = FXTextField.new(matrix, 20, 
-	    	:target => @item[:quantity], 
-	    	:selector => FXDataTarget::ID_VALUE,
 	        :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
 	    quantity.text = "Press any key and enter quantity ..."
-
 	    quantity.connect(SEL_KEYPRESS) do |sender, sel, data|
 	    	cantidad = FXInputDialog.getInteger(0, self, 
 	    		"Quantity", "Quantity", nil, 0, 1000)
-	    	@item[:quantity].value = cantidad.to_s
+	    	@item[:quantity] = cantidad
 	    	sender.text = "#{cantidad.to_s}"
 	    end
 
 	    FXLabel.new( matrix, "Weight:" )
 	    weight = FXTextField.new(matrix, 20, 
-	    	:target => @item[:weight],
-	    	:selector => FXDataTarget::ID_VALUE,
 	        :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
-	    weight.text = "Press any key and enter weight ..."
-
+	    weight.text = "Press any key and enter weight in kg ..."
 	    weight.connect(SEL_KEYPRESS) do |sender, sel, data|
 	    	peso = FXInputDialog.getReal(0, self, 
 	    		"Weight", "Weight", nil, 0, 1000)
-	    	@item[:weight].value = peso.to_s
-	    	sender.text = "#{peso.to_s}"
+	    	@item[:weight] = peso
+	    	sender.text = "#{peso.to_s} Kg"
 	    end
 
 	    FXLabel.new( product_frame, "Product:" )
@@ -114,8 +103,8 @@ class LineItemDialog < FXDialogBox
 	end
 
 	def is_data_filled?
-		@item[:quantity].value.length > 0 \
-		&& @item[:weight].value.length > 0 \
+		@item[:quantity] > 0 \
+		&& @item[:weight] > 0 \
 		&& @item[:product]
 	end
 end
