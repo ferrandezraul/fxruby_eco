@@ -2,16 +2,21 @@ require 'fox16/calendar'
 require 'line_items_table'
 
 class LineItemDialog < FXDialogBox 
-	attr_accessor :quantity
-	attr_accessor :weight
-	attr_accessor :product
+	attr_accessor :item
 	
 	def initialize(owner)
 		super(owner, "New Line Item", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
-		@quantity = 0
-		@weight = 0
-		@product = nil
+		@item = {
+	      :quantity => FXDataTarget.new,
+	      :weight => FXDataTarget.new,
+	      :product => nil
+	    }
+
+	    # Initialize FXDataTarget
+	    # Needed in order to catch changes from GUI
+	    @item[:quantity].value = String.new
+	    @item[:weight].value = String.new
 
 		add_terminating_buttons
 		construct_page
@@ -51,30 +56,17 @@ class LineItemDialog < FXDialogBox
 	    weight_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 	    product_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 	    price_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
+	    
+	    FXLabel.new( quantity_frame, "Quantity:" )
+	    FXTextField.new(quantity_frame, 20, :target => @item[:quantity], :selector => FXDataTarget::ID_VALUE,
+	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
 
-	    quantity_button = FXButton.new( quantity_frame, "Add quantity" )
-	    quantity_label = FXLabel.new( quantity_frame, "x0", :opts => LAYOUT_FILL_X )
-	    quantity_label.justify = JUSTIFY_RIGHT
+	    FXLabel.new( weight_frame, "Weight:" )
+	    FXTextField.new(weight_frame, 20, :target => @item[:weight], :selector => FXDataTarget::ID_VALUE,
+	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    FXLabel.new( weight_frame, "Kg" )
 
-	    weight_button = FXButton.new( weight_frame, "Add weight" )
-	    weight_label = FXLabel.new( weight_frame, "0 Kg", :opts => LAYOUT_FILL_X )
-	    weight_label.justify = JUSTIFY_RIGHT
-
-	    quantity_button.connect(SEL_COMMAND) do |sender, sel, data|
-	    	@quantity = FXInputDialog.getInteger(0, self, 
-	    		"Quantity", "Quantity", nil, 0, 1000)
-
-	    	quantity_label.text = @quantity.to_s
-	    end
-
-	    weight_button.connect(SEL_COMMAND) do |sender, sel, data|
-	    	@weight = FXInputDialog.getReal(0, self, 
-	    		"Weight", "Weight", nil, 0, 1000)
-
-	    	weight_label.text = @weight.to_s 
-	    end
-
-	    product_label = FXLabel.new( product_frame, "Product:", :opts => LAYOUT_FILL_X )
+	    product_label = FXLabel.new( product_frame, "Product:" )
 	    product_label.justify = JUSTIFY_LEFT
 	    # Attributes for FXComboBox.new
 	    # cols, target=nil, selector=0, opts=COMBOBOX_NORMAL, x=0, y=0, 
@@ -95,23 +87,21 @@ class LineItemDialog < FXDialogBox
 
 	    product_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
 	    	index = sender.findItem(text)
-	    	@product = sender.getItemData( index )
-	    	price_label.text = "Price: #{@product.price} EUR"
-	    	iva_label.text = "IVA: #{@product.taxes} %"
+	    	product = sender.getItemData( index )
+	    	price_label.text = "Price: #{product.price} EUR"
+	    	iva_label.text = "IVA: #{product.taxes} %"
+	    	@item[:product] = product
 	    end 
 
 	    # This needs to be after the connection above
-	    # otherwise @product = nil although current product in combobox is not nil
-	    product_combo_box.setCurrentItem(1, true)
+	    # otherwise @item[:product] = nil although current product in combobox is not nil
+	    product_combo_box.setCurrentItem(1, true) if Product.count > 0
 	    product_combo_box.editable = false 
 	    #product_combo_box.numVisible( 5 ) # not working
 	end
 
 	def is_data_filled?
-		if @quantity > 0 && @weight > 0 && @product
-			true
-		else
-			false
-		end
+		@item[:quantity].value =~ /\A[0-9]*\Z/ \
+		&& @item[:weight].value =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/ && @item[:product]
 	end
 end

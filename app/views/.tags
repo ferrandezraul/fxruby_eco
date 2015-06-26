@@ -1,0 +1,75 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CustomerDialog	./customers_dialog.rb	/^class CustomerDialog < FXDialogBox $/;"	c
+CustomersTable	./customers_table.rb	/^class CustomersTable < FXTable$/;"	c
+CustomersView	./customers_view.rb	/^class CustomersView < FXPacker$/;"	c
+LineItemDialog	./line_item_dialog.rb	/^class LineItemDialog < FXDialogBox $/;"	c
+LineItemsTable	./line_items_table.rb	/^class LineItemsTable < FXTable$/;"	c
+OrderDialog	./order_dialog.rb	/^class OrderDialog < FXDialogBox $/;"	c
+OrdersTable	./orders_table.rb	/^class OrdersTable < FXTable$/;"	c
+OrdersView	./orders_view.rb	/^class OrdersView < FXPacker$/;"	c
+ProductDialog	./product_dialog.rb	/^class ProductDialog < FXDialogBox $/;"	c
+ProductsTable	./products_table.rb	/^class ProductsTable < FXTable$/;"	c
+ProductsView	./products_view.rb	/^class ProductsView < FXPacker$/;"	c
+add_customer	./customers_table.rb	/^  def add_customer(customer)$/;"	f	class:CustomersTable
+add_line_item	./line_items_table.rb	/^  def add_line_item( line_items )$/;"	f	class:LineItemsTable
+add_order	./orders_table.rb	/^  def add_order(order)$/;"	f	class:OrdersTable
+add_product	./products_table.rb	/^  def add_product( product )$/;"	f	class:ProductsTable
+add_terminating_buttons	./customers_dialog.rb	/^	def add_terminating_buttons$/;"	f	class:CustomerDialog
+add_terminating_buttons	./line_item_dialog.rb	/^	def add_terminating_buttons$/;"	f	class:LineItemDialog
+add_terminating_buttons	./order_dialog.rb	/^	def add_terminating_buttons$/;"	f	class:OrderDialog
+add_terminating_buttons	./product_dialog.rb	/^	def add_terminating_buttons$/;"	f	class:ProductDialog
+any_line_item?	./order_dialog.rb	/^	def any_line_item?$/;"	f	class:OrderDialog
+construct_customer_form	./order_dialog.rb	/^    def construct_customer_form(matrix)$/;"	f	class:OrderDialog
+construct_date_form	./order_dialog.rb	/^	def construct_date_form(matrix)$/;"	f	class:OrderDialog
+construct_line_items_form	./order_dialog.rb	/^	def construct_line_items_form(matrix)$/;"	f	class:OrderDialog
+construct_page	./customers_dialog.rb	/^	def construct_page	    $/;"	f	class:CustomerDialog
+construct_page	./line_item_dialog.rb	/^	def construct_page	    $/;"	f	class:LineItemDialog
+construct_page	./order_dialog.rb	/^	def construct_page    $/;"	f	class:OrderDialog
+construct_product_page	./product_dialog.rb	/^	def construct_product_page	    $/;"	f	class:ProductDialog
+create	./customers_table.rb	/^  def create$/;"	f	class:CustomersTable
+create	./line_items_table.rb	/^  def create$/;"	f	class:LineItemsTable
+create	./orders_table.rb	/^  def create$/;"	f	class:OrdersTable
+create	./products_table.rb	/^  def create$/;"	f	class:ProductsTable
+delete_customer?	./customers_table.rb	/^  def delete_customer?( row, customer )$/;"	f	class:CustomersTable
+delete_product?	./products_table.rb	/^  def delete_product?( row, product )$/;"	f	class:ProductsTable
+fill_table	./customers_table.rb	/^  def fill_table(customers)$/;"	f	class:CustomersTable
+fill_table	./line_items_table.rb	/^  def fill_table(line_items)$/;"	f	class:LineItemsTable
+fill_table	./orders_table.rb	/^  def fill_table(orders)$/;"	f	class:OrdersTable
+fill_table	./products_table.rb	/^  def fill_table(products)$/;"	f	class:ProductsTable
+initialize	./customers_dialog.rb	/^	def initialize(owner)$/;"	f	class:CustomerDialog
+initialize	./customers_table.rb	/^  def initialize(parent, customers)$/;"	f	class:CustomersTable
+initialize	./customers_view.rb	/^  def initialize(parent, customers)$/;"	f	class:CustomersView
+initialize	./line_item_dialog.rb	/^	def initialize(owner)$/;"	f	class:LineItemDialog
+initialize	./line_items_table.rb	/^  def initialize(parent, line_items)$/;"	f	class:LineItemsTable
+initialize	./order_dialog.rb	/^	def initialize(owner)$/;"	f	class:OrderDialog
+initialize	./orders_table.rb	/^  def initialize(parent, orders)$/;"	f	class:OrdersTable
+initialize	./orders_view.rb	/^  def initialize(parent, orders)$/;"	f	class:OrdersView
+initialize	./product_dialog.rb	/^	def initialize(owner)$/;"	f	class:ProductDialog
+initialize	./products_table.rb	/^  def initialize(parent, products)$/;"	f	class:ProductsTable
+initialize	./products_view.rb	/^  def initialize(parent, products)$/;"	f	class:ProductsView
+is_data_filled?	./customers_dialog.rb	/^	 def is_data_filled?$/;"	f	class:CustomerDialog
+is_data_filled?	./line_item_dialog.rb	/^	def is_data_filled?$/;"	f	class:LineItemDialog
+is_data_filled?	./product_dialog.rb	/^	 def is_data_filled?$/;"	f	class:ProductDialog
+is_date_filled?	./order_dialog.rb	/^	def is_date_filled?$/;"	f	class:OrderDialog
+is_name_valid?	./customers_dialog.rb	/^	 def is_name_valid?$/;"	f	class:CustomerDialog
+is_name_valid?	./product_dialog.rb	/^	 def is_name_valid?$/;"	f	class:ProductDialog
+is_price_valid?	./product_dialog.rb	/^	 def is_price_valid?$/;"	f	class:ProductDialog
+on_add_product	./products_view.rb	/^  def on_add_product( sender, sel, data )$/;"	f	class:ProductsView
+on_cell_changed	./customers_table.rb	/^  def on_cell_changed(sender, sel, table_pos)$/;"	f	class:CustomersTable
+on_cell_changed	./line_items_table.rb	/^  def on_cell_changed(sender, sel, table_pos)$/;"	f	class:LineItemsTable
+on_cell_changed	./products_table.rb	/^  def on_cell_changed(sender, sel, table_pos)$/;"	f	class:ProductsTable
+on_cell_double_clicled	./customers_table.rb	/^  def on_cell_double_clicled( sender, sel, table_pos)$/;"	f	class:CustomersTable
+on_cell_double_clicled	./line_items_table.rb	/^  def on_cell_double_clicled( sender, sel, table_pos)$/;"	f	class:LineItemsTable
+on_cell_double_clicled	./products_table.rb	/^  def on_cell_double_clicled( sender, sel, table_pos)$/;"	f	class:ProductsTable
+reset	./customers_table.rb	/^  def reset(customers)$/;"	f	class:CustomersTable
+reset	./customers_view.rb	/^  def reset( customers )$/;"	f	class:CustomersView
+reset	./line_items_table.rb	/^  def reset( line_items )$/;"	f	class:LineItemsTable
+reset	./orders_table.rb	/^  def reset(orders)$/;"	f	class:OrdersTable
+reset	./orders_view.rb	/^  def reset( orders )$/;"	f	class:OrdersView
+reset	./products_table.rb	/^  def reset( products )$/;"	f	class:ProductsTable
+reset	./products_view.rb	/^  def reset( products )$/;"	f	class:ProductsView

@@ -1,0 +1,92 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Customer	./app/models/customer.rb	/^class Customer < ActiveRecord::Base$/;"	c
+CustomerDialog	./app/views/customers_dialog.rb	/^class CustomerDialog < FXDialogBox $/;"	c
+CustomersTable	./app/views/customers_table.rb	/^class CustomersTable < FXTable$/;"	c
+CustomersView	./app/views/customers_view.rb	/^class CustomersView < FXPacker$/;"	c
+EcocityAdmin	./main.rb	/^class EcocityAdmin < FXMainWindow$/;"	c
+LineItem	./app/models/line_item.rb	/^class LineItem < ActiveRecord::Base$/;"	c
+LineItemDialog	./app/views/line_item_dialog.rb	/^class LineItemDialog < FXDialogBox $/;"	c
+LineItemsTable	./app/views/line_items_table.rb	/^class LineItemsTable < FXTable$/;"	c
+Order	./app/models/order.rb	/^class Order < ActiveRecord::Base$/;"	c
+OrderDialog	./app/views/order_dialog.rb	/^class OrderDialog < FXDialogBox $/;"	c
+OrdersTable	./app/views/orders_table.rb	/^class OrdersTable < FXTable$/;"	c
+OrdersView	./app/views/orders_view.rb	/^class OrdersView < FXPacker$/;"	c
+Product	./app/models/product.rb	/^class Product < ActiveRecord::Base$/;"	c
+ProductDialog	./app/views/product_dialog.rb	/^class ProductDialog < FXDialogBox $/;"	c
+ProductsTable	./app/views/products_table.rb	/^class ProductsTable < FXTable$/;"	c
+ProductsView	./app/views/products_view.rb	/^class ProductsView < FXPacker$/;"	c
+Schema	./db/migrate/001_schema.rb	/^class Schema < ActiveRecord::Migration$/;"	c
+Type	./app/models/customer.rb	/^  module Type$/;"	m	class:Customer
+add_customer	./app/views/customers_table.rb	/^  def add_customer(customer)$/;"	f	class:CustomersTable
+add_line_item	./app/views/line_items_table.rb	/^  def add_line_item( line_items )$/;"	f	class:LineItemsTable
+add_menu_bar	./main.rb	/^  def add_menu_bar$/;"	f	class:EcocityAdmin
+add_order	./app/views/orders_table.rb	/^  def add_order(order)$/;"	f	class:OrdersTable
+add_product	./app/views/products_table.rb	/^  def add_product( product )$/;"	f	class:ProductsTable
+add_terminating_buttons	./app/views/customers_dialog.rb	/^	def add_terminating_buttons$/;"	f	class:CustomerDialog
+add_terminating_buttons	./app/views/line_item_dialog.rb	/^	def add_terminating_buttons$/;"	f	class:LineItemDialog
+add_terminating_buttons	./app/views/order_dialog.rb	/^	def add_terminating_buttons$/;"	f	class:OrderDialog
+add_terminating_buttons	./app/views/product_dialog.rb	/^	def add_terminating_buttons$/;"	f	class:ProductDialog
+any_line_item?	./app/views/order_dialog.rb	/^	def any_line_item?$/;"	f	class:OrderDialog
+change	./db/migrate/001_schema.rb	/^  def change$/;"	f	class:Schema
+construct_customer_form	./app/views/order_dialog.rb	/^    def construct_customer_form(matrix)$/;"	f	class:OrderDialog
+construct_date_form	./app/views/order_dialog.rb	/^	def construct_date_form(matrix)$/;"	f	class:OrderDialog
+construct_line_items_form	./app/views/order_dialog.rb	/^	def construct_line_items_form(matrix)$/;"	f	class:OrderDialog
+construct_page	./app/views/customers_dialog.rb	/^	def construct_page	    $/;"	f	class:CustomerDialog
+construct_page	./app/views/line_item_dialog.rb	/^	def construct_page	    $/;"	f	class:LineItemDialog
+construct_page	./app/views/order_dialog.rb	/^	def construct_page    $/;"	f	class:OrderDialog
+construct_product_page	./app/views/product_dialog.rb	/^	def construct_product_page	    $/;"	f	class:ProductDialog
+create	./app/views/customers_table.rb	/^  def create$/;"	f	class:CustomersTable
+create	./app/views/line_items_table.rb	/^  def create$/;"	f	class:LineItemsTable
+create	./app/views/orders_table.rb	/^  def create$/;"	f	class:OrdersTable
+create	./app/views/products_table.rb	/^  def create$/;"	f	class:ProductsTable
+create	./main.rb	/^  def create$/;"	f
+delete_customer?	./app/views/customers_table.rb	/^  def delete_customer?( row, customer )$/;"	f	class:CustomersTable
+delete_product?	./app/views/products_table.rb	/^  def delete_product?( row, product )$/;"	f	class:ProductsTable
+export_customers_as_csv	./main.rb	/^  def export_customers_as_csv$/;"	f
+export_products_as_csv	./main.rb	/^  def export_products_as_csv$/;"	f	class:EcocityAdmin
+fill_table	./app/views/customers_table.rb	/^  def fill_table(customers)$/;"	f	class:CustomersTable
+fill_table	./app/views/line_items_table.rb	/^  def fill_table(line_items)$/;"	f	class:LineItemsTable
+fill_table	./app/views/orders_table.rb	/^  def fill_table(orders)$/;"	f	class:OrdersTable
+fill_table	./app/views/products_table.rb	/^  def fill_table(products)$/;"	f	class:ProductsTable
+import_customers_as_csv	./main.rb	/^  def import_customers_as_csv$/;"	f
+import_products_as_csv	./main.rb	/^  def import_products_as_csv$/;"	f
+initialize	./app/views/customers_dialog.rb	/^	def initialize(owner)$/;"	f	class:CustomerDialog
+initialize	./app/views/customers_table.rb	/^  def initialize(parent, customers)$/;"	f	class:CustomersTable
+initialize	./app/views/customers_view.rb	/^  def initialize(parent, customers)$/;"	f	class:CustomersView
+initialize	./app/views/line_item_dialog.rb	/^	def initialize(owner)$/;"	f	class:LineItemDialog
+initialize	./app/views/line_items_table.rb	/^  def initialize(parent, line_items)$/;"	f	class:LineItemsTable
+initialize	./app/views/order_dialog.rb	/^	def initialize(owner)$/;"	f	class:OrderDialog
+initialize	./app/views/orders_table.rb	/^  def initialize(parent, orders)$/;"	f	class:OrdersTable
+initialize	./app/views/orders_view.rb	/^  def initialize(parent, orders)$/;"	f	class:OrdersView
+initialize	./app/views/product_dialog.rb	/^	def initialize(owner)$/;"	f	class:ProductDialog
+initialize	./app/views/products_table.rb	/^  def initialize(parent, products)$/;"	f	class:ProductsTable
+initialize	./app/views/products_view.rb	/^  def initialize(parent, products)$/;"	f	class:ProductsView
+initialize	./main.rb	/^  def initialize(app)$/;"	f	class:EcocityAdmin
+is_data_filled?	./app/views/customers_dialog.rb	/^	 def is_data_filled?$/;"	f	class:CustomerDialog
+is_data_filled?	./app/views/line_item_dialog.rb	/^	def is_data_filled?$/;"	f	class:LineItemDialog
+is_data_filled?	./app/views/product_dialog.rb	/^	 def is_data_filled?$/;"	f	class:ProductDialog
+is_date_filled?	./app/views/order_dialog.rb	/^	def is_date_filled?$/;"	f	class:OrderDialog
+is_name_valid?	./app/views/customers_dialog.rb	/^	 def is_name_valid?$/;"	f	class:CustomerDialog
+is_name_valid?	./app/views/product_dialog.rb	/^	 def is_name_valid?$/;"	f	class:ProductDialog
+is_price_valid?	./app/views/product_dialog.rb	/^	 def is_price_valid?$/;"	f	class:ProductDialog
+on_add_product	./app/views/products_view.rb	/^  def on_add_product( sender, sel, data )$/;"	f	class:ProductsView
+on_cell_changed	./app/views/customers_table.rb	/^  def on_cell_changed(sender, sel, table_pos)$/;"	f	class:CustomersTable
+on_cell_changed	./app/views/line_items_table.rb	/^  def on_cell_changed(sender, sel, table_pos)$/;"	f	class:LineItemsTable
+on_cell_changed	./app/views/products_table.rb	/^  def on_cell_changed(sender, sel, table_pos)$/;"	f	class:ProductsTable
+on_cell_double_clicled	./app/views/customers_table.rb	/^  def on_cell_double_clicled( sender, sel, table_pos)$/;"	f	class:CustomersTable
+on_cell_double_clicled	./app/views/line_items_table.rb	/^  def on_cell_double_clicled( sender, sel, table_pos)$/;"	f	class:LineItemsTable
+on_cell_double_clicled	./app/views/products_table.rb	/^  def on_cell_double_clicled( sender, sel, table_pos)$/;"	f	class:ProductsTable
+on_close	./main.rb	/^  def on_close(sender, sel, event)$/;"	f	class:EcocityAdmin
+reset	./app/views/customers_table.rb	/^  def reset(customers)$/;"	f	class:CustomersTable
+reset	./app/views/customers_view.rb	/^  def reset( customers )$/;"	f	class:CustomersView
+reset	./app/views/line_items_table.rb	/^  def reset( line_items )$/;"	f	class:LineItemsTable
+reset	./app/views/orders_table.rb	/^  def reset(orders)$/;"	f	class:OrdersTable
+reset	./app/views/orders_view.rb	/^  def reset( orders )$/;"	f	class:OrdersView
+reset	./app/views/products_table.rb	/^  def reset( products )$/;"	f	class:ProductsTable
+reset	./app/views/products_view.rb	/^  def reset( products )$/;"	f	class:ProductsView
+setup_database_conection	./main.rb	/^  def setup_database_conection$/;"	f	class:EcocityAdmin

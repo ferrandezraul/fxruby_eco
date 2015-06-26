@@ -92,7 +92,7 @@ class OrderDialog < FXDialogBox
 	    end
 
 	    customer_combo_box.editable = false 
-	    customer_combo_box.setCurrentItem(1, true) # crashes if combobox empty
+	    customer_combo_box.setCurrentItem(1, true) if Customer.count > 0
 	end
 
 	def construct_line_items_form(matrix)
@@ -101,9 +101,9 @@ class OrderDialog < FXDialogBox
 	    	# TODO create LineItem dialog
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
-    			puts "Quantity is #{line_item_dialog.quantity}"
-	    		puts "Product is #{line_item_dialog.product.name}"
-	    		puts "Weight is #{line_item_dialog.weight}"
+    			puts "Quantity is #{line_item_dialog.item[:quantity].value.to_i}"
+	    		puts "Product is #{line_item_dialog.item[:product].name}"
+	    		puts "Weight is #{line_item_dialog.item[:weight].value.to_f}"
 
 	    		# p = LineItem.new( :quantity => item[:quantity],
 	    		# 				  :weight => item[:weight],

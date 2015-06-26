@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem 'active_record'
+gem 'activerecord', '~> 4.2.1'
 
 group :development do
 	# Generates ctag files for your project
