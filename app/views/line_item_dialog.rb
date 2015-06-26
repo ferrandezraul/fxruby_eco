@@ -18,8 +18,8 @@ class LineItemDialog < FXDialogBox
 	    @item[:quantity].value = String.new
 	    @item[:weight].value = String.new
 
-		add_terminating_buttons
 		construct_page
+		add_terminating_buttons
 	end
 
 	def add_terminating_buttons
@@ -57,19 +57,34 @@ class LineItemDialog < FXDialogBox
 	    price_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 	    
 	    FXLabel.new( matrix, "Quantity:" )
-	    FXTextField.new(matrix, 20, :target => @item[:quantity], :selector => FXDataTarget::ID_VALUE,
-	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    quantity = FXTextField.new(matrix, 20, 
+	    	:target => @item[:quantity], 
+	    	:selector => FXDataTarget::ID_VALUE,
+	        :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    quantity.text = "Press any key and enter quantity ..."
+
+	    quantity.connect(SEL_KEYPRESS) do |sender, sel, data|
+	    	cantidad = FXInputDialog.getInteger(0, self, 
+	    		"Quantity", "Quantity", nil, 0, 1000)
+	    	@item[:quantity].value = cantidad.to_s
+	    	sender.text = "#{cantidad.to_s}"
+	    end
 
 	    FXLabel.new( matrix, "Weight:" )
-	    FXTextField.new(matrix, 20, :target => @item[:weight], :selector => FXDataTarget::ID_VALUE,
-	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    weight = FXTextField.new(matrix, 20, 
+	    	:target => @item[:weight],
+	    	:selector => FXDataTarget::ID_VALUE,
+	        :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    weight.text = "Press any key and enter weight ..."
 
-	    product_label = FXLabel.new( product_frame, "Product:" )
-	    product_label.justify = JUSTIFY_LEFT
-	    # Attributes for FXComboBox.new
-	    # cols, target=nil, selector=0, opts=COMBOBOX_NORMAL, x=0, y=0, 
-		# width=0, height = 0, padLeft = DEFAULT_PAD, padRight = DEFAULT_PAD, 
-		# padTop = DEFAULT_PAD, padBottom = DEFAULT_PAD
+	    weight.connect(SEL_KEYPRESS) do |sender, sel, data|
+	    	peso = FXInputDialog.getReal(0, self, 
+	    		"Weight", "Weight", nil, 0, 1000)
+	    	@item[:weight].value = peso.to_s
+	    	sender.text = "#{peso.to_s}"
+	    end
+
+	    FXLabel.new( product_frame, "Product:" )
 		product_combo_box = FXComboBox.new(product_frame, 
 			20, nil, 0, LAYOUT_FILL_Y, 20, 20 ) 
 
@@ -99,7 +114,8 @@ class LineItemDialog < FXDialogBox
 	end
 
 	def is_data_filled?
-		@item[:quantity].value =~ /\A[0-9]*\Z/ \
-		&& @item[:weight].value =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/ && @item[:product]
+		@item[:quantity].value.length > 0 \
+		&& @item[:weight].value.length > 0 \
+		&& @item[:product]
 	end
 end
