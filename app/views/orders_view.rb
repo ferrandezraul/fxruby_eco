@@ -13,14 +13,13 @@ class OrdersView < FXPacker
     # button to add a new product
     button_new_order = FXButton.new( self, "Add new order", :opts => BUTTON_NORMAL)
 	  button_new_order.connect(SEL_COMMAND) do |sender, sel, data| 
-		order_dialog = OrderDialog.new( self )
-		if order_dialog.execute != 0
-		    @table.reset(Order.all)
-	    end
-	end
+  		order_dialog = OrderDialog.new( self )
+  		if order_dialog.execute != 0
+        @table.reset(Order.all)
+      end
+    end
 
     @table = OrdersTable.new( self, orders )
-
   end
 
   def reset( orders )

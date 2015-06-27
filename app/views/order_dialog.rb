@@ -42,7 +42,7 @@ class OrderDialog < FXDialogBox
 		# from this FXDialogBox. Note that the cancel button is automatically tied
 		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
-			order.save!
+			@order.save!
 	     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
 		end
 	end
@@ -100,7 +100,6 @@ class OrderDialog < FXDialogBox
 	    	end	    	
 	    end
 
-	    # TODO line items table
 	    @line_items_table = LineItemsTable.new( matrix, Array.new )	
 	end
 

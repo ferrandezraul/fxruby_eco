@@ -52,7 +52,7 @@ class OrdersTable < FXTable
     setItemText( num_rows, COLUMN_ID, order.id.to_s )
     setItemText( num_rows, COLUMN_DATE, order.date.strftime("%d/%m/%Y") )
     setItemText( num_rows, COLUMN_CUSTOMER, order.customer.name )
-    #setItemText( num_rows, COLUMN_ITEMS, order.line_items )
+    setItemText( num_rows, COLUMN_ITEMS, order.items_to_s )
     #setItemText( num_rows, COLUMN_PRICE, order.price )
   end
 
