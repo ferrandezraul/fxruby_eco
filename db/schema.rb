@@ -14,27 +14,50 @@
 ActiveRecord::Schema.define(version: 1) do
 
   create_table "customers", force: :cascade do |t|
-    t.string "name"
-    t.string "address"
-    t.string "nif"
-    t.string "customer_type"
+    t.string   "name"
+    t.string   "address"
+    t.string   "nif"
+    t.string   "customer_type"
+    t.integer  "order_id"
+    t.integer  "line_item_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
+
+  add_index "customers", ["line_item_id"], name: "index_customers_on_line_item_id"
+  add_index "customers", ["order_id"], name: "index_customers_on_order_id"
 
   create_table "line_items", force: :cascade do |t|
-    t.integer "quantity"
-    t.decimal "weight",   precision: 2, scale: 2
+    t.integer  "order_id"
+    t.integer  "quantity"
+    t.decimal  "weight",     precision: 2, scale: 2
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
+
+  add_index "line_items", ["order_id"], name: "index_line_items_on_order_id"
 
   create_table "orders", force: :cascade do |t|
-    t.date    "date"
-    t.integer "customer_id"
+    t.date     "date"
+    t.integer  "customer_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
+  add_index "orders", ["customer_id"], name: "index_orders_on_customer_id"
+
   create_table "products", force: :cascade do |t|
-    t.string  "name"
-    t.decimal "price",  precision: 2, scale: 2
-    t.decimal "weight", precision: 2, scale: 2
-    t.decimal "taxes",  precision: 2, scale: 2
+    t.string   "name"
+    t.decimal  "price",        precision: 2, scale: 2
+    t.decimal  "weight",       precision: 2, scale: 2
+    t.decimal  "taxes",        precision: 2, scale: 2
+    t.integer  "line_item_id"
+    t.integer  "order_id"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
+
+  add_index "products", ["line_item_id"], name: "index_products_on_line_item_id"
+  add_index "products", ["order_id"], name: "index_products_on_order_id"
 
 end
