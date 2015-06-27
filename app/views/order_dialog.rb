@@ -18,7 +18,7 @@ class OrderDialog < FXDialogBox
 	      :customer => nil,
 	      :line_items => Array.new
 	    }
-	    @order = nil
+	    @order = Order.new
 
 		construct_page
 		add_terminating_buttons
@@ -66,10 +66,11 @@ class OrderDialog < FXDialogBox
 	    date = FXTextField.new( date_form, 30,
 	      :opts => TEXTFIELD_NORMAL)
 	    date.text = "#{Time.now.strftime("%d/%m/%Y")}"
+	    @order.date = Time.now
 
     	@calendar = FXCalendar.new(date_form)
     	@calendar.connect(SEL_COMMAND) do |calendar, sel, time|
-    		@order_attributes[:date] = time
+    		@order.date = time
     		date.text = time.strftime("%d/%m/%Y") 
     	end
     end
@@ -88,7 +89,7 @@ class OrderDialog < FXDialogBox
 
 	    customer_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
 	    	index = sender.findItem(text)
-	    	@order_attributes[:customer] = sender.getItemData( index )
+	    	@order.customer = sender.getItemData( index )
 	    end
 
 	    customer_combo_box.editable = false 
@@ -101,10 +102,6 @@ class OrderDialog < FXDialogBox
 	    	# TODO create LineItem dialog
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
-				@order = Order.create!( :date => @order_attributes[:date],
-										:customer => @order_attributes[:customer] )
-										# :line_items => @order_attributes[:line_items] )
-				
 	    		# p = LineItem.create!( :quantity => line_item_dialog.item[:quantity],
 	    		# 				      :weight => line_item_dialog.item[:weight],
 	    		# 				      :product => line_item_dialog.item[:product] )
