@@ -13,11 +13,12 @@ class OrderDialog < FXDialogBox
 	def initialize(owner)
 		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
-		@order = {
+		@order_attributes = {
 		  :date => Time.now,
 	      :customer => nil,
 	      :line_items => Array.new
 	    }
+	    @order = nil
 
 		construct_page
 		add_terminating_buttons
@@ -68,7 +69,7 @@ class OrderDialog < FXDialogBox
 
     	@calendar = FXCalendar.new(date_form)
     	@calendar.connect(SEL_COMMAND) do |calendar, sel, time|
-    		@order[:date] = time
+    		@order_attributes[:date] = time
     		date.text = time.strftime("%d/%m/%Y") 
     	end
     end
@@ -78,7 +79,7 @@ class OrderDialog < FXDialogBox
 	    
     	FXLabel.new( customer_form, "Customer:" )
 	    customer_combo_box = FXComboBox.new(customer_form, 20, 
-	      :target => @order[:customer], :selector => FXDataTarget::ID_VALUE,
+	      :target => @order_attributes[:customer], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X)
 
 	    Customer.all.each do | customer |
@@ -87,7 +88,7 @@ class OrderDialog < FXDialogBox
 
 	    customer_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
 	    	index = sender.findItem(text)
-	    	@order[:customer] = sender.getItemData( index )
+	    	@order_attributes[:customer] = sender.getItemData( index )
 	    end
 
 	    customer_combo_box.editable = false 
@@ -100,23 +101,13 @@ class OrderDialog < FXDialogBox
 	    	# TODO create LineItem dialog
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
-    			puts "Quantity is #{line_item_dialog.item[:quantity]}"
-	    		puts "Product is #{line_item_dialog.item[:product].name}"
-	    		puts "Weight is #{line_item_dialog.item[:weight]}"
-	    		puts "Customer is #{@order[:customer].name}"
-
-				puts "Customer is #{@order[:customer].class}"
-				ap "Customer is #{@order[:customer].to_json}"
-
-				@the_order = Order.create( :date => @order[:date] )
-				@the_order.customer = @order[:customer]
-				@the_order.save!
+				@order = Order.create!( :date => @order_attributes[:date],
+										:customer => @order_attributes[:customer] )
+										# :line_items => @order_attributes[:line_items] )
 				
 	    		# p = LineItem.create!( :quantity => line_item_dialog.item[:quantity],
 	    		# 				      :weight => line_item_dialog.item[:weight],
 	    		# 				      :product => line_item_dialog.item[:product] )
-
-	    		#Order.new( :customer_id => @order[:customer])
 
 	    		# @line_items << p
 	    		# @line_items_table.add( p )

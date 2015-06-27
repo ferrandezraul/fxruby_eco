@@ -14,8 +14,8 @@ class OrdersView < FXPacker
 		# Show dialog for entering data
 		order_dialog = OrderDialog.new( self )
 		if order_dialog.execute != 0
-		    date = order_dialog.order[:date].value
-		    customer_name = order_dialog.order[:customer].value
+		    date = order_dialog.order[:date]
+		    customer_name = order_dialog.order[:customer]
 		    
 		    # customer = Order.create!( :name => name,
       #                                 :address => address,

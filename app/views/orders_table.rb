@@ -3,10 +3,11 @@ include Fox
 class OrdersTable < FXTable
 
   COLUMN_ID = 0
-  COLUMN_CUSTOMER = 1
-  COLUMN_ITEMS = 2
-  COLUMN_PRICE = 3
-  NUM_COLUMNS = 4
+  COLUMN_DATE = 1
+  COLUMN_CUSTOMER = 2
+  COLUMN_ITEMS = 3
+  COLUMN_PRICE = 4
+  NUM_COLUMNS = 5
   
   def initialize(parent, orders)
     super(parent, :opts => LAYOUT_FILL|TABLE_COL_SIZABLE)
@@ -28,11 +29,13 @@ class OrdersTable < FXTable
     rowHeaderMode = LAYOUT_FILL_X
     
     setColumnText(COLUMN_ID, "ID")
+    setColumnText(COLUMN_DATE, "DATE")
     setColumnText(COLUMN_CUSTOMER, "Customer")
     setColumnText(COLUMN_ITEMS, "Line Items")
     setColumnText(COLUMN_PRICE, "Price")
 
     columnHeader.setItemJustify(COLUMN_ID, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_DATE, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_CUSTOMER, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_ITEMS, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_PRICE, FXHeaderItem::CENTER_X)
@@ -46,7 +49,9 @@ class OrdersTable < FXTable
     num_rows = getNumRows
     appendRows( 1 )
 
+    puts order.date.class
     setItemText( num_rows, COLUMN_ID, order.id.to_s )
+    setItemText( num_rows, COLUMN_DATE, order.date.strftime("%d/%m/%Y") )
     setItemText( num_rows, COLUMN_CUSTOMER, order.customer.name )
     #setItemText( num_rows, COLUMN_ITEMS, order.line_items )
     #setItemText( num_rows, COLUMN_PRICE, order.price )
