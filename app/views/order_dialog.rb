@@ -5,6 +5,8 @@ require 'line_item'
 require 'line_items_table'
 require 'line_item_dialog'
 
+require 'ap'
+
 class OrderDialog < FXDialogBox 
 	attr_accessor :order
 	
@@ -103,12 +105,12 @@ class OrderDialog < FXDialogBox
 	    		puts "Weight is #{line_item_dialog.item[:weight]}"
 	    		puts "Customer is #{@order[:customer].name}"
 
-				@order[:customer].build_order( :date => @order[:date] )
-				@order[:customer].save!
+				puts "Customer is #{@order[:customer].class}"
+				ap "Customer is #{@order[:customer].to_json}"
 
-				# @the_order = Order.create( :date => @order[:date] )
-				# @the_order.customer = @order[:customer]
-				# @the_order.save!
+				@the_order = Order.create( :date => @order[:date] )
+				@the_order.customer = @order[:customer]
+				@the_order.save!
 				
 	    		# p = LineItem.create!( :quantity => line_item_dialog.item[:quantity],
 	    		# 				      :weight => line_item_dialog.item[:weight],

@@ -26,7 +26,8 @@ ActiveRecord::Schema.define(version: 1) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.date "date"
+    t.date    "date"
+    t.integer "customer_id"
   end
 
   create_table "products", force: :cascade do |t|

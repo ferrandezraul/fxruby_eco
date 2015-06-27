@@ -20,6 +20,7 @@ class Schema < ActiveRecord::Migration
 
     create_table :orders, force: true do |t|
       t.date :date
+      t.integer :customer_id
     end
 
     create_table :line_items do |t|

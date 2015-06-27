@@ -79,6 +79,12 @@ class EcocityAdmin < FXMainWindow
       export_customers_as_csv
     end
 
+    import_test_data = FXMenuCommand.new(import_menu_pane, "Import test data")
+    import_test_data.connect(SEL_COMMAND) do
+      import_products_file("db/products.csv")
+      import_customers_file("db/customers.csv")
+    end
+
     import_products_command = FXMenuCommand.new(import_menu_pane, "Import Products as CSV")
     import_products_command.connect(SEL_COMMAND) do
       import_products_as_csv
@@ -133,21 +139,25 @@ class EcocityAdmin < FXMainWindow
       dialog = FXFileDialog.new(self, "Open CSV File with products") 
       dialog.patternList = [ "CSV Files (*.csv)" ]
       if dialog.execute != 0
-        Product.destroy_all
-
-        # TODO (handle errors in csv)
-        CSV.foreach(dialog.filename, :headers => true) do |csv_row|
-          #puts "Row is #{csv_row}" #puts "Row is #{csv_row.class}" #puts "Row inspect is #{csv_row.inspect}"
-          #puts "Row inspect is #{csv_row.to_hash}"
-          Product.create!( csv_row.to_hash )
-        end
-
-        # Update UI !!
-        @products_view.reset(Product.all)
-        FXMessageBox.warning( self, MBOX_OK, "#{Product.count} Products Imported", 
-          "#{Product.count} Products Imported")
+        import_products_file(dialog.filename)
       end
     end
+  end
+
+  def import_products_file(file)
+    Product.destroy_all
+
+    # TODO (handle errors in csv)
+    CSV.foreach(file, :headers => true) do |csv_row|
+      #puts "Row is #{csv_row}" #puts "Row is #{csv_row.class}" #puts "Row inspect is #{csv_row.inspect}"
+      #puts "Row inspect is #{csv_row.to_hash}"
+      Product.create!( csv_row.to_hash )
+    end
+
+    # Update UI !!
+    @products_view.reset(Product.all)
+    FXMessageBox.warning( self, MBOX_OK, "#{Product.count} Products Imported", 
+      "#{Product.count} Products Imported")
   end
 
   def import_customers_as_csv
@@ -158,21 +168,25 @@ class EcocityAdmin < FXMainWindow
       dialog = FXFileDialog.new(self, "Open CSV File with customers") 
       dialog.patternList = [ "CSV Files (*.csv)" ]
       if dialog.execute != 0
-        Customer.destroy_all
-
-        # TODO (handle errors in csv)
-        CSV.foreach(dialog.filename, :headers => true) do |csv_row|
-          #puts "Row is #{csv_row}" #puts "Row is #{csv_row.class}" #puts "Row inspect is #{csv_row.inspect}"
-          #puts "Row inspect is #{csv_row.to_hash}"
-          Customer.create!( csv_row.to_hash )
-        end
-
-        # Update UI !!
-      @customers_view.reset(Customer.all)
-      FXMessageBox.warning( self, MBOX_OK, "#{Customer.count} Customer Imported", 
-          "#{Customer.count} Customer Imported")
+        import_customers_file(dialog.filename)
       end
     end
+  end
+
+  def import_customers_file(file)
+    Customer.destroy_all
+
+    # TODO (handle errors in csv)
+    CSV.foreach(file, :headers => true) do |csv_row|
+      #puts "Row is #{csv_row}" #puts "Row is #{csv_row.class}" #puts "Row inspect is #{csv_row.inspect}"
+      #puts "Row inspect is #{csv_row.to_hash}"
+      Customer.create!( csv_row.to_hash )
+    end
+
+    # Update UI !!
+    @customers_view.reset(Customer.all)
+    FXMessageBox.warning( self, MBOX_OK, "#{Customer.count} Customer Imported", 
+        "#{Customer.count} Customer Imported")
   end
 
   def create
