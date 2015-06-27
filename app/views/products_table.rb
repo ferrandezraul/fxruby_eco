@@ -5,9 +5,11 @@ class ProductsTable < FXTable
 
   COLUMN_ID = 0
   COLUMN_NAME = 1
-  COLUMN_PRICE = 2
-  COLUMN_TAXES = 3
-  NUM_COLUMNS = 4
+  COLUMN_RAW_PRICE = 2
+  COLUMN_TAX_PERCENTAGE = 3
+  COLUMN_TAXES = 4
+  COLUMN_TOTAL = 5
+  NUM_COLUMNS = 6
   
   def initialize(parent, products)
     super(parent, :opts => LAYOUT_FILL|TABLE_COL_SIZABLE)
@@ -28,14 +30,18 @@ class ProductsTable < FXTable
     columnHeaderMode = LAYOUT_FILL_X
     rowHeaderMode = LAYOUT_FILL_X
     setColumnText(COLUMN_ID, "ID")
-    setColumnText(COLUMN_NAME, "Name")
-    setColumnText(COLUMN_PRICE, "Price")
-    setColumnText(COLUMN_TAXES, "IVA")
+    setColumnText(COLUMN_NAME, "NAME")
+    setColumnText(COLUMN_RAW_PRICE, "PRICE WITHOUT TAXES")
+    setColumnText(COLUMN_TAX_PERCENTAGE, "IVA %")
+    setColumnText(COLUMN_TAXES, "IVA EUR")
+    setColumnText(COLUMN_TOTAL, "TOTAL")
 
     columnHeader.setItemJustify(COLUMN_ID, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_NAME, FXHeaderItem::CENTER_X)
-    columnHeader.setItemJustify(COLUMN_PRICE, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_RAW_PRICE, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_TAX_PERCENTAGE, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_TAXES, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_TOTAL, FXHeaderItem::CENTER_X)
 
     products.each do |product|
       add_product(product)
@@ -47,8 +53,10 @@ class ProductsTable < FXTable
     appendRows( 1 )
     setItemText( num_rows, COLUMN_ID, product.id.to_s )
     setItemText( num_rows, COLUMN_NAME, product.name )
-    setItemText( num_rows, COLUMN_PRICE, "#{ sprintf('%.2f', product.price ) }" )
+    setItemText( num_rows, COLUMN_RAW_PRICE, "#{ sprintf('%.2f', product.price ) }" )
+    setItemText( num_rows, COLUMN_TAX_PERCENTAGE, "#{ sprintf('%.2f', product.tax_percentage ) }" )
     setItemText( num_rows, COLUMN_TAXES, "#{ sprintf('%.2f', product.taxes ) }" )
+    setItemText( num_rows, COLUMN_TOTAL, "#{ sprintf('%.2f', product.total ) }" )
   end
 
   def reset( products )
@@ -70,7 +78,7 @@ class ProductsTable < FXTable
 
       # Revert id in view
       product = Product.find_by!( :name => getItemText( row, COLUMN_NAME ),
-                                  :price => getItemText( row, COLUMN_PRICE ) )
+                                  :price => getItemText( row, COLUMN_RAW_PRICE ) )
 
       setItemText( row, COLUMN_ID, product.id.to_s )
     when COLUMN_NAME
@@ -78,17 +86,17 @@ class ProductsTable < FXTable
       new_name = getItemText( row, COLUMN_NAME )
 
       Product.update( product_id, :name => new_name)      
-    when COLUMN_PRICE
+    when COLUMN_RAW_PRICE
       product_id = getItemText( row, COLUMN_ID ).to_i
-      new_price = getItemText( row, COLUMN_PRICE ).to_f
-      setItemText( row, COLUMN_PRICE, sprintf('%.2f', new_price.round(2) ) )
+      new_price = getItemText( row, COLUMN_RAW_PRICE ).to_f
+      setItemText( row, COLUMN_RAW_PRICE, sprintf('%.2f', new_price.round(2) ) )
 
       Product.update( product_id, :price => new_price.round(2) ) 
-    when COLUMN_TAXES
+    when COLUMN_TAX_PERCENTAGE
       product_id = getItemText( row, COLUMN_ID ).to_i
-      new_taxes = getItemText( row, COLUMN_TAXES )
+      new_taxes = getItemText( row, COLUMN_TAX_PERCENTAGE )
 
-      Product.update( product_id, :taxes => new_taxes) 
+      Product.update( product_id, :tax_percentage => new_taxes) 
     else
       puts "You gave me #{column} -- I have no idea what to do with that."
     end    

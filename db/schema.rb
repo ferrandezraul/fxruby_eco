@@ -31,6 +31,9 @@ ActiveRecord::Schema.define(version: 1) do
     t.integer  "order_id"
     t.integer  "quantity"
     t.decimal  "weight",     precision: 2, scale: 2
+    t.decimal  "price",      precision: 2, scale: 2
+    t.decimal  "taxes",      precision: 2, scale: 2
+    t.decimal  "total",      precision: 2, scale: 2
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
   end
@@ -48,13 +51,16 @@ ActiveRecord::Schema.define(version: 1) do
 
   create_table "products", force: :cascade do |t|
     t.string   "name"
-    t.decimal  "price",        precision: 2, scale: 2
-    t.decimal  "weight",       precision: 2, scale: 2
-    t.decimal  "taxes",        precision: 2, scale: 2
+    t.string   "price_type"
+    t.decimal  "price",          precision: 2, scale: 2
+    t.decimal  "taxes",          precision: 2, scale: 2
+    t.decimal  "tax_percentage", precision: 2, scale: 2
+    t.decimal  "total",          precision: 2, scale: 2
+    t.decimal  "weight",         precision: 2, scale: 2
     t.integer  "line_item_id"
     t.integer  "order_id"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   add_index "products", ["line_item_id"], name: "index_products_on_line_item_id"

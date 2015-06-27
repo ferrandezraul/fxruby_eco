@@ -80,6 +80,9 @@ class LineItemDialog < FXDialogBox
 	    iva_label = FXLabel.new( product_frame, "IVA:", :opts => LAYOUT_FILL_X )
 	    iva_label.justify = JUSTIFY_RIGHT
 
+	    total_label = FXLabel.new( product_frame, "Total:", :opts => LAYOUT_FILL_X )
+	    total_label.justify = JUSTIFY_RIGHT
+
 	    Product.all.each do | product |
 	    	product_combo_box.appendItem( product.name, product )
 	    end
@@ -88,7 +91,8 @@ class LineItemDialog < FXDialogBox
 	    	index = sender.findItem(text)
 	    	product = sender.getItemData( index )
 	    	price_label.text = "Price: #{product.price} EUR"
-	    	iva_label.text = "IVA: #{product.taxes} %"
+	    	iva_label.text = "IVA: #{product.tax_percentage} %"
+	    	total_label.text = "Total: #{product.total} EUR"
 	    	@item.product = product
 	    end 
 

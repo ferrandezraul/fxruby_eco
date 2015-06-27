@@ -1,9 +1,7 @@
 Continue with LineItemsTable
+A product needs weight or not (handle it in line item dialog to enable or not the weight!!)
 
 Run bundle install to generate ctags and load them in sublime
-
-continue with order dialog. Use combobox with data everywhere (refactor!!)
-Find out how FXDataTarget works with custom data.
 
 Small improvements
 Columns can be manually extended, but extend automatically based on content?

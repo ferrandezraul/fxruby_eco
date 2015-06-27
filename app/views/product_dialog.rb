@@ -79,17 +79,17 @@ class ProductDialog < FXDialogBox
 	    FXLabel.new(form, "IVA:")
 	    tax = FXTextField.new(form, 20, 
 	    	:opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
-	    tax.text = "Press any key and enter IVA ..."
+	    tax.text = "Press any key and enter IVA in %..."
 	    tax.connect(SEL_KEYPRESS) do |sender, sel, data|
 	    	taxes = FXInputDialog.getReal(0, self, 
 	    		"IVA", "IVA", nil, 0, 20)
-	    	@product.taxes = taxes
+	    	@product.tax_percentage = taxes
 	    	sender.text = "#{taxes.to_s} %"
 	    end
 	 end
 
 	 def is_data_filled?
-	 	( @product.name ) && ( @product.price ) && ( @product.taxes )
+	 	( @product.name ) && ( @product.price ) && ( @product.tax_percentage )
 	 end
 
 	 def is_name_valid?

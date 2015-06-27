@@ -1,4 +1,4 @@
-id,name,price,weight,taxes
-1,Pigat,4,0,4
-10,Segol,5,0,4
-11,Soca,3.5,0,4
+id,name,price,price_type,tax_percentage
+1,Pigat,4,por_unidad,4
+10,Segol,5,por_unidad,4
+11,Soca,3.5,por_unidad,4
