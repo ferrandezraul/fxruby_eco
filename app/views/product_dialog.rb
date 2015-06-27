@@ -4,17 +4,8 @@ class ProductDialog < FXDialogBox
 	def initialize(owner)
 		super(owner, "New Product", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE, 0, 0, 500) 
 
-		@product = {
-	      :name => FXDataTarget.new,
-	      :price => FXDataTarget.new,
-	      :taxes => FXDataTarget.new
-	    }
-
-	    # Initialize FXDataTarget
-	    # Needed in order to catch changes from GUI
-	    @product[:name].value = String.new
-	    @product[:price].value = String.new
-	    @product[:taxes].value = String.new
+		# Create but not in database
+		@product = Product.new
 
 	    construct_product_page
 		add_terminating_buttons
@@ -57,6 +48,8 @@ class ProductDialog < FXDialogBox
 			 		"There is already a product with this name",
 			 		"There is already a product with this name" )
 			 else
+			 	# Save in database
+			 	@product.save!
 		     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
 		     end
 		end
@@ -66,45 +59,40 @@ class ProductDialog < FXDialogBox
 	    form = FXMatrix.new( self, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
 	    
 	    FXLabel.new( form, "Name:")
-	    name = FXTextField.new(form, 20, :target => @product[:name], :selector => FXDataTarget::ID_VALUE,
-	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    name = FXTextField.new(form, 20,
+	        :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    name.connect( SEL_COMMAND ) do |sender, sel, text|
+	    	@product.name = text
+	    end
 
 	    FXLabel.new(form, "Price:")
 	    price = FXTextField.new(form, 20, 
-	    	:target => @product[:price], 
-	    	:selector => FXDataTarget::ID_VALUE, 
 	    	:opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
 	    price.text = "Press any key and enter price ..."
-
 	    price.connect(SEL_KEYPRESS) do |sender, sel, data|
 	    	precio = FXInputDialog.getReal(0, self, 
 	    		"Price", "Price", nil, 0, 1000)
-	    	@product[:price].value = precio.to_s
+	    	@product.price = precio
 	    	sender.text = "#{precio.to_s} EUR"
 	    end
 
 	    FXLabel.new(form, "IVA:")
 	    tax = FXTextField.new(form, 20, 
-	    	:target => @product[:taxes], 
-	    	:selector => FXDataTarget::ID_VALUE, 
 	    	:opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
 	    tax.text = "Press any key and enter IVA ..."
-
 	    tax.connect(SEL_KEYPRESS) do |sender, sel, data|
 	    	taxes = FXInputDialog.getReal(0, self, 
 	    		"IVA", "IVA", nil, 0, 20)
-	    	@product[:taxes].value = taxes.to_s
+	    	@product.taxes = taxes
 	    	sender.text = "#{taxes.to_s} %"
 	    end
 	 end
 
 	 def is_data_filled?
-	 	( @product[:name].value.length > 0 ) \
-	 	&& ( @product[:price].value.length > 0 ) \
-	 	&& ( @product[:taxes].value.length > 0 )
+	 	( @product.name ) && ( @product.price ) && ( @product.taxes )
 	 end
 
 	 def is_name_valid?
-	 	!Product.exists?( :name => @product[:name].value )
+	 	!Product.exists?( :name => @product.name )
 	 end
 end

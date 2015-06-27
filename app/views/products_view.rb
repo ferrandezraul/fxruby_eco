@@ -21,11 +21,7 @@ class ProductsView < FXPacker
   def on_add_product( sender, sel, data )
   	product_dialog = ProductDialog.new( self )
 	  if product_dialog.execute != 0
-	    product = Product.create!( :name => product_dialog.product[:name].value,
-                                 :price => product_dialog.product[:price].value,
-                                 :taxes => product_dialog.product[:taxes].value )
-
-	    @table.add_product( product )
+	    @table.add_product( product_dialog.product )
     end
   end
 
