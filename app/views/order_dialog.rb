@@ -47,12 +47,8 @@ class OrderDialog < FXDialogBox
 		# from this FXDialogBox. Note that the cancel button is automatically tied
 		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
-			if @order.customer && @order.date
-		     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
-		     else
-		     	FXMessageBox.warning( self, MBOX_OK, "No valid customer or date", 
-                "No valid customer or date}")
-		     end
+			order.save!
+	     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
 		end
 	end
 
@@ -123,13 +119,15 @@ class OrderDialog < FXDialogBox
 	end
 
 	def is_data_filled?
-	 	# TODO
-	 	any_line_item?
+	 	if @order.customer && @order.date && any_line_item?
+	 		true
+	 	else
+	 		false
+	 	end
 	end
 
 	def any_line_item?
-		# TODO
-		true
+		@order.line_items.size() > 0
 	end
 
 end
