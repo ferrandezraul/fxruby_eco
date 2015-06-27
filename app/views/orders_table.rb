@@ -49,7 +49,6 @@ class OrdersTable < FXTable
     num_rows = getNumRows
     appendRows( 1 )
 
-    puts order.date.class
     setItemText( num_rows, COLUMN_ID, order.id.to_s )
     setItemText( num_rows, COLUMN_DATE, order.date.strftime("%d/%m/%Y") )
     setItemText( num_rows, COLUMN_CUSTOMER, order.customer.name )
