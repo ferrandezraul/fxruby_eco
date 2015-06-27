@@ -7,11 +7,7 @@ class LineItemDialog < FXDialogBox
 	def initialize(owner)
 		super(owner, "New Line Item", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
-		@item = {
-	      :quantity => 0,
-	      :weight => 0,
-	      :product => nil
-	    }
+		@item = LineItem.new
 
 		construct_page
 		add_terminating_buttons
@@ -40,7 +36,8 @@ class LineItemDialog < FXDialogBox
 		# from this FXDialogBox. Note that the cancel button is automatically tied
 		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
-		     self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+			@item.save!
+		    self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
 		end
 	end
 
@@ -58,7 +55,7 @@ class LineItemDialog < FXDialogBox
 	    quantity.connect(SEL_KEYPRESS) do |sender, sel, data|
 	    	cantidad = FXInputDialog.getInteger(0, self, 
 	    		"Quantity", "Quantity", nil, 0, 1000)
-	    	@item[:quantity] = cantidad
+	    	@item.quantity = cantidad
 	    	sender.text = "#{cantidad.to_s}"
 	    end
 
@@ -69,7 +66,7 @@ class LineItemDialog < FXDialogBox
 	    weight.connect(SEL_KEYPRESS) do |sender, sel, data|
 	    	peso = FXInputDialog.getReal(0, self, 
 	    		"Weight", "Weight", nil, 0, 1000)
-	    	@item[:weight] = peso
+	    	@item.weight = peso
 	    	sender.text = "#{peso.to_s} Kg"
 	    end
 
@@ -92,7 +89,7 @@ class LineItemDialog < FXDialogBox
 	    	product = sender.getItemData( index )
 	    	price_label.text = "Price: #{product.price} EUR"
 	    	iva_label.text = "IVA: #{product.taxes} %"
-	    	@item[:product] = product
+	    	@item.product = product
 	    end 
 
 	    # This needs to be after the connection above
@@ -103,8 +100,6 @@ class LineItemDialog < FXDialogBox
 	end
 
 	def is_data_filled?
-		@item[:quantity] > 0 \
-		&& @item[:weight] > 0 \
-		&& @item[:product]
+		@item.quantity && @item.weight && @item.product
 	end
 end

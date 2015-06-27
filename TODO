@@ -1,9 +1,4 @@
-all dialogs should return valid objects as in product_dialog:
-use activerecord save! when exiting dialog succesfully
-review
-	customers_dialog
-	order_dialog
-	line_items_dialog
+Continue with LineItemsTable
 
 Run bundle install to generate ctags and load them in sublime
 

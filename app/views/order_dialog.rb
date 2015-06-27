@@ -13,12 +13,7 @@ class OrderDialog < FXDialogBox
 	def initialize(owner)
 		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
-		@order_attributes = {
-		  :date => Time.now,
-	      :customer => nil,
-	      :line_items => Array.new
-	    }
-	    @order = Order.new
+	    @order = Order.new( :date => Time.now )
 
 		construct_page
 		add_terminating_buttons
@@ -67,7 +62,6 @@ class OrderDialog < FXDialogBox
 	    date = FXTextField.new( date_form, 30,
 	      :opts => TEXTFIELD_NORMAL)
 	    date.text = "#{Time.now.strftime("%d/%m/%Y")}"
-	    @order.date = Time.now
 
     	@calendar = FXCalendar.new(date_form)
     	@calendar.connect(SEL_COMMAND) do |calendar, sel, time|
@@ -81,7 +75,6 @@ class OrderDialog < FXDialogBox
 	    
     	FXLabel.new( customer_form, "Customer:" )
 	    customer_combo_box = FXComboBox.new(customer_form, 20, 
-	      :target => @order_attributes[:customer], :selector => FXDataTarget::ID_VALUE,
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X)
 
 	    Customer.all.each do | customer |
@@ -100,16 +93,9 @@ class OrderDialog < FXDialogBox
 	def construct_line_items_form(matrix)
 		add_item_button = FXButton.new( matrix, "Add Line Item", :opts => BUTTON_NORMAL)
 	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
-	    	# TODO create LineItem dialog
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
-
-	    		# Use build or create
-	    		# Create saves the object on database. Build does not till parent is saved.
-	    		@order.line_items.build(  :quantity => line_item_dialog.item[:quantity],
-	    		   				          :weight => line_item_dialog.item[:weight],
-	    		   				          :product => line_item_dialog.item[:product] )
-
+	    		@order.line_items << line_item_dialog.item
 	    		@line_items_table.reset( @order.line_items )
 	    	end	    	
 	    end
@@ -119,15 +105,7 @@ class OrderDialog < FXDialogBox
 	end
 
 	def is_data_filled?
-	 	if @order.customer && @order.date && any_line_item?
-	 		true
-	 	else
-	 		false
-	 	end
-	end
-
-	def any_line_item?
-		@order.line_items.size() > 0
+	 	@order.customer && @order.date && @order.line_items.any?
 	end
 
 end
