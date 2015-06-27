@@ -37,7 +37,7 @@ class LineItemsTable < FXTable
     end
   end
 
-  def add_line_item( line_items )
+  def add_line_item( line_item )
     num_rows = getNumRows
     appendRows( 1 )
     setItemText( num_rows, COLUMN_ID, line_item.id.to_s )

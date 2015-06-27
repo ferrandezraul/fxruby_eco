@@ -47,7 +47,12 @@ class OrderDialog < FXDialogBox
 		# from this FXDialogBox. Note that the cancel button is automatically tied
 		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
-		     self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+			if @order.customer && @order.date
+		     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+		     else
+		     	FXMessageBox.warning( self, MBOX_OK, "No valid customer or date", 
+                "No valid customer or date}")
+		     end
 		end
 	end
 
@@ -102,13 +107,14 @@ class OrderDialog < FXDialogBox
 	    	# TODO create LineItem dialog
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
-	    		# p = LineItem.create!( :quantity => line_item_dialog.item[:quantity],
-	    		# 				      :weight => line_item_dialog.item[:weight],
-	    		# 				      :product => line_item_dialog.item[:product] )
 
-	    		# @line_items << p
-	    		# @line_items_table.add( p )
+	    		# Use build or create
+	    		# Create saves the object on database. Build does not till parent is saved.
+	    		@order.line_items.build(  :quantity => line_item_dialog.item[:quantity],
+	    		   				          :weight => line_item_dialog.item[:weight],
+	    		   				          :product => line_item_dialog.item[:product] )
 
+	    		@line_items_table.reset( @order.line_items )
 	    	end	    	
 	    end
 
