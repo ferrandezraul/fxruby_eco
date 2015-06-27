@@ -4,8 +4,9 @@ class CustomerDialog < FXDialogBox
 	def initialize(owner)
 		super(owner, "New Customer", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE) 
 
-		add_terminating_buttons
+		@customer = Customer.new
 
+		add_terminating_buttons
 		construct_page
 	end
 
@@ -32,66 +33,70 @@ class CustomerDialog < FXDialogBox
 					  :selector => FXDialogBox::ID_CANCEL,
     				  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
 
-		# Disable ok button if there are no values on product attributes
-		# or price is not valid
+		# Disable ok button if there are no valid attributes
 		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
-			sender.enabled = is_data_filled? && is_name_valid?
+			sender.enabled = is_data_filled?
 		end
 
 		# Connect signal button pressed with sending an ID_ACCEPT event 
 		# from this FXDialogBox. Note that the cancel button is automatically tied
 		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
-		     self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+			if is_name_valid?
+				@customer.save!
+		    	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+		    else
+		    	FXMessageBox.warning( self, MBOX_OK, "Invalid customer name",
+                    "There is already a customer with this name." )
+		    end
 		end
 	end
 
 	def construct_page	    
-	    @customer = {
-	      :name => FXDataTarget.new,
-	      :address => FXDataTarget.new,
-	      :nif => FXDataTarget.new,
-	      :type => FXDataTarget.new
-	    }
-
-	    # Initialize FXDataTarget
-	    # Needed in order to catch changes from GUI
-	    @customer[:name].value = String.new
-	    @customer[:address].value = String.new
-	    @customer[:nif].value = String.new
-	    @customer[:type].value = String.new
-
 	    form = FXMatrix.new( self, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
 
 	    FXLabel.new( form, "Name:")
-	    FXTextField.new(form, 20, :target => @customer[:name], :selector => FXDataTarget::ID_VALUE,
+	    name = FXTextField.new(form, 20, 
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    name.connect(SEL_COMMAND) do |sender, sel, data|
+	    	@customer.name = data
+	    end
 
 	    FXLabel.new(form, "Address:")
-	    FXTextField.new(form, 20, :target => @customer[:address], :selector => FXDataTarget::ID_VALUE,
+	    address = FXTextField.new(form, 20, 
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    address.connect(SEL_COMMAND) do |sender, sel, data|
+	    	@customer.address = data
+	    end
 
 	    FXLabel.new(form, "N.I.F.:")
-	    FXTextField.new(form, 20, :target => @customer[:nif], :selector => FXDataTarget::ID_VALUE,
+	    nif = FXTextField.new(form, 20, 
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    nif.connect(SEL_COMMAND) do |sender, sel, data|
+	    	@customer.nif = data
+	    end
 
 	    FXLabel.new(form, "Type:")
-	    combo_box = FXComboBox.new(form, 20, :target => @customer[:type], :selector => FXDataTarget::ID_VALUE,
+	    combo_box = FXComboBox.new(form, 20, 
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
 
 	    combo_box.appendItem( Customer::Type::COOPERATIVA )
 	    combo_box.appendItem( Customer::Type::TIENDA )
 	    combo_box.appendItem( Customer::Type::CLIENTE )
 
+	    combo_box.connect(SEL_COMMAND) do |sender, sel, data|
+	    	@customer.customer_type = data
+	    end
+
 	    combo_box.editable = false
 	    combo_box.setCurrentItem(1, true)
 	 end
 
 	 def is_data_filled?
-	 	( @customer[:name].value.length > 0 ) && ( @customer[:address].value.length > 0 ) && ( @customer[:nif].value.length > 0 ) && ( @customer[:type].value.length > 0 )
+	 	( @customer.name ) && ( @customer.address ) && ( @customer.nif ) && ( @customer.customer_type )
 	 end
 
 	 def is_name_valid?
-	 	!Customer.exists?( :name => @customer[:name].value )
+	 	!Customer.exists?( :name => @customer.name )
 	 end
 end

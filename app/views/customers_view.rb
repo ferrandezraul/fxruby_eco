@@ -14,16 +14,7 @@ class CustomersView < FXPacker
 		# Show dialog for entering data
 		customer_dialog = CustomerDialog.new( self )
 		if customer_dialog.execute != 0
-		    name = customer_dialog.customer[:name].value
-		    address = customer_dialog.customer[:address].value
-		    nif = customer_dialog.customer[:nif].value
-		    tipo = customer_dialog.customer[:type].value
-
-		    customer = Customer.create!( :name => name,
-	                                     :address => address,
-	                                     :nif => nif,
-	                                     :customer_type => tipo )
-
+		    customer = customer_dialog.customer
 		    @table.add_customer( customer )
 	    end
 	end
