@@ -1,5 +1,10 @@
-line items do not sum properly on order view (1+2 soca => 3 soca!!)
-refactor product table. Create button to delete current selected product.
+It might be worth to check examples in gem fxryby/examples (table)
+
+1. line items do not sum properly on order view (1+2 soca => 3 soca!!)
+2. refactor product table. Create button to delete current selected product.
+3. when creating new products, (product_dialog) misses price_type combobox
+4. Add EUR, %, etc to views.
+5. When creating an order and one line item is selected, date and customer should be fixed/disabled
 
 Small improvements
 Columns can be manually extended, but extend automatically based on content?
