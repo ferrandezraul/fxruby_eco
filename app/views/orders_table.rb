@@ -6,11 +6,13 @@ class OrdersTable < FXTable
   COLUMN_DATE = 1
   COLUMN_CUSTOMER = 2
   COLUMN_ITEMS = 3
-  COLUMN_PRICE = 4
-  NUM_COLUMNS = 5
+  COLUMN_RAW_PRICE = 4
+  COLUMN_TAXES = 5
+  COLUMN_TOTAL = 6
+  NUM_COLUMNS = 7
   
   def initialize(parent, orders)
-    super(parent, :opts => LAYOUT_FILL|TABLE_COL_SIZABLE)
+    super(parent, :opts => TABLE_COL_SIZABLE|TABLE_ROW_SIZABLE|LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
     @orders = orders
 
@@ -25,20 +27,24 @@ class OrdersTable < FXTable
   def fill_table(orders)
     setTableSize(0, NUM_COLUMNS)
 
-    columnHeaderMode = LAYOUT_FILL_X
-    rowHeaderMode = LAYOUT_FILL_X
+    columnHeaderMode = LAYOUT_FILL
+    rowHeaderMode = LAYOUT_FILL
     
     setColumnText(COLUMN_ID, "ID")
     setColumnText(COLUMN_DATE, "DATE")
     setColumnText(COLUMN_CUSTOMER, "Customer")
     setColumnText(COLUMN_ITEMS, "Line Items")
-    setColumnText(COLUMN_PRICE, "Price")
+    setColumnText(COLUMN_RAW_PRICE, "Price without taxes")
+    setColumnText(COLUMN_TAXES, "Taxes")
+    setColumnText(COLUMN_TOTAL, "Total")
 
     columnHeader.setItemJustify(COLUMN_ID, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_DATE, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_CUSTOMER, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_ITEMS, FXHeaderItem::CENTER_X)
-    columnHeader.setItemJustify(COLUMN_PRICE, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_RAW_PRICE, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_TAXES, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_TOTAL, FXHeaderItem::CENTER_X)
 
     orders.each do |order|
       add_order(order)
@@ -53,7 +59,9 @@ class OrdersTable < FXTable
     setItemText( num_rows, COLUMN_DATE, order.date.strftime("%d/%m/%Y") )
     setItemText( num_rows, COLUMN_CUSTOMER, order.customer.name )
     setItemText( num_rows, COLUMN_ITEMS, order.items_to_s )
-    #setItemText( num_rows, COLUMN_PRICE, order.price )
+    setItemText( num_rows, COLUMN_RAW_PRICE, "#{order.price} EUR" )
+    setItemText( num_rows, COLUMN_TAXES, "#{order.taxes} EUR" )
+    setItemText( num_rows, COLUMN_TOTAL, "#{order.total} EUR" )
   end
 
   def reset(orders)

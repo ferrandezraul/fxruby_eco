@@ -9,6 +9,7 @@ class LineItem < ActiveRecord::Base
 	before_save :calculate_price
 
 	def calculate_price
+		self.total, self.price, self.taxes = 0, 0, 0
 		if self.product.price_type == Product::PriceType::POR_KILO
 			if (self.weight > 0)
 				self.price = self.quantity * self.weight * self.product.price

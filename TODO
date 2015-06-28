@@ -1,4 +1,4 @@
-CAlculate prices in order (add price without taxes, taxes and total in order table)
+check out how prices are rounded!! 
 
 Continue with LineItemsTable
 A product needs weight or not (handle it in line item dialog to enable or not the weight!!)

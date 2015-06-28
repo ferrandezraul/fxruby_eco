@@ -12,7 +12,7 @@ class ProductsTable < FXTable
   NUM_COLUMNS = 6
   
   def initialize(parent, products)
-    super(parent, :opts => LAYOUT_FILL|TABLE_COL_SIZABLE)
+    super(parent, :opts => TABLE_COL_SIZABLE|TABLE_ROW_SIZABLE|LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
     @products = products
 

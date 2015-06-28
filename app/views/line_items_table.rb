@@ -10,7 +10,7 @@ class LineItemsTable < FXTable
   NUM_COLUMNS = 7
   
   def initialize(parent, line_items)
-    super(parent, :opts => LAYOUT_FILL|TABLE_COL_SIZABLE)
+    super(parent, :opts => TABLE_COL_SIZABLE|TABLE_ROW_SIZABLE|LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
     @line_items = line_items
     fill_table(@line_items)
