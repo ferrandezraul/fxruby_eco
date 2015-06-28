@@ -1,5 +1,8 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 
+Fix bug, multiple line items not displayed in order view
+Handle reject in dialogs --> call dastroy?
+
 It might be worth to check examples in gem fxryby/examples (table)
 Use FXPopup and FXOption instead of combobox?? Do they support custom data?
 See example groupbox.rb
