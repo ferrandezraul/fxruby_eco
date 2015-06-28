@@ -1,4 +1,8 @@
+http://www.rubydoc.info/gems/fxruby/Fox
+
 It might be worth to check examples in gem fxryby/examples (table)
+Use FXPopup and FXOption instead of combobox?? Do they support custom data?
+See example groupbox.rb
 
 1. line items do not sum properly on order view (1+2 soca => 3 soca!!)
 2. refactor product table. Create button to delete current selected product.

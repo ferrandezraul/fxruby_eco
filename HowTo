@@ -1,3 +1,5 @@
+See doc from FXRuby at http://www.rubydoc.info/gems/fxruby/Fox
+
 1. 	Dependencies
 
 	sudo apt-get install libfox-1.6-dev  
