@@ -1,9 +1,5 @@
-line items do not sum properly on order view (1+2 soca => 3 soca!!) 
-
-Continue with LineItemsTable
-A product needs weight or not (handle it in line item dialog to enable or not the weight!!)
-
-Run bundle install to generate ctags and load them in sublime
+line items do not sum properly on order view (1+2 soca => 3 soca!!)
+refactor product table. Create button to delete current selected product.
 
 Small improvements
 Columns can be manually extended, but extend automatically based on content?

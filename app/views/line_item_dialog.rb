@@ -8,6 +8,8 @@ class LineItemDialog < FXDialogBox
 		super(owner, "New Line Item", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
 		@item = LineItem.new
+		@item.quantity = 0
+		@item.weight = 0
 
 		construct_page
 		add_terminating_buttons
@@ -54,7 +56,7 @@ class LineItemDialog < FXDialogBox
 	    quantity.text = "Press any key and enter quantity ..."
 	    quantity.connect(SEL_KEYPRESS) do |sender, sel, data|
 	    	cantidad = FXInputDialog.getInteger(0, self, 
-	    		"Quantity", "Quantity", nil, 0, 1000)
+	    		"Quantity", "Quantity", nil, 1, 1000)
 	    	@item.quantity = cantidad
 	    	sender.text = "#{cantidad.to_s}"
 	    end
@@ -69,9 +71,10 @@ class LineItemDialog < FXDialogBox
 	    	@item.weight = peso
 	    	sender.text = "#{peso.to_s} Kg"
 	    end
+	    weight.enabled = false
 
 	    FXLabel.new( product_frame, "Product:" )
-		product_combo_box = FXComboBox.new(product_frame, 
+		@product_combo_box = FXComboBox.new(product_frame, 
 			20, nil, 0, LAYOUT_FILL_Y, 20, 20 ) 
 
 		price_label = FXLabel.new( product_frame, "Price:", :opts => LAYOUT_FILL_X )
@@ -84,12 +87,17 @@ class LineItemDialog < FXDialogBox
 	    total_label.justify = JUSTIFY_RIGHT
 
 	    Product.all.each do | product |
-	    	product_combo_box.appendItem( product.name, product )
+	    	@product_combo_box.appendItem( product.name, product )
 	    end
 
-	    product_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
+	    @product_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
 	    	index = sender.findItem(text)
 	    	product = sender.getItemData( index )
+	    	if product.price_type == Product::PriceType::POR_KILO
+	    		weight.enabled = true # Enable text field weight
+	    	else
+	    		weight.enabled = false
+	    	end
 	    	price_label.text = "Price: #{product.price} EUR"
 	    	iva_label.text = "IVA: #{product.tax_percentage} %"
 	    	total_label.text = "Total: #{product.total} EUR"
@@ -98,12 +106,20 @@ class LineItemDialog < FXDialogBox
 
 	    # This needs to be after the connection above
 	    # otherwise @item[:product] = nil although current product in combobox is not nil
-	    product_combo_box.setCurrentItem(1, true) if Product.count > 0
-	    product_combo_box.editable = false 
-	    #product_combo_box.numVisible( 5 ) # not working
+	    @product_combo_box.setCurrentItem(1, true) if Product.count > 0
+	    @product_combo_box.editable = false 
+	    #@product_combo_box.numVisible( 5 ) # not working
 	end
 
 	def is_data_filled?
-		@item.quantity && @item.weight && @item.product
+		if @item.product
+			if @item.product.price_type == Product::PriceType::POR_KILO
+				@item.quantity > 0 && @item.weight > 0
+			else
+				@item.quantity > 0
+			end
+		else
+			false
+		end
 	end
 end

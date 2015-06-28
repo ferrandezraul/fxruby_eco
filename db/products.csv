@@ -1,4 +1,5 @@
 id,name,price,price_type,tax_percentage
 1,Pigat,4,por_unidad,4
-10,Segol,5,por_unidad,4
-11,Soca,3.5,por_unidad,4
+2,Segol,5,por_unidad,4
+3,Soca,3.5,por_unidad,4
+4,Carne de cerdo,10.25,por_kilo,10
