@@ -17,6 +17,7 @@ class Product < ActiveRecord::Base
 	end
 
 	def calculate
+		self.taxes, self.total = BigDecimal.new("0.0"), BigDecimal.new("0.0")
 		self.taxes = ( self.price * self.tax_percentage / 100 )
 		self.total = self.price + self.taxes
 	end

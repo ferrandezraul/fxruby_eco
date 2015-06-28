@@ -59,9 +59,9 @@ class OrdersTable < FXTable
     setItemText( num_rows, COLUMN_DATE, order.date.strftime("%d/%m/%Y") )
     setItemText( num_rows, COLUMN_CUSTOMER, order.customer.name )
     setItemText( num_rows, COLUMN_ITEMS, order.items_to_s )
-    setItemText( num_rows, COLUMN_RAW_PRICE, "#{order.price} EUR" )
-    setItemText( num_rows, COLUMN_TAXES, "#{order.taxes} EUR" )
-    setItemText( num_rows, COLUMN_TOTAL, "#{order.total} EUR" )
+    setItemText( num_rows, COLUMN_RAW_PRICE, "#{sprintf('%.2f', order.price )} EUR" )
+    setItemText( num_rows, COLUMN_TAXES, "#{sprintf('%.2f', order.taxes )} EUR" )
+    setItemText( num_rows, COLUMN_TOTAL, "#{sprintf('%.2f', order.total )} EUR" )
   end
 
   def reset(orders)

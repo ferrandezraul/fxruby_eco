@@ -1,3 +1,5 @@
+require 'bigdecimal'
+
 class Order < ActiveRecord::Base
 	belongs_to :customer
   	has_many :line_items
@@ -6,7 +8,7 @@ class Order < ActiveRecord::Base
   	before_save :calculate_prices
 
   	def calculate_prices
-  		self.price, self.taxes, self.total = 0, 0, 0
+  		self.price, self.taxes, self.total = BigDecimal.new("0.0"), BigDecimal.new("0.0"), BigDecimal.new("0.0")
   		if self.line_items
 			if (self.line_items.length > 0)
 				self.line_items.each do | item |

@@ -30,10 +30,10 @@ ActiveRecord::Schema.define(version: 1) do
   create_table "line_items", force: :cascade do |t|
     t.integer  "order_id"
     t.integer  "quantity"
-    t.decimal  "weight",     precision: 2, scale: 2
-    t.decimal  "price",      precision: 2, scale: 2
-    t.decimal  "taxes",      precision: 2, scale: 2
-    t.decimal  "total",      precision: 2, scale: 2
+    t.decimal  "weight",     precision: 8, scale: 3
+    t.decimal  "price",      precision: 8, scale: 2
+    t.decimal  "taxes",      precision: 8, scale: 2
+    t.decimal  "total",      precision: 8, scale: 2
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
   end
@@ -43,9 +43,9 @@ ActiveRecord::Schema.define(version: 1) do
   create_table "orders", force: :cascade do |t|
     t.date     "date"
     t.integer  "customer_id"
-    t.decimal  "price",       precision: 2, scale: 2
-    t.decimal  "taxes",       precision: 2, scale: 2
-    t.decimal  "total",       precision: 2, scale: 2
+    t.decimal  "price",       precision: 8, scale: 2
+    t.decimal  "taxes",       precision: 8, scale: 2
+    t.decimal  "total",       precision: 8, scale: 2
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
   end
@@ -55,11 +55,11 @@ ActiveRecord::Schema.define(version: 1) do
   create_table "products", force: :cascade do |t|
     t.string   "name"
     t.string   "price_type"
-    t.decimal  "price",          precision: 2, scale: 2
-    t.decimal  "taxes",          precision: 2, scale: 2
-    t.decimal  "tax_percentage", precision: 2, scale: 2
-    t.decimal  "total",          precision: 2, scale: 2
-    t.decimal  "weight",         precision: 2, scale: 2
+    t.decimal  "price",          precision: 8, scale: 2
+    t.decimal  "taxes",          precision: 8, scale: 2
+    t.decimal  "tax_percentage", precision: 4, scale: 2
+    t.decimal  "total",          precision: 8, scale: 2
+    t.decimal  "weight",         precision: 8, scale: 3
     t.integer  "line_item_id"
     t.integer  "order_id"
     t.datetime "created_at",                             null: false
