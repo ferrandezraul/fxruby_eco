@@ -3,8 +3,11 @@ class LineItemsTable < FXTable
   COLUMN_QUANTITY = 0
   COLUMN_WEIGHT = 1
   COLUMN_NAME = 2
-  COLUMN_PRICE = 3
-  NUM_COLUMNS = 4
+  COLUMN_RAW_PRICE = 3
+  COLUMN_TAX_PERCENTAGE = 4
+  COLUMN_TAXES = 5
+  COLUMN_TOTAL = 6
+  NUM_COLUMNS = 7
   
   def initialize(parent, line_items)
     super(parent, :opts => LAYOUT_FILL|TABLE_COL_SIZABLE)
@@ -22,14 +25,20 @@ class LineItemsTable < FXTable
     setColumnText(COLUMN_QUANTITY, "Quantity")
     setColumnText(COLUMN_WEIGHT, "Weight")
     setColumnText(COLUMN_NAME, "Item")
-    setColumnText(COLUMN_PRICE, "Price")
+    setColumnText(COLUMN_RAW_PRICE, "Price")
+    setColumnText(COLUMN_TAX_PERCENTAGE, "IVA %")
+    setColumnText(COLUMN_TAXES, "IVA EUR" )
+    setColumnText(COLUMN_TOTAL, "Total" )
 
     rowHeaderMode = LAYOUT_FILL_X
 
     columnHeader.setItemJustify(COLUMN_QUANTITY, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_WEIGHT, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_NAME, FXHeaderItem::CENTER_X)
-    columnHeader.setItemJustify(COLUMN_PRICE, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_RAW_PRICE, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_TAX_PERCENTAGE, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_TAXES, FXHeaderItem::CENTER_X)
+    columnHeader.setItemJustify(COLUMN_TOTAL, FXHeaderItem::CENTER_X)
 
     line_items.each do |line_item|
       add_line_item(line_item)
@@ -42,7 +51,10 @@ class LineItemsTable < FXTable
     setItemText( num_rows, COLUMN_QUANTITY, line_item.quantity.to_s )
     setItemText( num_rows, COLUMN_WEIGHT, line_item.weight.to_s )
     setItemText( num_rows, COLUMN_NAME, line_item.product.name )
-    setItemText( num_rows, COLUMN_PRICE, sprintf('%.2f', line_item.price ) )
+    setItemText( num_rows, COLUMN_RAW_PRICE, "#{sprintf('%.2f', line_item.price )} EUR" )
+    setItemText( num_rows, COLUMN_TAX_PERCENTAGE, "#{sprintf('%.2f', line_item.product.tax_percentage )} %" )
+    setItemText( num_rows, COLUMN_TAXES, "#{sprintf('%.2f', line_item.taxes )} EUR" )
+    setItemText( num_rows, COLUMN_TOTAL, "#{sprintf('%.2f', line_item.total )} EUR" )
   end
 
   def reset( line_items )

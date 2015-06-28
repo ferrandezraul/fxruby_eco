@@ -43,8 +43,11 @@ ActiveRecord::Schema.define(version: 1) do
   create_table "orders", force: :cascade do |t|
     t.date     "date"
     t.integer  "customer_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.decimal  "price",       precision: 2, scale: 2
+    t.decimal  "taxes",       precision: 2, scale: 2
+    t.decimal  "total",       precision: 2, scale: 2
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "orders", ["customer_id"], name: "index_orders_on_customer_id"

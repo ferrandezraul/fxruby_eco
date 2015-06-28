@@ -30,6 +30,9 @@ class Schema < ActiveRecord::Migration
     create_table :orders, force: true do |t|
       t.date :date
       t.belongs_to :customer, index: true
+      t.decimal :price, precision: 2, scale: 2 # without taxes
+      t.decimal :taxes, precision: 2, scale: 2 # taxes
+      t.decimal :total, precision: 2, scale: 2 # with taxes
       t.timestamps null: false
     end
 
