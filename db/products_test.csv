@@ -1,5 +1,5 @@
 id,name,price_type,price,taxes,tax_percentage,total,weight,line_item_id,order_id,created_at,updated_at
-1,Pigat,por_unidad,4.0,0.16,4.0,4.16,,,,2015-06-29 16:23:06 UTC,2015-06-29 16:23:06 UTC
-2,Segol,por_unidad,5.0,0.2,4.0,5.2,,,,2015-06-29 16:23:06 UTC,2015-06-29 16:23:06 UTC
-3,Soca,por_unidad,3.5,0.14,4.0,3.64,,,,2015-06-29 16:23:06 UTC,2015-06-29 16:23:06 UTC
-4,Carne de cerdo,por_kilo,10.25,1.025,10.0,11.275,,,,2015-06-29 16:23:06 UTC,2015-06-29 16:23:06 UTC
+1,Pigat,por_unidad,4.0,0.16,4.0,4.16,,,,2015-06-29 16:24:06 UTC,2015-06-29 16:24:06 UTC
+2,Segol,por_unidad,5.0,0.2,4.0,5.2,,,,2015-06-29 16:24:06 UTC,2015-06-29 16:24:06 UTC
+3,Soca,por_unidad,3.5,0.14,4.0,3.64,,,,2015-06-29 16:24:06 UTC,2015-06-29 16:24:06 UTC
+4,Carne de cerdo,por_kilo,10.25,1.025,10.0,11.275,,,,2015-06-29 16:24:06 UTC,2015-06-29 16:24:06 UTC

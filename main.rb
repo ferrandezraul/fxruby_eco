@@ -83,7 +83,9 @@ class EcocityAdmin < FXMainWindow
     import_test_data = FXMenuCommand.new(import_menu_pane, "Import test data")
     import_test_data.connect(SEL_COMMAND) do
       ProductsCSVBuilder::create_from_csv("db/products.csv")
-      CustomerCSVBuilder::create_from_csv("db/customers.csv")
+      CustomersCSVBuilder::create_from_csv("db/customers.csv")
+      @products_view.reset(Product.all)
+      @customers_view.reset(Customer.all)
     end
 
     import_products_command = FXMenuCommand.new(import_menu_pane, "Import Products as CSV")
@@ -114,7 +116,7 @@ class EcocityAdmin < FXMainWindow
     dialog = FXFileDialog.new(self, "Export CSV File with products") 
     dialog.patternList = [ "CSV Files (*.csv)" ]
     if dialog.execute != 0
-      CustomerCSVBuilder::export_csv(dialog.filename)
+      CustomersCSVBuilder::export_csv(dialog.filename)
       FXMessageBox.warning( self, MBOX_OK, "Customers Exported", 
         "Customers exported in #{dialog.filename}")
     end
@@ -145,7 +147,7 @@ class EcocityAdmin < FXMainWindow
       dialog = FXFileDialog.new(self, "Open CSV File with customers") 
       dialog.patternList = [ "CSV Files (*.csv)" ]
       if dialog.execute != 0
-        CustomerCSVBuilder::create_from_csv(file)
+        CustomersCSVBuilder::create_from_csv(dialog.filename)
 
         # Update UI !!
         @customers_view.reset(Customer.all)

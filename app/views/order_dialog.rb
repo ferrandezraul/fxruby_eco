@@ -13,7 +13,7 @@ class OrderDialog < FXDialogBox
 	def initialize(owner)
 		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
-	    @order = Order.new( :date => Time.now )
+	    @order = Order.create( :date => Time.now )
 
 		construct_page
 		add_terminating_buttons
@@ -28,7 +28,7 @@ class OrderDialog < FXDialogBox
 					  :selector => FXDialogBox::ID_ACCEPT,
 					  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
 
-		FXButton.new( buttons, "Cancel",
+		cancel_button = FXButton.new( buttons, "Cancel",
 					  :target => self, 
 					  :selector => FXDialogBox::ID_CANCEL,
     				  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
@@ -44,6 +44,11 @@ class OrderDialog < FXDialogBox
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
 			@order.save!
 	     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+		end
+
+		cancel_button.connect(SEL_COMMAND) do |sender, sel, data|
+			@order.destroy
+	     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_CANCEL), nil)
 		end
 	end
 
@@ -84,6 +89,7 @@ class OrderDialog < FXDialogBox
 	    customer_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
 	    	index = sender.findItem(text)
 	    	@order.customer = sender.getItemData( index )
+	    	@order.save!
 	    end
 
 	    customer_combo_box.editable = false 
@@ -95,12 +101,12 @@ class OrderDialog < FXDialogBox
 	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
-	    		@order.line_items << line_item_dialog.item
+	    		@order.line_items.create( line_item_dialog.item )
 	    		@line_items_table.reset( @order.line_items )
 	    	end	    	
 	    end
 
-	    @line_items_table = LineItemsTable.new( matrix, Array.new )	
+	    @line_items_table = LineItemsTable.new( matrix, @order.line_items )	
 	end
 
 	def is_data_filled?

@@ -49,16 +49,25 @@ class OrdersTable < FXTable
     orders.each do |order|
       add_order(order)
     end
-  end
+  end 
 
   def add_order(order)
     num_rows = getNumRows
     appendRows( 1 )
 
+    line_items_text = String.new
+    order.line_items.each do |line_item|
+      if line_item.product.nil?
+        puts "we have a problem"
+      else
+        line_items_text << "#{line_item.quantity} x #{line_item.product.name}\n"
+      end
+    end
+
     setItemText( num_rows, COLUMN_ID, order.id.to_s )
     setItemText( num_rows, COLUMN_DATE, order.date.strftime("%d/%m/%Y") )
     setItemText( num_rows, COLUMN_CUSTOMER, order.customer.name )
-    setItemText( num_rows, COLUMN_ITEMS, order.items_to_s )
+    setItemText( num_rows, COLUMN_ITEMS, line_items_text )
     setItemText( num_rows, COLUMN_RAW_PRICE, "#{sprintf('%.2f', order.price )} EUR" )
     setItemText( num_rows, COLUMN_TAXES, "#{sprintf('%.2f', order.taxes )} EUR" )
     setItemText( num_rows, COLUMN_TOTAL, "#{sprintf('%.2f', order.total )} EUR" )

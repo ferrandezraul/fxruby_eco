@@ -28,8 +28,7 @@ describe LineItem do
  	it "is created and added to an order" do
 	  	@order.line_items.create( :quantity => 1,
 		  						  :weight => 0,
-		  						  :product => @product,
-		  						  :order => @order )
+		  						  :product => @product )
 
 	    expect( LineItem.count ).to eq(1)
 	    expect( Product.count ).to eq(1)
@@ -48,8 +47,7 @@ describe LineItem do
 
 	    line_item2 = @order.line_items.create( :quantity => 2,
 		  							:weight => 0,
-		  							:product => @product,
-		  							:order => @order )
+		  							:product => @product )
 
 	    expect( @order.line_items.count ).to eq(2)
 

@@ -4,6 +4,7 @@ Create order spec
 See spree specs??
 
 Fix bug, multiple line items not displayed in order view
+Seems to be related with type of products added
 Handle reject in dialogs --> call dastroy?
 
 It might be worth to check examples in gem fxryby/examples (table)
