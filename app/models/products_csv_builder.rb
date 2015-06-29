@@ -1,7 +1,8 @@
 require 'csv'
 
-class ProductsBuilder
+class ProductsCSVBuilder
 
+	# Creates products in database from a csv file
 	def self.create_from_csv( file )
 		raise Exception.new("#{file} does npot exist!!") if !File.exist?(file)
 		
@@ -15,6 +16,7 @@ class ProductsBuilder
 	    end
 	end
 
+	# Returns an array of products from a csv file without modifying database
 	def self.build_from_csv( file )
 		raise Exception.new("#{file} does npot exist!!") if !File.exist?(file)
 		
@@ -25,6 +27,20 @@ class ProductsBuilder
 	    end
 
 	    products
+	end
+
+	# Creates a csv file with product attributes from database
+	def self.export_csv( file )
+		CSV.open(file, "wb") do |csv|
+
+		# Add headers
+        csv << Product.attribute_names
+
+        # Add product attributes
+        Product.all.each do |product|
+          csv << product.attributes.values
+        end
+      end
 	end
 
 end

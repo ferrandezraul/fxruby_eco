@@ -19,7 +19,7 @@ require 'logger'
 require 'csv'
 
 require 'product' 
-require 'products_builder'
+require 'products_csv_builder'
 require 'customer'
 require 'order'
 require 'products_view'
@@ -104,13 +104,7 @@ class EcocityAdmin < FXMainWindow
     dialog = FXFileDialog.new(self, "Export CSV File with products") 
     dialog.patternList = [ "CSV Files (*.csv)" ]
     if dialog.execute != 0
-      CSV.open(dialog.filename, "wb") do |csv|
-        csv << Product.attribute_names
-        Product.all.each do |product|
-          csv << product.attributes.values
-        end
-      end
-
+      ProductsCSVBuilder::export_csv(dialog.filename)
       FXMessageBox.warning( self, MBOX_OK, "Products Exported", 
         "Products exported in #{dialog.filename}")
     end
@@ -146,7 +140,7 @@ class EcocityAdmin < FXMainWindow
   end
 
   def import_products_file(file)
-    ProductsBuilder::create_from_csv(file)
+    ProductsCSVBuilder::create_from_csv(file)
 
     # Update UI !!
     @products_view.reset(Product.all)

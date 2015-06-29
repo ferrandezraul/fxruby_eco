@@ -1,15 +1,15 @@
 require "spec_helper"
 
 require 'product'
-require "products_builder"
+require "products_csv_builder"
 
-describe ProductsBuilder do
+describe ProductsCSVBuilder do
 	before do
 		# Do something before any single test
 	end
 
 	it "creates an array with products without creating them on database" do
-		products = ProductsBuilder::build_from_csv("db/products.csv")
+		products = ProductsCSVBuilder::build_from_csv("db/products.csv")
 
 		expect(Product.count).to eq(0)
 		expect(products.count).to eq(4)
@@ -18,7 +18,7 @@ describe ProductsBuilder do
  	it "creates products in the database from a csv file" do
 	  	expect( Product.count ).to eq(0)
 
-	  	ProductsBuilder::create_from_csv( "db/products.csv" )
+	  	ProductsCSVBuilder::create_from_csv( "db/products.csv" )
 
 	    expect( Product.count ).to eq(4)
 	end
@@ -31,9 +31,18 @@ describe ProductsBuilder do
 
 	  	expect( Product.count ).to eq(5)
 
-	  	ProductsBuilder::create_from_csv( "db/products.csv" )
+	  	ProductsCSVBuilder::create_from_csv( "db/products.csv" )
 
 	    expect( Product.count ).to eq(4)
+	end
+
+	it "exports products to a csv file" do
+	  	expect( Product.count ).to eq(4)
+
+	  	ProductsCSVBuilder::export_csv( "db/products_test.csv" )
+
+	    expect( File.exist?("db/products_test.csv") ).to eq(true)
+	    expect( CSV.read("db/products_test.csv").count ).to eq(5) # 5 lines in csv (headers counted)
 	end
 
 end
