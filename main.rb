@@ -19,6 +19,7 @@ require 'logger'
 require 'csv'
 
 require 'product' 
+require 'products_builder'
 require 'customer'
 require 'order'
 require 'products_view'
@@ -145,14 +146,7 @@ class EcocityAdmin < FXMainWindow
   end
 
   def import_products_file(file)
-    Product.destroy_all
-
-    # TODO (handle errors in csv)
-    CSV.foreach(file, :headers => true) do |csv_row|
-      #puts "Row is #{csv_row}" #puts "Row is #{csv_row.class}" #puts "Row inspect is #{csv_row.inspect}"
-      #puts "Row inspect is #{csv_row.to_hash}"
-      Product.create!( csv_row.to_hash )
-    end
+    ProductsBuilder::create_from_csv(file)
 
     # Update UI !!
     @products_view.reset(Product.all)
