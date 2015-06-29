@@ -16,6 +16,9 @@ See doc from FXRuby at http://www.rubydoc.info/gems/fxruby/Fox
 	Run rake db:migrate to prepare database.
 	Run ruby main.rb
 
+3.  Run test
+	rake (Runs all rspec test using test database specified in your db/config.yml)
+
 3.	Ctags for browsing your files within your editor.
 
 	With gem 'guard-ctags-bundler' added to your Gemfile, when running bundle install
