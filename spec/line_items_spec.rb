@@ -38,9 +38,11 @@ describe LineItem do
 
 	    $stderr.puts "Order items are"
 	    $stderr.puts @order.line_items.class
-	    
+
+	    # This is not executed!!
+	    # can not call each on an association!!
 	    @order.line_items.each do |line_item|
-	    	expect( line_item.product.name ).to eq("Product test") # This is not executed!!
+	    	expect( line_item.product.name ).to eq("Product test") 
 	    end
 	    
 	    @product2 = Product.create!( :name => "Product2 test", 
