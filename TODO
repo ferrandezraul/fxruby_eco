@@ -1,8 +1,9 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 
-Continue with test
-	create customers_csv_builder.rb and its test
-	
+Fix line_item spec (you can not call each in an Association)
+Create order spec
+See spree specs??
+
 Fix bug, multiple line items not displayed in order view
 Handle reject in dialogs --> call dastroy?
 

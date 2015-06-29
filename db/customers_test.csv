@@ -1,5 +1,5 @@
 id,name,address,nif,customer_type,order_id,line_item_id,created_at,updated_at
-1,Raul,Skalitzer Str,77xxx678-A,Cooperativa,,,2015-06-29 14:45:27 UTC,2015-06-29 14:45:27 UTC
-3,Carmen ,Riudaura,47535345,Tienda,,,2015-06-29 14:45:27 UTC,2015-06-29 14:45:27 UTC
-4,El espigol ,Vilanova,654722,Tienda,,,2015-06-29 14:45:27 UTC,2015-06-29 14:45:27 UTC
-5,Restaurante Can Soler ,En algun lugar de la Mancha,08976543,Cliente,,,2015-06-29 14:45:27 UTC,2015-06-29 14:45:27 UTC
+1,Raul,Skalitzer Str,77xxx678-A,Cooperativa,,,2015-06-29 15:52:45 UTC,2015-06-29 15:52:45 UTC
+3,Carmen ,Riudaura,47535345,Tienda,,,2015-06-29 15:52:45 UTC,2015-06-29 15:52:45 UTC
+4,El espigol ,Vilanova,654722,Tienda,,,2015-06-29 15:52:45 UTC,2015-06-29 15:52:45 UTC
+5,Restaurante Can Soler ,En algun lugar de la Mancha,08976543,Cliente,,,2015-06-29 15:52:45 UTC,2015-06-29 15:52:45 UTC
