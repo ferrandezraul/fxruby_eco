@@ -21,12 +21,20 @@
 $LOAD_PATH.unshift '.'
 $LOAD_PATH.unshift './app/models/'
 
+require 'rake'
+
 def setup_test_database_connection
     ActiveRecord::Base.logger = Logger.new('test_database.log')
     configuration = YAML::load(IO.read("#{Dir.pwd}/db/config.yml"))
     ActiveRecord::Base.establish_connection(configuration['test'])
     puts "Setting up database ..."
 end 
+
+def drop_and_migrate_test_database
+  puts "Droping test database ..."
+  system("rake db:drop RAILS_ENV=test")
+  system("rake db:migrate RAILS_ENV=test")
+end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -57,6 +65,7 @@ RSpec.configure do |config|
   # rake db:drop RAILS_ENV=test
   # rake db:migrate RAILS_ENV=test
   config.before(:suite) do
+    drop_and_migrate_test_database
     setup_test_database_connection
   end
 

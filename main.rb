@@ -26,7 +26,7 @@ require 'customers_view'
 require 'orders_view'
 
 include Fox
-
+    
 class EcocityAdmin < FXMainWindow
 
   def initialize(app)
