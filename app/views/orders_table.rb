@@ -11,20 +11,16 @@ class OrdersTable < FXTable
   COLUMN_TOTAL = 6
   NUM_COLUMNS = 7
   
-  def initialize(parent, orders)
+  def initialize(parent)
     super(parent, :opts => TABLE_COL_SIZABLE|TABLE_ROW_SIZABLE|LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
-    @orders = orders
-
-    $APPLOG.debug "Number of orders: #{@orders.count}"
-
-    fill_table( @orders )
+    fill_table
 
     #self.connect(SEL_REPLACED, method(:on_cell_changed))
     #self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))
   end
 
-  def fill_table(orders)
+  def fill_table
     setTableSize(0, NUM_COLUMNS)
 
     columnHeaderMode = LAYOUT_FILL
@@ -46,7 +42,7 @@ class OrdersTable < FXTable
     columnHeader.setItemJustify(COLUMN_TAXES, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_TOTAL, FXHeaderItem::CENTER_X)
 
-    orders.each do |order|
+    Order.all.each do |order|
       add_order(order)
     end
   end 
@@ -58,7 +54,8 @@ class OrdersTable < FXTable
     line_items_text = String.new
     order.line_items.each do |line_item|
       if line_item.product.nil?
-        puts "we have a problem"
+        puts "we have a problem. This one!"
+        ap line_item.to_json
       else
         line_items_text << "#{line_item.quantity} x #{line_item.product.name}\n"
       end
@@ -73,9 +70,9 @@ class OrdersTable < FXTable
     setItemText( num_rows, COLUMN_TOTAL, "#{sprintf('%.2f', order.total )} EUR" )
   end
 
-  def reset(orders)
+  def reset
     clearItems
-    fill_table(orders)
+    fill_table
   end
 
   def create

@@ -13,7 +13,7 @@ class OrderDialog < FXDialogBox
 	def initialize(owner)
 		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
-	    @order = Order.create( :date => Time.now )
+	    @order = Order.create!( :date => Time.now )
 
 		construct_page
 		add_terminating_buttons
@@ -42,7 +42,12 @@ class OrderDialog < FXDialogBox
 		# from this FXDialogBox. Note that the cancel button is automatically tied
 		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
+			# TODO check order
 			@order.save!
+			puts "Despues de guardar la orden"
+			ap @order.to_json	
+			puts "Y los line_items"
+			@order.line_items.each { |item| ap item.to_json }	
 	     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
 		end
 
@@ -88,8 +93,7 @@ class OrderDialog < FXDialogBox
 
 	    customer_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
 	    	index = sender.findItem(text)
-	    	@order.customer = sender.getItemData( index )
-	    	@order.save!
+	    	@order.customer = sender.getItemData( index ) 
 	    end
 
 	    customer_combo_box.editable = false 
@@ -101,6 +105,7 @@ class OrderDialog < FXDialogBox
 	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
+	    		@order.save # Nedeed to save customer, date, etc ...
 	    		@order.line_items.create( line_item_dialog.item )
 	    		@line_items_table.reset( @order.line_items )
 	    	end	    	

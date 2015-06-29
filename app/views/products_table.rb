@@ -11,14 +11,10 @@ class ProductsTable < FXTable
   COLUMN_TOTAL = 5
   NUM_COLUMNS = 6
   
-  def initialize(parent, products)
+  def initialize(parent)
     super(parent, :opts => TABLE_COL_SIZABLE|TABLE_ROW_SIZABLE|LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
-    @products = products
-
-    $APPLOG.debug "Number of products: #{@products.count}"
-
-    fill_table(@products)
+    fill_table(Product.all)
 
     self.connect(SEL_REPLACED, method(:on_cell_changed))
     self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))
@@ -59,9 +55,9 @@ class ProductsTable < FXTable
     setItemText( num_rows, COLUMN_TOTAL, "#{ sprintf('%.2f', product.total ) }" )
   end
 
-  def reset( products )
+  def reset
     clearItems
-    fill_table(products)
+    fill_table(Product.all)
   end
 
   def on_cell_changed(sender, sel, table_pos)

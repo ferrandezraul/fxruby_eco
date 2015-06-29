@@ -10,14 +10,10 @@ class CustomersTable < FXTable
   COLUMN_CUSTOMER_TYPE = 4
   NUM_COLUMNS = 5
   
-  def initialize(parent, customers)
+  def initialize(parent)
     super(parent, :opts => TABLE_COL_SIZABLE|TABLE_ROW_SIZABLE|LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
-    @customers = customers
-
-    $APPLOG.debug "Number of customers: #{@customers.count}"
-
-    fill_table( @customers )
+    fill_table( Customer.all)
 
     self.connect(SEL_REPLACED, method(:on_cell_changed))
     self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))
@@ -56,9 +52,9 @@ class CustomersTable < FXTable
     setItemText( num_rows, COLUMN_CUSTOMER_TYPE, customer.customer_type )
   end
 
-  def reset(customers)
+  def reset
     clearItems
-    fill_table(customers)
+    fill_table(Customer.all)
   end
 
   def on_cell_changed(sender, sel, table_pos)

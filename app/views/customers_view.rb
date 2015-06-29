@@ -5,12 +5,12 @@ include Fox
 
 class CustomersView < FXPacker
   
-  def initialize(parent, customers)
+  def initialize(parent)
     super(parent, :opts => LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
     # button to add a new product
     button_new_customer = FXButton.new( self, "Add new customer", :opts => BUTTON_NORMAL)
-	button_new_customer.connect(SEL_COMMAND) do |sender, sel, data| 
+	  button_new_customer.connect(SEL_COMMAND) do |sender, sel, data| 
 		# Show dialog for entering data
 		customer_dialog = CustomerDialog.new( self )
 		if customer_dialog.execute != 0
@@ -19,12 +19,12 @@ class CustomersView < FXPacker
 	    end
 	end
 
-    @table = CustomersTable.new( self, customers )
+    @table = CustomersTable.new( self )
 
   end
 
-  def reset( customers )
-  	@table.reset( customers )
+  def reset
+  	@table.reset
   end
 
 end

@@ -43,13 +43,13 @@ class EcocityAdmin < FXMainWindow
     tabbook = FXTabBook.new(self, :opts => LAYOUT_FILL)
 
     FXTabItem.new(tabbook, "Products") 
-    @products_view = ProductsView.new( tabbook, Product.all )
+    @products_view = ProductsView.new( tabbook )
 
     FXTabItem.new(tabbook, "Customers") 
-    @customers_view = CustomersView.new( tabbook, Customer.all )
+    @customers_view = CustomersView.new( tabbook )
 
     FXTabItem.new(tabbook, "Orders") 
-    @orders_view = OrdersView.new( tabbook, Order.all )
+    @orders_view = OrdersView.new( tabbook )
 
     self.connect(SEL_CLOSE, method(:on_close))
   end
@@ -84,8 +84,8 @@ class EcocityAdmin < FXMainWindow
     import_test_data.connect(SEL_COMMAND) do
       ProductsCSVBuilder::create_from_csv("db/products.csv")
       CustomersCSVBuilder::create_from_csv("db/customers.csv")
-      @products_view.reset(Product.all)
-      @customers_view.reset(Customer.all)
+      @products_view.reset
+      @customers_view.reset
     end
 
     import_products_command = FXMenuCommand.new(import_menu_pane, "Import Products as CSV")

@@ -6,7 +6,7 @@ include Fox
 class ProductsView < FXPacker
   attr_reader :product
   
-  def initialize(parent, products)
+  def initialize(parent)
     super(parent, :opts => LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
     # button to add a new product
@@ -15,7 +15,7 @@ class ProductsView < FXPacker
     
 	  button_new_product.connect(SEL_COMMAND, method(:on_add_product) )
 
-    @table = ProductsTable.new( self, products )
+    @table = ProductsTable.new( self )
   end
 
   def on_add_product( sender, sel, data )
@@ -25,8 +25,8 @@ class ProductsView < FXPacker
     end
   end
 
-  def reset( products )
-    @table.reset( products )
+  def reset
+    @table.reset
   end
 
 end
