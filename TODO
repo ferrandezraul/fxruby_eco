@@ -1,5 +1,8 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 
+Continue with test
+	create customers_csv_builder.rb and its test
+	
 Fix bug, multiple line items not displayed in order view
 Handle reject in dialogs --> call dastroy?
 
