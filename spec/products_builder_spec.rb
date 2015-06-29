@@ -6,6 +6,7 @@ require "products_csv_builder"
 describe ProductsCSVBuilder do
 	before do
 		# Do something before any single test
+		Product.delete_all
 	end
 
 	it "creates an array with products without creating them on database" do
@@ -29,7 +30,7 @@ describe ProductsCSVBuilder do
 						 :price => 2.5,
 						 :tax_percentage => 4 )
 
-	  	expect( Product.count ).to eq(5)
+	  	expect( Product.count ).to eq(1)
 
 	  	ProductsCSVBuilder::create_from_csv( "db/products.csv" )
 
@@ -37,8 +38,9 @@ describe ProductsCSVBuilder do
 	end
 
 	it "exports products to a csv file" do
-	  	expect( Product.count ).to eq(4)
+	  	expect( Product.count ).to eq(0)
 
+	  	ProductsCSVBuilder::create_from_csv( "db/products.csv" )
 	  	ProductsCSVBuilder::export_csv( "db/products_test.csv" )
 
 	    expect( File.exist?("db/products_test.csv") ).to eq(true)
