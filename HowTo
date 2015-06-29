@@ -47,3 +47,7 @@ See doc from FXRuby at http://www.rubydoc.info/gems/fxruby/Fox
       system "ctags -R -f .gemtags #{paths}"
     end
 
+4.  Notes
+	you can not call each in an Association that are not saved in database
+	see spec/line_items_spec.rb
+

@@ -22,17 +22,4 @@ class LineItem < ActiveRecord::Base
 		self.total = self.price + self.taxes
 	end
 
-	def to_s
-		text = String.new
-		if self.product && self.quantity && self.weight && self.total
-			if self.product.price_type == Product::PriceType::POR_UNIDAD
-				text << "%d x %s = %d EUR" % [self.quantity, self.product.name, self.total]
-			elsif self.product.price_type == Product::PriceType::POR_KILO
-				text << "%d x %d Kg %s = %d EUR" % [self.quantity, self.weight, self.product.name, self.total]
-			end
-		end
-
-		text
-	end
-
 end

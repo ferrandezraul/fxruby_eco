@@ -1,6 +1,5 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 
-Fix line_item spec (you can not call each in an Association)
 Create order spec
 See spree specs??
 

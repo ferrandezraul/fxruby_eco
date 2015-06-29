@@ -26,18 +26,14 @@ describe LineItem do
 	end
 
  	it "is created and added to an order" do
-	  	line_item = LineItem.create( :quantity => 1,
-		  							:weight => 0,
-		  							:product => @product,
-		  							:order => @order )
+	  	@order.line_items.create( :quantity => 1,
+		  						  :weight => 0,
+		  						  :product => @product,
+		  						  :order => @order )
 
 	    expect( LineItem.count ).to eq(1)
 	    expect( Product.count ).to eq(1)
-	    expect( Product.count ).to eq(1)
 	    expect( @order.line_items.count ).to eq(1)
-
-	    $stderr.puts "Order items are"
-	    $stderr.puts @order.line_items.class
 
 	    # This is not executed!!
 	    # can not call each on an association!!
@@ -50,29 +46,19 @@ describe LineItem do
 						 :price => 5,
 						 :tax_percentage => 4 )
 
-	    line_item2 = LineItem.create( :quantity => 2,
+	    line_item2 = @order.line_items.create( :quantity => 2,
 		  							:weight => 0,
-		  							:product => @product2,
+		  							:product => @product,
 		  							:order => @order )
 
 	    expect( @order.line_items.count ).to eq(2)
 
 	    text = String.new
-	    text2 = String.new
 	    @order.line_items.each do |line_item|
-	    	$stderr.puts "quantity is"
-	    	$stderr.puts line_item.quantity
-	    	$stderr.puts "product name is"
-	    	$stderr.puts line_item.product.name
-	    	text << line_item.to_s
-	    	text2 << "#{line_item.quantity} x #{line_item.product.name}\n"
+	    	text << "#{line_item.quantity} x #{line_item.product.name}\n"
 	    end
 
-	    $stderr.puts "and result is"
-	    $stderr.puts text
-	    $stderr.puts text2
-	    #expect( text ).to eq("") # This is a bug!!
-	    #expect( text2 ).to eq("Product test\nProduct2 test") # This is a bug!!
+	    expect( text ).to eq("1 x Product test\n2 x Product test\n") # This is a bug!!
 	end
 
 end
