@@ -1,5 +1,10 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 
+Create a validation that an order can not be saved with no line_items
+(refactot code for that)
+Create a validation that a line_item needs a product.
+
+
 Create order spec
 See spree specs??
 gotchas active_record

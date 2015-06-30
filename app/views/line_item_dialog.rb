@@ -114,7 +114,7 @@ class LineItemDialog < FXDialogBox
 	end
 
 	def is_data_filled?
-		if @item[:product]
+		if @item[:product] && @item[:product].valid?
 			if @item[:product].price_type == Product::PriceType::POR_KILO
 				@item[:quantity] > 0 && @item[:weight] > 0
 			else

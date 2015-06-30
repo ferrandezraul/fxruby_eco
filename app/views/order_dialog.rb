@@ -44,10 +44,7 @@ class OrderDialog < FXDialogBox
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
 			# TODO check order
 			@order.save!
-			puts "Despues de guardar la orden"
-			ap @order.to_json	
-			puts "Y los line_items"
-			@order.line_items.each { |item| ap item.to_json }	
+			#@order.line_items.each { |item| ap item.to_json }	
 	     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
 		end
 
@@ -105,8 +102,14 @@ class OrderDialog < FXDialogBox
 	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
-	    		@order.save # Nedeed to save customer, date, etc ...
-	    		@order.line_items.create( line_item_dialog.item )
+	    		@order.save! # Nedeed to save customer, date, etc ...
+	    		puts "IMPORTANT SHIT"
+	    		puts "IMPORTANT SHIT"
+	    		puts "IMPORTANT SHIT"
+	    		puts "IMPORTANT SHIT. Call create on that?"
+	    		puts @order.line_items.class
+	    		@order.line_items.create!( line_item_dialog.item )
+	    		@order.save!
 	    		@line_items_table.reset( @order.line_items )
 	    	end	    	
 	    end
