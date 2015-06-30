@@ -14,7 +14,7 @@ class OrdersView < FXPacker
 	  button_new_order.connect(SEL_COMMAND) do |sender, sel, data| 
   		order_dialog = OrderDialog.new( self )
   		if order_dialog.execute != 0
-        reset
+        @table.reset
       end
     end
 

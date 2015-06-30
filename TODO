@@ -1,9 +1,11 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 
+Bug now reproducible in test. Fix and rewrite text properly.
+Use FactoryGirl or other gems for testing purposes.
+
 Create a validation that an order can not be saved with no line_items
 (refactot code for that)
 Create a validation that a line_item needs a product.
-
 
 Create order spec
 See spree specs??

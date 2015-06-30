@@ -26,6 +26,7 @@ describe LineItem do
 	end
 
  	it "is created and added to an order" do
+ 		expect( Order.count ).to eq(1)
 	  	@order.line_items.create( :quantity => 1,
 		  						  :weight => 0,
 		  						  :product => @product )
@@ -56,7 +57,19 @@ describe LineItem do
 	    	text << "#{line_item.quantity} x #{line_item.product.name}\n"
 	    end
 
-	    expect( text ).to eq("1 x Product test\n2 x Product test\n") # This is a bug!!
+	    expect( text ).to eq("1 x Product test\n2 x Product test\n")
+
+	    ####
+	    @order = Order.create!( :date => Time.now, :customer => @customer )
+	    expect( Order.count ).to eq(2)
+
+	    @order.line_items.create( :quantity => 1,
+		  						  :weight => 0,
+		  						  :product => @product )
+
+	    expect( LineItem.count ).to eq(3)
+	    expect( Product.count ).to eq(2)
+	    expect( @order.line_items.count ).to eq(0)
 	end
 
 end
