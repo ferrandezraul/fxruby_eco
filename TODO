@@ -1,7 +1,19 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 
+Keep on ...
+http://api.rubyonrails.org/
+ActiveRecord::Aggregations::ClassMethods
+
+composed_of 
+http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html
+
 Reproduce bug in test. Fix and rewrite text properly.
 Use FactoryGirl or other gems for testing purposes.
+
+Remove ENUMS and use just a hash.
+ EXCHANGE_RATES = { "USD_TO_DKK" => 6 }
+ COLUMN = { :name => { :position => 0, :tittle => 'Name' },
+            :address => { :position => 1, :tittle => 'Address' } }
 
 Create a validation that a line_item needs a product.
 Create a validation that an order can not be saved with no line_items

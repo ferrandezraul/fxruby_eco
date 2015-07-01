@@ -1,10 +1,11 @@
 class LineItem < ActiveRecord::Base
-	belongs_to :order
 	has_one :product
-	has_one :customer, through: :order
+	belongs_to :order
 
 	validates :product, presence: true
 	validates :quantity, presence: true
+
+	accepts_nested_attributes_for :product
 
 	before_save :calculate_price
 

@@ -1,9 +1,11 @@
 require 'bigdecimal'
 
 class Order < ActiveRecord::Base
-	belongs_to :customer
+	  belongs_to :customer
   	has_many :line_items, :dependent => :destroy
   	has_many :products, :through => :line_items
+
+    accepts_nested_attributes_for :line_items
 
   	before_save :calculate_prices
 
