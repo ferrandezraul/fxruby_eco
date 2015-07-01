@@ -19,41 +19,6 @@ class OrderDialog < FXDialogBox
 		add_terminating_buttons
 	end
 
-	def add_terminating_buttons
-		buttons = FXHorizontalFrame.new(self, 
-					:opts => LAYOUT_FILL_X|LAYOUT_SIDE_BOTTOM|PACK_UNIFORM_WIDTH) 
-
-		ok_button = FXButton.new( buttons, "OK",
-					  :target => self, 
-					  :selector => FXDialogBox::ID_ACCEPT,
-					  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
-
-		cancel_button = FXButton.new( buttons, "Cancel",
-					  :target => self, 
-					  :selector => FXDialogBox::ID_CANCEL,
-    				  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
-
-		# Disable ok button if there are no values on order attributes
-		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
-			sender.enabled = is_data_filled?
-		end
-
-		# Connect signal button pressed with sending an ID_ACCEPT event 
-		# from this FXDialogBox. Note that the cancel button is automatically tied
-		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
-		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
-			# TODO check order
-			@order.save!
-			#@order.line_items.each { |item| ap item.to_json }	
-	     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
-		end
-
-		cancel_button.connect(SEL_COMMAND) do |sender, sel, data|
-			@order.destroy
-	     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_CANCEL), nil)
-		end
-	end
-
 	def construct_page    
 	    form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
 
@@ -115,6 +80,41 @@ class OrderDialog < FXDialogBox
 	    end
 
 	    @line_items_table = LineItemsTable.new( matrix, @order.line_items )	
+	end
+
+	def add_terminating_buttons
+		buttons = FXHorizontalFrame.new(self, 
+					:opts => LAYOUT_FILL_X|LAYOUT_SIDE_BOTTOM|PACK_UNIFORM_WIDTH) 
+
+		ok_button = FXButton.new( buttons, "OK",
+					  :target => self, 
+					  :selector => FXDialogBox::ID_ACCEPT,
+					  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
+
+		cancel_button = FXButton.new( buttons, "Cancel",
+					  :target => self, 
+					  :selector => FXDialogBox::ID_CANCEL,
+    				  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
+
+		# Disable ok button if there are no values on order attributes
+		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
+			sender.enabled = is_data_filled?
+		end
+
+		# Connect signal button pressed with sending an ID_ACCEPT event 
+		# from this FXDialogBox. Note that the cancel button is automatically tied
+		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
+		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
+			# TODO check order
+			@order.save!
+			#@order.line_items.each { |item| ap item.to_json }	
+	     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+		end
+
+		cancel_button.connect(SEL_COMMAND) do |sender, sel, data|
+			@order.destroy
+	     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_CANCEL), nil)
+		end
 	end
 
 	def is_data_filled?

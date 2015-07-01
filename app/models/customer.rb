@@ -2,6 +2,8 @@ require 'active_record'
 
 class Customer < ActiveRecord::Base
 
+  has_many :orders
+  
   module Type
     COOPERATIVA = "Cooperativa"
     TIENDA    = "Tienda"

@@ -1,18 +1,15 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 
-Bug now reproducible in test. Fix and rewrite text properly.
+Reproduce bug in test. Fix and rewrite text properly.
 Use FactoryGirl or other gems for testing purposes.
 
-Create a validation that an order can not be saved with no line_items
-(refactot code for that)
 Create a validation that a line_item needs a product.
+Create a validation that an order can not be saved with no line_items
+(refactor code for that)
 
-Create order spec
-See spree specs??
-gotchas active_record
+Create order spec. See other specs as in spree.
 
 Fix bug, multiple line items not displayed in order view
-Seems to be related with type of products added
 Handle reject in dialogs --> call dastroy?
 
 It might be worth to check examples in gem fxryby/examples (table)
