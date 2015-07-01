@@ -5,6 +5,8 @@ http://api.rubyonrails.org/
 ActiveRecord::Aggregations::ClassMethods
 
 composed_of 
+
+Use nested_attributes and refactor ui to not access the data everywhere
 http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html
 
 Reproduce bug in test. Fix and rewrite text properly.
