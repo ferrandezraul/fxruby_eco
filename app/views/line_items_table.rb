@@ -10,10 +10,9 @@ class LineItemsTable < FXTable
   NUM_COLUMNS = 7
   
   def initialize(parent, line_items)
-    super(parent, :opts => TABLE_COL_SIZABLE|TABLE_ROW_SIZABLE|LAYOUT_FILL_X|LAYOUT_FILL_Y)
+    super(parent, :opts => TABLE_COL_SIZABLE|TABLE_ROW_SIZABLE|LAYOUT_FILL)
 
-    @line_items = line_items
-    fill_table(@line_items)
+    fill_table(line_items)
 
     #self.connect(SEL_REPLACED, method(:on_cell_changed))
     #self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))

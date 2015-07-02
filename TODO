@@ -1,16 +1,13 @@
 http://www.rubydoc.info/gems/fxruby/Fox
-
-Keep on ...
 http://api.rubyonrails.org/
-ActiveRecord::Aggregations::ClassMethods
 
-composed_of 
+Reproduced bug in test. Fix and rewrite text properly.
+Use FactoryGirl or other gems for testing purposes.
+
+use composed_of ?
 
 Use nested_attributes and refactor ui to not access the data everywhere
 http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html
-
-Reproduce bug in test. Fix and rewrite text properly.
-Use FactoryGirl or other gems for testing purposes.
 
 Remove ENUMS and use just a hash.
  EXCHANGE_RATES = { "USD_TO_DKK" => 6 }

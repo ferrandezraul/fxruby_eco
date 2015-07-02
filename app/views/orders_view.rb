@@ -13,9 +13,8 @@ class OrdersView < FXPacker
     super(parent, :opts => LAYOUT_FILL)
 
     button_new_order = FXButton.new( self, "Add new order", :opts => BUTTON_NORMAL)
-
-	button_new_order.connect(SEL_COMMAND) do |sender, sel, data|
-		get_new_order		
+    button_new_order.connect(SEL_COMMAND) do |sender, sel, data|
+      get_new_order		
     end
 
     @table = OrdersTable.new( self )
@@ -28,7 +27,7 @@ class OrdersView < FXPacker
   		customer = get_customer
   		if customer
   			order_dialog = OrderDialog.new( self, date, customer )
-			if order_dialog.execute != 0
+        if order_dialog.execute != 0
 		        @table.reset
 		    end
   		end
@@ -37,20 +36,20 @@ class OrdersView < FXPacker
 
   def get_date
   	date_dialog = DateDialog.new(self)
-	if date_dialog.execute != 0
+    if date_dialog.execute != 0
 	  	date_dialog.date
-	else
-		nil
-	end
+    else
+      nil
+    end
   end
 
   def get_customer
   	dialog = CustomerPickerDialog.new(self)
-	if dialog.execute != 0
+    if dialog.execute != 0
 	  	dialog.customer
     else
   	    nil
-	end
+    end
   end
 
   def reset

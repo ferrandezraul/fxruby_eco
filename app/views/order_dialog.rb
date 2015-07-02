@@ -13,25 +13,25 @@ class OrderDialog < FXDialogBox
 	def initialize(owner, date, customer)
 		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL) 
 
-	    @order = Order.create!( :date => date, :customer => customer )
+	  @order = Order.new( :date => date, :customer => customer )
 
 		construct_page
 		add_terminating_buttons
 	end
 
 	def construct_page    
-	    form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
+    form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
 
-	    construct_header_form( form )
-	    construct_line_items_form( form )    
+    construct_header_form( form )
+    construct_line_items_form( form )    
 	end
 
   def construct_header_form(matrix)
-    	form = FXHorizontalFrame.new( matrix )
-    	FXLabel.new( form, "#{@order.customer.name}\n"\
-    		"#{@order.customer.address}\n"\
-    		"#{@order.customer.nif}\n"\
-    		"#{@order.customer.customer_type}\n" ).justify = JUSTIFY_LEFT
+  	form = FXHorizontalFrame.new( matrix )
+  	FXLabel.new( form, "#{@order.customer.name}\n"\
+  		"#{@order.customer.address}\n"\
+  		"#{@order.customer.nif}\n"\
+  		"#{@order.customer.customer_type}\n" ).justify = JUSTIFY_LEFT
 	end
 
 	def construct_line_items_form(matrix)
@@ -39,14 +39,10 @@ class OrderDialog < FXDialogBox
 	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
-	    		@order.save! # Nedeed to save customer, date, etc ...
-	    		puts "IMPORTANT SHIT"
-	    		puts "IMPORTANT SHIT"
-	    		puts "IMPORTANT SHIT"
-	    		puts "IMPORTANT SHIT. Call create on that?"
+	    		puts "Adding line item to order"
 	    		puts @order.line_items.class
-	    		@order.line_items.create!( line_item_dialog.item )
 	    		@order.save!
+	    		@order.line_items.create!( line_item_dialog.item )	    		
 	    		@line_items_table.reset( @order.line_items )
 	    	end	    	
 	    end

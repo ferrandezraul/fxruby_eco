@@ -44,7 +44,7 @@ describe LineItem do
 						 :price => 5,
 						 :tax_percentage => 4 )
 
-	    line_item2 = @order.line_items.create!( :quantity => 2,
+	    @order.line_items.create!( :quantity => 2,
 		  							:weight => 0,
 		  							:product => product2 )
 
@@ -78,18 +78,32 @@ describe LineItem do
 	    expect( order2.line_items.count ).to eq(2)
 
 	    text = String.new
-	    order2.line_items.each do |line_item|
-	    	text << "#{line_item.quantity} x #{line_item.product.name}\n"
-	    end
+			order2.line_items.each do |line_item|
+				text << "#{line_item.quantity} x #{line_item.product.name}\n"
+			end
 
-	    expect( text ).to eq("2 x Product test\n1 x Product2 test\n")
+			expect( text ).to eq("2 x Product test\n1 x Product2 test\n")
 
-	    text = String.new
-	    @order.line_items.each do |line_item|
-	    	text << "#{line_item.quantity} x #{line_item.product.name}\n"
-	    end
+			text = String.new
+			@order.line_items.each do |line_item|
+				text << "#{line_item.quantity} x #{line_item.product.name}\n"
+			end
 
-	    expect( text ).to eq("1 x Product test\n2 x Product2 test\n")
+			expect( text ).to eq("1 x Product test\n2 x Product2 test\n")
+
+	    ##############
+
+	    text1 = String.new
+	    text2 = String.new
+	    Order.all.each do |order|
+		    order.line_items.each do |line_item|
+		    	text << "#{line_item.quantity} x #{line_item.product.name}\n"
+		    end
+		  end
+
+	    expect( text1 ).to eq("2 x Product test\n1 x Product2 test\n")
+
+	    expect( text2 ).to eq("1 x Product test\n2 x Product2 test\n")
 
 	    @order.destroy!
 
