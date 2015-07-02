@@ -10,10 +10,10 @@ require 'ap'
 class OrderDialog < FXDialogBox 
 	attr_accessor :order
 	
-	def initialize(owner, date)
+	def initialize(owner, date, customer)
 		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
-	    @order = Order.create!( :date => date )
+	    @order = Order.create!( :date => date, :customer => customer )
 
 		construct_page
 		add_terminating_buttons
@@ -22,28 +22,13 @@ class OrderDialog < FXDialogBox
 	def construct_page    
 	    form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
 
-	    construct_customer_form( form )
+	    construct_header_form( form )
 	    construct_line_items_form( form )    
 	end
 
-    def construct_customer_form(matrix)
-    	customer_form = FXHorizontalFrame.new( matrix, :opts => LAYOUT_FILL_X )
-	    
-    	FXLabel.new( customer_form, "Customer:" )
-	    customer_combo_box = FXComboBox.new(customer_form, 20, 
-	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X)
-
-	    Customer.all.each do | customer |
-	    	customer_combo_box.appendItem( customer.name, customer )
-	    end
-
-	    customer_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
-	    	index = sender.findItem(text)
-	    	@order.customer = sender.getItemData( index ) 
-	    end
-
-	    customer_combo_box.editable = false 
-	    customer_combo_box.setCurrentItem(1, true) if Customer.count > 0
+    def construct_header_form(matrix)
+    	form = FXHorizontalFrame.new( matrix, :opts => LAYOUT_FILL_X )
+    	FXLabel.new( form, "#{@order.customer.name}\n#{@order.customer.address}" )
 	end
 
 	def construct_line_items_form(matrix)
@@ -102,7 +87,7 @@ class OrderDialog < FXDialogBox
 	end
 
 	def is_data_filled?
-	 	@order.customer && @order.line_items.any?
+	 	@order.line_items.any?
 	end
 
 end

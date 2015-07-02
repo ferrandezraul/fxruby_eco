@@ -1,29 +1,31 @@
-class DateDialog < FXDialogBox 
-	attr_accessor :date
+class CustomerPickerDialog < FXDialogBox
+	attr_accessor :customer
 
-	def initialize(owner)
-		super(owner, "Date", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
+	def initialize(parent)
+		super(parent, "Choose custumer", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
 		construct_page
     	add_terminating_buttons
     end
 
     def construct_page
-    	date_form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL )
+    	customer_form = FXHorizontalFrame.new( self, :opts => LAYOUT_FILL )
 	    
-	    FXLabel.new( date_form, "Date:")
+    	FXLabel.new( customer_form, "Customer:" )
+	    customer_combo_box = FXComboBox.new(customer_form, 20, 
+	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X)
 
-	    @date_field = FXTextField.new( date_form, 30,
-	      :opts => TEXTFIELD_NORMAL)
+	    Customer.all.each do | customer |
+	    	customer_combo_box.appendItem( customer.name, customer )
+	    end
 
-	    @date = Time.now
-	    @date_field.text = "#{Time.now.strftime("%d/%m/%Y")}"
+	    customer_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
+	    	index = sender.findItem(text)
+	    	@customer = sender.getItemData( index ) 
+	    end
 
-    	calendar = FXCalendar.new(date_form)
-    	calendar.connect(SEL_COMMAND) do |sender, sel, time|
-    		@date = time
-    		@date_field.text = time.strftime("%d/%m/%Y") 
-    	end
+	    customer_combo_box.editable = false 
+	    customer_combo_box.setCurrentItem(1, true) if Customer.count > 0
     end
 
     def add_terminating_buttons
@@ -42,7 +44,7 @@ class DateDialog < FXDialogBox
 
 		# Disable ok button if there are no values on order attributes
 		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
-			sender.enabled = !@date_field.text.empty?
+			sender.enabled = !@customer.nil?
 		end
 
 		# Connect signal button pressed with sending an ID_ACCEPT event 
@@ -52,4 +54,5 @@ class DateDialog < FXDialogBox
 		    self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
 		end
 	end
+
 end
