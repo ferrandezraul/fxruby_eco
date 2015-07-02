@@ -10,10 +10,10 @@ require 'ap'
 class OrderDialog < FXDialogBox 
 	attr_accessor :order
 	
-	def initialize(owner)
+	def initialize(owner, date)
 		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
-	    @order = Order.create!( :date => Time.now )
+	    @order = Order.create!( :date => date )
 
 		construct_page
 		add_terminating_buttons
@@ -22,25 +22,9 @@ class OrderDialog < FXDialogBox
 	def construct_page    
 	    form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
 
-	    construct_date_form( form )
 	    construct_customer_form( form )
 	    construct_line_items_form( form )    
 	end
-
-	def construct_date_form(matrix)
-		date_form = FXHorizontalFrame.new( matrix, :opts => LAYOUT_FILL_X )
-	    
-	    FXLabel.new( date_form, "Date:")
-	    date = FXTextField.new( date_form, 30,
-	      :opts => TEXTFIELD_NORMAL)
-	    date.text = "#{Time.now.strftime("%d/%m/%Y")}"
-
-    	@calendar = FXCalendar.new(date_form)
-    	@calendar.connect(SEL_COMMAND) do |calendar, sel, time|
-    		@order.date = time
-    		date.text = time.strftime("%d/%m/%Y") 
-    	end
-    end
 
     def construct_customer_form(matrix)
     	customer_form = FXHorizontalFrame.new( matrix, :opts => LAYOUT_FILL_X )
@@ -118,7 +102,7 @@ class OrderDialog < FXDialogBox
 	end
 
 	def is_data_filled?
-	 	@order.customer && @order.date && @order.line_items.any?
+	 	@order.customer && @order.line_items.any?
 	end
 
 end
