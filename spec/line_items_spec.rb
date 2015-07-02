@@ -95,7 +95,7 @@ describe LineItem do
 
 	    text1 = String.new
 	    text2 = String.new
-	    Order.all.each do |order|
+	    Order.find_each do |order|
 		    order.line_items.each do |line_item|
 		    	text << "#{line_item.quantity} x #{line_item.product.name}\n"
 		    end

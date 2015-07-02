@@ -3,6 +3,7 @@ http://api.rubyonrails.org/
 
 Reproduced bug in test. Fix and rewrite text properly.
 Use FactoryGirl or other gems for testing purposes.
+sqlitebrowser shows error in products table, line_item_id columns
 
 use composed_of ?
 
