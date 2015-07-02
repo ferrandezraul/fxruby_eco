@@ -11,7 +11,7 @@ class OrderDialog < FXDialogBox
 	attr_accessor :order
 	
 	def initialize(owner, date, customer)
-		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
+		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL) 
 
 	    @order = Order.create!( :date => date, :customer => customer )
 
@@ -26,9 +26,12 @@ class OrderDialog < FXDialogBox
 	    construct_line_items_form( form )    
 	end
 
-    def construct_header_form(matrix)
-    	form = FXHorizontalFrame.new( matrix, :opts => LAYOUT_FILL_X )
-    	FXLabel.new( form, "#{@order.customer.name}\n#{@order.customer.address}" )
+  def construct_header_form(matrix)
+    	form = FXHorizontalFrame.new( matrix )
+    	FXLabel.new( form, "#{@order.customer.name}\n"\
+    		"#{@order.customer.address}\n"\
+    		"#{@order.customer.nif}\n"\
+    		"#{@order.customer.customer_type}\n" ).justify = JUSTIFY_LEFT
 	end
 
 	def construct_line_items_form(matrix)
