@@ -1,12 +1,8 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
-- Remove ENUMS and use just a hash.
-  EXCHANGE_RATES = { "USD_TO_DKK" => 6 }
-  COLUMN = { :name => { :position => 0, :tittle => 'Name' },
-            :address => { :position => 1, :tittle => 'Address' } }
-
 - refactor product table. Create button to delete current selected product.
+	- what happen with orders if I delete product? 
 - when creating new products, (product_dialog) misses price_type combobox
 - Add EUR, %, etc to views.
 
