@@ -39,9 +39,7 @@ class OrderDialog < FXDialogBox
 	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
 	    	line_item_dialog = LineItemDialog.new(self)
 	    	if line_item_dialog.execute != 0
-	    		puts "Adding line item to order"
-	    		puts @order.line_items.class
-	    		@order.save!
+	    		@order.save! # Need to have order in database before creating line_items on database
 	    		@order.line_items.create!( line_item_dialog.item )	    		
 	    		@line_items_table.reset( @order.line_items )
 	    	end	    	
@@ -73,15 +71,13 @@ class OrderDialog < FXDialogBox
 		# from this FXDialogBox. Note that the cancel button is automatically tied
 		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
-			# TODO check order
 			@order.save!
-			#@order.line_items.each { |item| ap item.to_json }	
-	     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
 		end
 
 		cancel_button.connect(SEL_COMMAND) do |sender, sel, data|
-			@order.destroy
-	     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_CANCEL), nil)
+			@order.destroy!
+	    self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_CANCEL), nil)
 		end
 	end
 

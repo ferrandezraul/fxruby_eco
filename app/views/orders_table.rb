@@ -51,17 +51,11 @@ class OrdersTable < FXTable
     num_rows = getNumRows
     appendRows( 1 )
 
-    puts "This order contains #{order.line_items.count} line items"
-
     line_items_text = String.new
     order.line_items.each do |line_item|
-      if line_item.product.nil?
-        puts "we have a problem with this one!"
-      else
-        line_items_text << "#{line_item.quantity} x #{line_item.product.name}\n"
-      end
-      puts line_item.class
-      ap line_item
+      # TODO
+      # It should be line_item.name (name should be set first in active record when line_item is created)
+      line_items_text << "#{line_item.quantity} x #{line_item.product.name}\n"
     end
 
     setItemText( num_rows, COLUMN_ID, order.id.to_s )

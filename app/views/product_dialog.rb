@@ -7,7 +7,7 @@ class ProductDialog < FXDialogBox
 		# Create but not in database
 		@product = Product.new
 
-	    construct_product_page
+	  construct_product_page
 		add_terminating_buttons
 	end
 
@@ -48,10 +48,10 @@ class ProductDialog < FXDialogBox
 			 		"There is already a product with this name",
 			 		"There is already a product with this name" )
 			 else
-			 	# Save in database
-			 	@product.save!
+			 		# Save in database
+			 		@product.save!
 		     	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
-		     end
+		   end
 		end
 	end
 

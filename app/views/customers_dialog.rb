@@ -43,7 +43,7 @@ class CustomerDialog < FXDialogBox
 		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
 			if is_name_valid?
-				@customer.save!
+				  @customer.save!
 		    	self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
 		    else
 		    	FXMessageBox.warning( self, MBOX_OK, "Invalid customer name",
