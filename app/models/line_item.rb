@@ -1,6 +1,6 @@
 class LineItem < ActiveRecord::Base
-	has_one :product
-	belongs_to :order
+	belongs_to :product # Rows in line_items are children of rows in product
+	belongs_to :order # Rows in line_items are children of rows in order
 
 	validates :product, presence: true
 	validates :quantity, presence: true

@@ -12,8 +12,6 @@ class Schema < ActiveRecord::Migration
       t.decimal :tax_percentage, precision: 4, scale: 2  # % IVA
       t.decimal :total, precision: 8, scale: 2  # total
       t.decimal :weight, precision: 8, scale: 3
-      t.belongs_to :line_item, index: true
-      t.belongs_to :order, index: true
       t.timestamps null: false
     end
 
@@ -22,8 +20,6 @@ class Schema < ActiveRecord::Migration
       t.string :address
       t.string :nif
       t.string :customer_type
-      t.belongs_to :order, index: true
-      t.belongs_to :line_item, index: true
       t.timestamps null: false
     end
 
@@ -38,6 +34,7 @@ class Schema < ActiveRecord::Migration
 
     create_table :line_items do |t|
       t.belongs_to :order, index: true
+      t.belongs_to :product, index: true
       t.integer :quantity
       t.decimal :weight, precision: 8, scale: 3
       t.decimal :price, precision: 8, scale: 2  # without taxes

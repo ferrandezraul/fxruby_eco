@@ -18,17 +18,13 @@ ActiveRecord::Schema.define(version: 1) do
     t.string   "address"
     t.string   "nif"
     t.string   "customer_type"
-    t.integer  "order_id"
-    t.integer  "line_item_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
 
-  add_index "customers", ["line_item_id"], name: "index_customers_on_line_item_id"
-  add_index "customers", ["order_id"], name: "index_customers_on_order_id"
-
   create_table "line_items", force: :cascade do |t|
     t.integer  "order_id"
+    t.integer  "product_id"
     t.integer  "quantity"
     t.decimal  "weight",     precision: 8, scale: 3
     t.decimal  "price",      precision: 8, scale: 2
@@ -39,6 +35,7 @@ ActiveRecord::Schema.define(version: 1) do
   end
 
   add_index "line_items", ["order_id"], name: "index_line_items_on_order_id"
+  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id"
 
   create_table "orders", force: :cascade do |t|
     t.date     "date"
@@ -60,13 +57,8 @@ ActiveRecord::Schema.define(version: 1) do
     t.decimal  "tax_percentage", precision: 4, scale: 2
     t.decimal  "total",          precision: 8, scale: 2
     t.decimal  "weight",         precision: 8, scale: 3
-    t.integer  "line_item_id"
-    t.integer  "order_id"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
   end
-
-  add_index "products", ["line_item_id"], name: "index_products_on_line_item_id"
-  add_index "products", ["order_id"], name: "index_products_on_order_id"
 
 end

@@ -94,16 +94,13 @@ describe LineItem do
 	    ##############
 
 	    text1 = String.new
-	    text2 = String.new
 	    Order.find_each do |order|
 		    order.line_items.each do |line_item|
-		    	text << "#{line_item.quantity} x #{line_item.product.name}\n"
+		    	text1 << "#{line_item.quantity} x #{line_item.product.name}\n"
 		    end
 		  end
 
-	    expect( text1 ).to eq("2 x Product test\n1 x Product2 test\n")
-
-	    expect( text2 ).to eq("1 x Product test\n2 x Product2 test\n")
+	    expect( text1 ).to eq("1 x Product test\n2 x Product2 test\n2 x Product test\n1 x Product2 test\n")	   
 
 	    @order.destroy!
 

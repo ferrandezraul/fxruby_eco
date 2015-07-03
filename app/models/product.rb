@@ -1,7 +1,8 @@
 require 'active_record'
 
 class Product < ActiveRecord::Base
-	belongs_to :line_item
+	has_many :line_item # Each product has many line_items referencing it.
+	                    # Each line_item contains a reference to its product id
 
 	validates :name, presence: true, uniqueness: true
 	validates :price, presence: true

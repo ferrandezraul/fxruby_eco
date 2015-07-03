@@ -2,7 +2,8 @@ require 'active_record'
 
 class Customer < ActiveRecord::Base
 
-  has_many :orders
+  has_many :orders  # Each customer has many orders referencing it.
+                    # Each order contains a reference to its customer id
   
   module Type
     COOPERATIVA = "Cooperativa"
