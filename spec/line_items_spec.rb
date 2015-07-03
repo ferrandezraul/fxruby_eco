@@ -102,7 +102,7 @@ describe LineItem do
 
     expect( text ).to eq("1 x Product test\n2 x Product2 test\n2 x Product test\n1 x Product2 test\n")	   
 
-    product2.destroy!
+    product2.delete
 
     text = String.new
     Order.find_each do |order|
@@ -111,7 +111,9 @@ describe LineItem do
 	    end
 	  end
 
-    @order.destroy!
+	  expect( text ).to eq("1 x Product test\n2 x Product2 test\n2 x Product test\n1 x Product2 test\n")
+
+    @order.delete
 
     expect( LineItem.count ).to eq(2)
     expect( Product.count ).to eq(1)
