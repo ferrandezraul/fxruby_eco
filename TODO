@@ -1,38 +1,14 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
-Reproduced bug in test. Fix and rewrite text properly.
-Use FactoryGirl or other gems for testing purposes.
-sqlitebrowser shows error in products table, line_item_id columns
-
-use composed_of ?
-
-Use nested_attributes and refactor ui to not access the data everywhere
-http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html
-
-Remove ENUMS and use just a hash.
- EXCHANGE_RATES = { "USD_TO_DKK" => 6 }
- COLUMN = { :name => { :position => 0, :tittle => 'Name' },
+- Remove ENUMS and use just a hash.
+  EXCHANGE_RATES = { "USD_TO_DKK" => 6 }
+  COLUMN = { :name => { :position => 0, :tittle => 'Name' },
             :address => { :position => 1, :tittle => 'Address' } }
 
-Create a validation that a line_item needs a product.
-Create a validation that an order can not be saved with no line_items
-(refactor code for that)
-
-Create order spec. See other specs as in spree.
-
-Fix bug, multiple line items not displayed in order view
-Handle reject in dialogs --> call dastroy?
-
-It might be worth to check examples in gem fxryby/examples (table)
-Use FXPopup and FXOption instead of combobox?? Do they support custom data?
-See example groupbox.rb
-
-1. line items do not sum properly on order view (1+2 soca => 3 soca!!)
-2. refactor product table. Create button to delete current selected product.
-3. when creating new products, (product_dialog) misses price_type combobox
-4. Add EUR, %, etc to views.
-5. When creating an order and one line item is selected, date and customer should be fixed/disabled
+- refactor product table. Create button to delete current selected product.
+- when creating new products, (product_dialog) misses price_type combobox
+- Add EUR, %, etc to views.
 
 Small improvements
 Columns can be manually extended, but extend automatically based on content?
@@ -40,3 +16,6 @@ Order products when header is pressed
 Hide columns id (hide them and don't delete them since they are needed to get objects)
 Validate csv files when importing 
 If orders table is empty, presing the header causes a crash
+
+TODO
+rewrite text properly using fixtures or factory_girl.
