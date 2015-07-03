@@ -1,6 +1,8 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
+- if product deleted, do not delete in orders already saved
+
 - refactor product table. Create button to delete current selected product.
 	- what happen with orders if I delete product? 
 - when creating new products, (product_dialog) misses price_type combobox

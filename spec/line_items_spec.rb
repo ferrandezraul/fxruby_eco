@@ -102,10 +102,19 @@ describe LineItem do
 
     expect( text ).to eq("1 x Product test\n2 x Product2 test\n2 x Product test\n1 x Product2 test\n")	   
 
+    product2.destroy!
+
+    text = String.new
+    Order.find_each do |order|
+	    order.line_items.each do |line_item|
+	    	text << "#{line_item.quantity} x #{line_item.product.name}\n"
+	    end
+	  end
+
     @order.destroy!
 
     expect( LineItem.count ).to eq(2)
-    expect( Product.count ).to eq(2)
+    expect( Product.count ).to eq(1)
     expect( order2.line_items.count ).to eq(2)
 	end
 
