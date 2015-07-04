@@ -13,13 +13,11 @@ describe LineItem do
 		Customer.delete_all
 		Order.delete_all
 
-		#@soca = FactoryGirl::Factory.create(:product)
+		# uses Factories defined in factories.rb
 		@soca = create(:product)
+		@raul = create(:customer)
 
-		#@customer = FactoryGirl::Factory.create(:customer)
-		@customer = create(:customer)
-
-		@order = Order.create!( :date => Time.now, :customer => @customer )
+		@order = Order.create!( :date => Time.now, :customer => @raul )
 	end
 
  	it "is created and added to an order" do
@@ -64,7 +62,7 @@ describe LineItem do
     ###############################################################
     ## Create second order  
     ###############################################################
-    order2 = Order.create!( :date => Time.now, :customer => @customer )
+    order2 = Order.create!( :date => Time.now, :customer => @raul )
     expect( Order.count ).to eq(2)
 
     expect( order2.line_items.count ).to eq(0)

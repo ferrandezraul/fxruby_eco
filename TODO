@@ -1,6 +1,9 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
+continue creating factories for order and line items
+and clean up specs
+
 - if product deleted and an order exist with line_items referencing it,
   a call to prodzuct will result in nil.
   order.line_items.first.product will could retun nil
