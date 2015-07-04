@@ -1,12 +1,20 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
-- if product deleted, do not delete in orders already saved (current test)
+- if product deleted and an order exist with line_items referencing it,
+  a call to prodzuct will result in nil.
+  order.line_items.first.product will could retun nil
+	Avoid deleting products
+	Create attribute in Products called out_of_order that marks it as or being available or not.
+	On the other hand, you can edit the price, name, iva, etc ... of a product and orders previously created
+	will not change their values cause they are saved when the order is created.  
 
-- refactor product table. Create button to delete current selected product.
-	- what happen with orders if I delete product? 
+- refactor product table. Create button to mark a product as out of order.
+	- Only price
+  	- Add EUR, %, etc to views.
+
 - when creating new products, (product_dialog) misses price_type combobox
-- Add EUR, %, etc to views.
+
 
 Small improvements
 Columns can be manually extended, but extend automatically based on content?
