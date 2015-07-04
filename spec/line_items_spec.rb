@@ -3,6 +3,7 @@ require "spec_helper"
 require 'line_item'
 require 'order'
 require 'customer'
+require 'factories'
 
 describe LineItem do
 	before do
@@ -12,15 +13,11 @@ describe LineItem do
 		Customer.delete_all
 		Order.delete_all
 
-		@product = Product.create!( :name => "Product test", 
-																:price_type => Product::PriceType::POR_UNIDAD,
-																:price => 2.5,
-																:tax_percentage => 4 )
+		#@product = FactoryGirl::Factory.create(:product)
+		@product = create(:product)
 
-		@customer = Customer.create!( :name => "Customer test", 
-									  :address => "What ever",
-									  :nif => "xxxxxxx",
-									  :customer_type => Customer::Type::CLIENTE )
+		#@customer = FactoryGirl::Factory.create(:customer)
+		@customer = create(:customer)
 
 		@order = Order.create!( :date => Time.now, :customer => @customer )
 	end

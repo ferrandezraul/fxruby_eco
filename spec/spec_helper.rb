@@ -20,8 +20,15 @@
 # add current dir to LOAD_PATH 
 $LOAD_PATH.unshift '.'
 $LOAD_PATH.unshift './app/models/'
+$LOAD_PATH.unshift './spec/support/'
 
 require 'rake'
+
+require 'factory_girl_rails'
+
+# Add factory girl
+#require File.dirname(__FILE__) + "/support/factory_girl"
+#require File.dirname(__FILE__) + "/factories"
 
 def setup_test_database_connection
     ActiveRecord::Base.logger = Logger.new('test_database.log')
@@ -122,4 +129,6 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+
+  config.include FactoryGirl::Syntax::Methods
 end
