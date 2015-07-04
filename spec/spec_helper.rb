@@ -72,7 +72,8 @@ RSpec.configure do |config|
   # rake db:drop RAILS_ENV=test
   # rake db:migrate RAILS_ENV=test
   config.before(:suite) do
-    drop_and_migrate_test_database
+    # (done now by factory_girl. See database cleaner in support/factory.rb)
+    #drop_and_migrate_test_database  
     setup_test_database_connection
   end
 
