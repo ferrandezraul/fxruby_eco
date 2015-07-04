@@ -2,7 +2,7 @@ require 'bigdecimal'
 
 class Order < ActiveRecord::Base
 	  belongs_to :customer  # Rows in order are children of rows in customer
-  	has_many :line_items  # Each order has many line_items referencing it.
+  	has_many :line_items, :dependent => :destroy  # Each order has many line_items referencing it.
                           # Each line_item contains a reference to its order id
     accepts_nested_attributes_for :line_items
 

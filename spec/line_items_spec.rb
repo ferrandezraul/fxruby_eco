@@ -27,6 +27,10 @@ describe LineItem do
 
  	it "is created and added to an order" do
  		expect( Order.count ).to eq(1)
+
+ 		###############################################################
+    ## Add first line item to order with a product 
+    ###############################################################
   	@order.line_items.create!( :quantity => 1,
 	  						  :weight => 0,
 	  						  :product => @product )
@@ -39,6 +43,9 @@ describe LineItem do
     	expect( line_item.product.name ).to eq("Product test") 
     end
 
+    ###############################################################
+    ## Add second line item to order with diferent product 
+    ###############################################################
     product2 = Product.create!( :name => "Product2 test", 
 					 :price_type => Product::PriceType::POR_UNIDAD,
 					 :price => 5,
@@ -57,13 +64,18 @@ describe LineItem do
 
     expect( text ).to eq("1 x Product test\n2 x Product2 test\n")
 
-    ####
+    ###############################################################
+    ## Create second order  
+    ###############################################################
     order2 = Order.create!( :date => Time.now, :customer => @customer )
     expect( Order.count ).to eq(2)
 
     expect( order2.line_items.count ).to eq(0)
     expect( @order.line_items.count ).to eq(2)
 
+    ###############################################################
+    ## Add line items to second order with same products from first order 
+    ###############################################################
     order2.line_items.create!( :quantity => 2,
 	  						  :weight => 0,
 	  						  :product => @product )
@@ -91,8 +103,10 @@ describe LineItem do
 
 		expect( text ).to eq("1 x Product test\n2 x Product2 test\n")
 
-    ##############
-
+		###############################################################
+    ## Órder and line items were writen in database, 
+    ## and now they can be read
+    ###############################################################
     text = String.new
     Order.find_each do |order|
 	    order.line_items.each do |line_item|
@@ -101,7 +115,30 @@ describe LineItem do
 	  end
 
     expect( text ).to eq("1 x Product test\n2 x Product2 test\n2 x Product test\n1 x Product2 test\n")	   
+    
+    ###############################################################
+    ## Deleting an order should remove it from database
+    ###############################################################
+    @order.destroy!
 
+    expect( Order.count ).to eq(1)
+
+    text = String.new
+    Order.find_each do |order|
+	    order.line_items.each do |line_item|
+	    	text << "#{line_item.quantity} x #{line_item.product.name}\n"
+	    end
+	  end
+
+    expect( text ).to eq("2 x Product test\n1 x Product2 test\n")	
+
+    expect( LineItem.count ).to eq(2)
+    expect( Product.count ).to eq(2)
+    expect( order2.line_items.count ).to eq(2)
+
+    ###############################################################
+    ## Deleting a product should not delete it from orders in place
+    ###############################################################
     product2.delete
 
     text = String.new
@@ -111,13 +148,11 @@ describe LineItem do
 	    end
 	  end
 
-	  expect( text ).to eq("1 x Product test\n2 x Product2 test\n2 x Product test\n1 x Product2 test\n")
+	  # expect( text ).to eq("1 x Product test\n2 x Product2 test\n2 x Product test\n1 x Product2 test\n")
 
-    @order.delete
-
-    expect( LineItem.count ).to eq(2)
-    expect( Product.count ).to eq(1)
-    expect( order2.line_items.count ).to eq(2)
+	  #expect( LineItem.count ).to eq(2)
+    #expect( Product.count ).to eq(2)
+    #expect( order2.line_items.count ).to eq(2)
 	end
 
 end
