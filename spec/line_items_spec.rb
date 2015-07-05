@@ -26,10 +26,7 @@ describe LineItem do
     expect( LineItem.count ).to eq(1)
     expect( Product.count ).to eq(1)
     expect( @raul_order.line_items.count ).to eq(1)
-
-    @raul_order.line_items.each do |line_item|
-    	expect( line_item.product.name ).to eq("Soca") 
-    end
+    expect( @raul_order.line_items.first.product.name ).to eq("Soca") 
 
     ###############################################################
     ## Add second line item to order with diferent product 
