@@ -1,9 +1,8 @@
 require 'active_record'
 
 class Product < ActiveRecord::Base
-	has_one :line_item  #, :dependent => :nullify # Each product has many line_items referencing it.
+	has_one :line_item  # Each product has many line_items referencing it.
 										  # Each line_item contains a reference to its product id
-										  # Do not destroy line items when products are destroyed (Keep them in database)
 
 	validates :name, presence: true, uniqueness: true
 	validates :price, presence: true
@@ -22,8 +21,9 @@ class Product < ActiveRecord::Base
 
   def check_for_line_item
     if line_item
-      puts "cannot delete product while line item exist"
-      return false
+    	@@LOG ||= Logger.new('error.log')
+      @@LOG.info "cannot delete product while line item exist"
+      return false # Do not destroy them from database
     end
   end
 
