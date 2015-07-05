@@ -11,7 +11,7 @@ class Product < ActiveRecord::Base
 	validates :tax_percentage, presence: true
 
 	before_save :calculate
-	#before_destroy :check_for_line_item
+	before_destroy :check_for_line_item
 
 	module PriceType
 	    POR_KILO      = "por_kilo"
@@ -21,8 +21,8 @@ class Product < ActiveRecord::Base
   private
 
   def check_for_line_item
-    if line_item.valid?
-      errors.add_to_base("cannot delete product while line item exist")
+    if line_item
+      puts "cannot delete product while line item exist"
       return false
     end
   end
