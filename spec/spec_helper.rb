@@ -23,8 +23,8 @@ $LOAD_PATH.unshift './app/models/'
 $LOAD_PATH.unshift './spec/support/'
 
 require 'rake'
-
 require 'factory_girl_rails'
+require 'testing_helper'
 
 # Add factory girl
 #require File.dirname(__FILE__) + "/support/factory_girl"
@@ -132,4 +132,5 @@ RSpec.configure do |config|
 =end
 
   config.include FactoryGirl::Syntax::Methods
+  config.include TestingHelper
 end

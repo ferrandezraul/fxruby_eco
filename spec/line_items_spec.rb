@@ -4,6 +4,7 @@ require 'line_item'
 require 'order'
 require 'customer'
 require 'factories'
+require 'testing_helper'
 
 describe LineItem do
 	before do
@@ -52,10 +53,12 @@ describe LineItem do
 
     expect( @order.line_items.count ).to eq(2)
 
-    text = String.new
-    @order.line_items.each do |line_item|
-    	text << "#{line_item.quantity} x #{line_item.product.name}\n"
-    end
+    #text = String.new
+    #@order.line_items.each do |line_item|
+   # 	text << "#{line_item.quantity} x #{line_item.product.name}\n"
+   # end
+
+    text = line_items_string( @order )
 
     expect( text ).to eq("1 x Soca\n2 x Pigat\n")
 
@@ -84,17 +87,11 @@ describe LineItem do
     expect( @order.line_items.count ).to eq(2)
     expect( order2.line_items.count ).to eq(2)
 
-    text = String.new
-		order2.line_items.each do |line_item|
-			text << "#{line_item.quantity} x #{line_item.product.name}\n"
-		end
+    text = line_items_string( order2 )
 
 		expect( text ).to eq("2 x Soca\n1 x Pigat\n")
 
-		text = String.new
-		@order.line_items.each do |line_item|
-			text << "#{line_item.quantity} x #{line_item.product.name}\n"
-		end
+		text = line_items_string( @order )
 
 		expect( text ).to eq("1 x Soca\n2 x Pigat\n")
 
@@ -104,9 +101,7 @@ describe LineItem do
     ###############################################################
     text = String.new
     Order.find_each do |order|
-	    order.line_items.each do |line_item|
-	    	text << "#{line_item.quantity} x #{line_item.product.name}\n"
-	    end
+    		text << line_items_string( order )
 	  end
 
     expect( text ).to eq("1 x Soca\n2 x Pigat\n2 x Soca\n1 x Pigat\n")	   
@@ -120,9 +115,7 @@ describe LineItem do
 
     text = String.new
     Order.find_each do |order|
-	    order.line_items.each do |line_item|
-	    	text << "#{line_item.quantity} x #{line_item.product.name}\n"
-	    end
+    		text << line_items_string( order )
 	  end
 
     expect( text ).to eq("2 x Soca\n1 x Pigat\n")	
