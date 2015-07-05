@@ -13,10 +13,7 @@ describe LineItem do
 
 		# uses Factories defined in factories.rb
 		@soca = create(:product)
-		@pigat = create( :product, :name => "Pigat", 
-														  :price_type => Product::PriceType::POR_UNIDAD,
-														  :price => 5,
-														  :tax_percentage => 4 )
+		@pigat = create( :product, :name => "Pigat", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 4 )
 
 		@raul = create(:customer)
 		@carmen = create(:customer, :name => 'Carmen', :address => 'Riudaura', :nif => '23238768Y')
@@ -24,49 +21,47 @@ describe LineItem do
 		@raul_order = Order.create!( :date => Time.now, :customer => @raul )
 		@carmen_order = Order.create!( :date => Time.now, :customer => @carmen )
 
-		@raul_order.line_items.create!( :quantity => 1,
-	  						                    :weight => 0,
-	  						                    :product => @soca )
+		@raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
 	end
 
  	it "is created and added to an order" do
  		expect( Order.count ).to eq(2)
-    expect( LineItem.count ).to eq(1)
-    expect( Product.count ).to eq(2)
-    expect( @raul_order.line_items.count ).to eq(1)
-    expect( @raul_order.line_items.first.product.name ).to eq("Soca") 
+        expect( LineItem.count ).to eq(1)
+        expect( Product.count ).to eq(2)
+        expect( @raul_order.line_items.count ).to eq(1)
+        expect( @raul_order.line_items.first.product.name ).to eq("Soca") 
 
-    ###############################################################
-    ## Add second line item to order with diferent product 
-    ###############################################################
-    @raul_order.line_items.create!( :quantity => 2,
-	  							:weight => 0,
-	  							:product => @pigat )
+        ###############################################################
+        ## Add second line item to order with diferent product 
+        ###############################################################
+        @raul_order.line_items.create!( :quantity => 2,
+    	  							:weight => 0,
+    	  							:product => @pigat )
 
-    expect( @carmen_order.line_items.count ).to eq(0)
-    expect( @raul_order.line_items.count ).to eq(2)
+        expect( @carmen_order.line_items.count ).to eq(0)
+        expect( @raul_order.line_items.count ).to eq(2)
 
-    text = line_items_string( @raul_order )
+        text = line_items_string( @raul_order )
 
-    expect( text ).to eq("1 x Soca\n2 x Pigat\n")
+        expect( text ).to eq("1 x Soca\n2 x Pigat\n")
 
-    ###############################################################
-    ## Add line items to second order with same products from first order 
-    ###############################################################
-    @carmen_order.line_items.create!( :quantity => 2,
-							  						   :weight => 0,
-							  						   :product => @soca )
+        ###############################################################
+        ## Add line items to second order with same products from first order 
+        ###############################################################
+        @carmen_order.line_items.create!( :quantity => 2,
+    							  						   :weight => 0,
+    							  						   :product => @soca )
 
-    @carmen_order.line_items.create!( :quantity => 1,
-	  						  :weight => 0,
-	  						  :product => @pigat )
+        @carmen_order.line_items.create!( :quantity => 1,
+    	  						  :weight => 0,
+    	  						  :product => @pigat )
 
-    expect( LineItem.count ).to eq(4)
-    expect( Product.count ).to eq(2)
-    expect( @raul_order.line_items.count ).to eq(2)
-    expect( @carmen_order.line_items.count ).to eq(2)
+        expect( LineItem.count ).to eq(4)
+        expect( Product.count ).to eq(2)
+        expect( @raul_order.line_items.count ).to eq(2)
+        expect( @carmen_order.line_items.count ).to eq(2)
 
-    text = line_items_string( @carmen_order )
+        text = line_items_string( @carmen_order )
 
 		expect( text ).to eq("2 x Soca\n1 x Pigat\n")
 
@@ -75,49 +70,49 @@ describe LineItem do
 		expect( text ).to eq("1 x Soca\n2 x Pigat\n")
 
 		###############################################################
-    ## Órder and line items were writen in database, 
-    ## and now they can be read
-    ###############################################################
-    text = all_orders_from_database_to_string
+        ## Órder and line items were writen in database, 
+        ## and now they can be read
+        ###############################################################
+        text = all_orders_from_database_to_string
 
-    expect( text ).to eq("1 x Soca\n2 x Pigat\n2 x Soca\n1 x Pigat\n")	   
-    
-    ###############################################################
-    ## Deleting an order should remove it from database
-    ###############################################################
-    @raul_order.destroy!
+        expect( text ).to eq("1 x Soca\n2 x Pigat\n2 x Soca\n1 x Pigat\n")	   
+        
+        ###############################################################
+        ## Deleting an order should remove it from database
+        ###############################################################
+        @raul_order.destroy!
 
-    expect( Order.count ).to eq(1)
+        expect( Order.count ).to eq(1)
 
-    text = all_orders_from_database_to_string
+        text = all_orders_from_database_to_string
 
-    expect( text ).to eq("2 x Soca\n1 x Pigat\n")	
+        expect( text ).to eq("2 x Soca\n1 x Pigat\n")	
 
-    expect( LineItem.count ).to eq(2)
-    expect( Product.count ).to eq(2)
-    expect( @carmen_order.line_items.count ).to eq(2)
+        expect( LineItem.count ).to eq(2)
+        expect( Product.count ).to eq(2)
+        expect( @carmen_order.line_items.count ).to eq(2)
 
-    ###############################################################
-    ## Deleting a product is not possible if it is already in an order
-    ###############################################################
-    @pigat.destroy # 
-    expect( Product.count ).to eq(2)
+        ###############################################################
+        ## Deleting a product is not possible if it is already in an order
+        ###############################################################
+        @pigat.destroy # 
+        expect( Product.count ).to eq(2)
 
-    text = all_orders_from_database_to_string
-	  expect( text ).to eq("2 x Soca\n1 x Pigat\n")	
+        text = all_orders_from_database_to_string
+    	  expect( text ).to eq("2 x Soca\n1 x Pigat\n")	
 
-	  ###############################################################
-    ## Deleting a product is possible if it is not in an order
-    ###############################################################
-    croscat = create( :product, :name => "Croscat", 
-														  :price_type => Product::PriceType::POR_UNIDAD,
-														  :price => 3.25,
-														  :tax_percentage => 4 )
+    	  ###############################################################
+        ## Deleting a product is possible if it is not in an order
+        ###############################################################
+        croscat = create( :product, :name => "Croscat", 
+    														  :price_type => Product::PriceType::POR_UNIDAD,
+    														  :price => 3.25,
+    														  :tax_percentage => 4 )
 
-    expect( Product.count ).to eq(3)
+        expect( Product.count ).to eq(3)
 
-    croscat.destroy # 
-    expect( Product.count ).to eq(2)
+        croscat.destroy # 
+        expect( Product.count ).to eq(2)
 	end
 
 end
