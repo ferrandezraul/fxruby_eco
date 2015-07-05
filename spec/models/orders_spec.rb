@@ -29,4 +29,26 @@ describe Order do
     expect( @raul_order.line_items.first.product.name ).to eq("Soca") 
   end
 
+  it "is deleted from database, deleting their line items but not their products" do
+    expect( Order.count ).to eq(2)
+    expect( LineItem.count ).to eq(1)
+    expect( Product.count ).to eq(2)
+
+    @carmen_order.line_items.create!( :quantity => 2, :weight => 0, :product => @soca )
+    @carmen_order.line_items.create!( :quantity => 1, :weight => 0, :product => @pigat )
+
+    expect( LineItem.count ).to eq(3)
+
+    @raul_order.destroy!
+
+    expect( Order.count ).to eq(1)
+    expect( LineItem.count ).to eq(2)
+    expect( Product.count ).to eq(2)
+
+    text = all_orders_from_database_to_string
+
+    expect( text ).to eq("2 x Soca\n1 x Pigat\n") 
+    expect( @carmen_order.line_items.count ).to eq(2)
+  end
+
 end
