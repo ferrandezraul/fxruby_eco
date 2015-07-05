@@ -42,9 +42,11 @@ describe Product do
 
 		text = all_orders_from_database_to_string
     expect( text ).to eq("1 x Soca\n")	
+
+    # TODO but product is marked as out_of_list
 	end
 
-	it "is is destroyed from database if product is not contained in an order yet" do
+	it "is destroyed from database if product is not contained in an order yet" do
 		expect( Product.count).to eq(2)
 		other = create( :product, :name => "What ever", :price_type => Product::PriceType::POR_KILO, :price => 2.5, :tax_percentage => 4 )
 		expect( Product.count).to eq(3)

@@ -25,18 +25,10 @@ describe LineItem do
 	end
 
  	it "is created and added to an order" do
- 		expect( Order.count ).to eq(2)
-        expect( LineItem.count ).to eq(1)
-        expect( Product.count ).to eq(2)
-        expect( @raul_order.line_items.count ).to eq(1)
-        expect( @raul_order.line_items.first.product.name ).to eq("Soca") 
-
-        ###############################################################
+ 		###############################################################
         ## Add second line item to order with diferent product 
         ###############################################################
-        @raul_order.line_items.create!( :quantity => 2,
-    	  							:weight => 0,
-    	  							:product => @pigat )
+        @raul_order.line_items.create!( :quantity => 2, :weight => 0, :product => @pigat )
 
         expect( @carmen_order.line_items.count ).to eq(0)
         expect( @raul_order.line_items.count ).to eq(2)
@@ -48,13 +40,9 @@ describe LineItem do
         ###############################################################
         ## Add line items to second order with same products from first order 
         ###############################################################
-        @carmen_order.line_items.create!( :quantity => 2,
-    							  						   :weight => 0,
-    							  						   :product => @soca )
+        @carmen_order.line_items.create!( :quantity => 2, :weight => 0, :product => @soca )
 
-        @carmen_order.line_items.create!( :quantity => 1,
-    	  						  :weight => 0,
-    	  						  :product => @pigat )
+        @carmen_order.line_items.create!( :quantity => 1, :weight => 0, :product => @pigat )
 
         expect( LineItem.count ).to eq(4)
         expect( Product.count ).to eq(2)

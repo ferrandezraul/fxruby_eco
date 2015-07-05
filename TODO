@@ -1,13 +1,12 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
-- if product deleted and an order exist with line_items referencing it,
-  a call to prodzuct will result in nil.
-  order.line_items.first.product will could retun nil
-	Avoid deleting products
-	Create attribute in Products called out_of_order that marks it as or being available or not.
+- Avoid deleting products that ara in an order but mark them as 'outdated'
+	Create attribute in Products called outdated that marks it as or being available or not.
 	On the other hand, you can edit the price, name, iva, etc ... of a product and orders previously created
-	will not change their values cause they are saved when the order is created.  
+	will not change their values cause they are saved when the order is created.
+
+	Create test for those scenarios  
 
 - refactor product table. Create button to mark a product as out of order.
 	- Only price
