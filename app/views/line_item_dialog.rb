@@ -58,7 +58,7 @@ class LineItemDialog < FXDialogBox
 	    total_label = FXLabel.new( product_frame, "Total:", :opts => LAYOUT_FILL_X )
 	    total_label.justify = JUSTIFY_RIGHT
 
-	    Product.all.each do | product |
+	    Product.all.where( :outdated => false ).each do | product |
 	    	@product_combo_box.appendItem( product.name, product )
 	    end
 

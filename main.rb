@@ -132,7 +132,7 @@ class EcocityAdmin < FXMainWindow
       if dialog.execute != 0
         ProductsCSVBuilder::create_from_csv(dialog.filename)
         # Update UI !!
-        @products_view.reset(Product.all)
+        @products_view.reset(Product.all.where( :outdated => false ))
         FXMessageBox.warning( self, MBOX_OK, "#{Product.count} Products Imported", 
           "#{Product.count} Products Imported")
         end
