@@ -1,7 +1,7 @@
 include Fox
 
 class ProductsTable < FXTable
-  attr_reader :product
+  attr_reader :current_product
 
   COLUMN_ID = 0
   COLUMN_NAME = 1
@@ -14,10 +14,11 @@ class ProductsTable < FXTable
   def initialize(parent)
     super(parent, :opts => TABLE_COL_SIZABLE|TABLE_ROW_SIZABLE|LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
-    fill_table(Product.all)
+    fill_table(Product.all.where( :outdated => false ))
 
     self.connect(SEL_REPLACED, method(:on_cell_changed))
     self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))
+    self.connect(SEL_COMMAND, method(:on_new_selected))
   end
 
   def fill_table(products)
@@ -57,7 +58,7 @@ class ProductsTable < FXTable
 
   def reset
     clearItems
-    fill_table(Product.all)
+    fill_table(Product.all.where( :outdated => false ))
   end
 
   def on_cell_changed(sender, sel, table_pos)
@@ -102,20 +103,12 @@ class ProductsTable < FXTable
   end
 
   def on_cell_double_clicled( sender, sel, table_pos)
-    row = table_pos.row
-    product = Product.find_by!( :id => getItemText( row, COLUMN_ID ) )
-
-    delete_product?( row, product )
+    # nothing
   end
 
-  def delete_product?( row, product )
-    answer = FXMessageBox.question( self,
-                                    MBOX_YES_NO,
-                                    "Just one question...", "Do you want to delete #{product.name}?" )
-    if answer == MBOX_CLICKED_YES
-      product.destroy!
-      removeRows( row ) # Removes one row by default
-    end
+  def on_new_selected( sender, sel, table_pos)
+    row = table_pos.row
+    @current_product = Product.find_by!( :id => getItemText( row, COLUMN_ID ) ) 
   end
 
   def create

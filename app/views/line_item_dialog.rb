@@ -15,33 +15,6 @@ class LineItemDialog < FXDialogBox
 		add_terminating_buttons
 	end
 
-	def add_terminating_buttons
-		buttons = FXHorizontalFrame.new(self, 
-					:opts => LAYOUT_FILL_X|LAYOUT_SIDE_BOTTOM|PACK_UNIFORM_WIDTH) 
-
-		ok_button = FXButton.new( buttons, "OK",
-					  :target => self, 
-					  :selector => FXDialogBox::ID_ACCEPT,
-					  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
-
-		FXButton.new( buttons, "Cancel",
-					  :target => self, 
-					  :selector => FXDialogBox::ID_CANCEL,
-    				  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
-
-		# Disable ok button if there are no values on order attributes
-		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
-			sender.enabled = is_data_filled?
-		end
-
-		# Connect signal button pressed with sending an ID_ACCEPT event 
-		# from this FXDialogBox. Note that the cancel button is automatically tied
-		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
-		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
-		    self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
-		end
-	end
-
 	def construct_page	    
 	    form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
 	    matrix = FXMatrix.new( form, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
@@ -111,6 +84,33 @@ class LineItemDialog < FXDialogBox
 	    @product_combo_box.setCurrentItem(1, true) if Product.count > 0
 	    @product_combo_box.editable = false 
 	    #@product_combo_box.numVisible( 5 ) # not working
+	end
+
+	def add_terminating_buttons
+		buttons = FXHorizontalFrame.new(self, 
+					:opts => LAYOUT_FILL_X|LAYOUT_SIDE_BOTTOM|PACK_UNIFORM_WIDTH) 
+
+		ok_button = FXButton.new( buttons, "OK",
+					  :target => self, 
+					  :selector => FXDialogBox::ID_ACCEPT,
+					  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
+
+		FXButton.new( buttons, "Cancel",
+					  :target => self, 
+					  :selector => FXDialogBox::ID_CANCEL,
+    				  :opts => BUTTON_NORMAL|LAYOUT_RIGHT)
+
+		# Disable ok button if there are no values on order attributes
+		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
+			sender.enabled = is_data_filled?
+		end
+
+		# Connect signal button pressed with sending an ID_ACCEPT event 
+		# from this FXDialogBox. Note that the cancel button is automatically tied
+		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
+		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
+		    self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+		end
 	end
 
 	def is_data_filled?
