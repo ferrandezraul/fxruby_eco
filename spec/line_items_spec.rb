@@ -118,9 +118,9 @@ describe LineItem do
     ###############################################################
     ## Deleting a product is not possible
     ###############################################################
-   #  pigat.delete
+    #  pigat.delete
 
-   #  text = all_orders_from_database_to_string
+    #  text = all_orders_from_database_to_string
 	  # expect( text ).to eq("1 x Soca\n2 x Pigat\n2 x Soca\n1 x Pigat\n")
 
 	  #expect( LineItem.count ).to eq(2)
