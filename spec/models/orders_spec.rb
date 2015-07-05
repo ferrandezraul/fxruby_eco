@@ -16,11 +16,11 @@ describe Order do
 
     @raul_order = Order.create!( :date => Time.now, :customer => @raul )
     @carmen_order = Order.create!( :date => Time.now, :customer => @carmen )
-
-    @raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
   end
 
   it "created and saved to database" do
+    @raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
+
     expect( Order.count ).to eq(2)
     expect( LineItem.count ).to eq(1)
     expect( Product.count ).to eq(2)
@@ -30,6 +30,8 @@ describe Order do
   end
 
   it "is deleted from database, deleting their line items but not their products" do
+    @raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
+    
     expect( Order.count ).to eq(2)
     expect( LineItem.count ).to eq(1)
     expect( Product.count ).to eq(2)

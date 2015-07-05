@@ -12,6 +12,7 @@ class Schema < ActiveRecord::Migration
       t.decimal :tax_percentage, precision: 4, scale: 2  # % IVA
       t.decimal :total, precision: 8, scale: 2  # total
       t.decimal :weight, precision: 8, scale: 3
+      t.boolean :outdated, default: false
       t.timestamps null: false
     end
 

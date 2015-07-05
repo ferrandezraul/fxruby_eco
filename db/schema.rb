@@ -57,8 +57,9 @@ ActiveRecord::Schema.define(version: 1) do
     t.decimal  "tax_percentage", precision: 4, scale: 2
     t.decimal  "total",          precision: 8, scale: 2
     t.decimal  "weight",         precision: 8, scale: 3
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.boolean  "outdated",                               default: false
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
   end
 
 end

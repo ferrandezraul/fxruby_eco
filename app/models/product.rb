@@ -17,12 +17,22 @@ class Product < ActiveRecord::Base
 	    POR_UNIDAD    = "por_unidad"
 	end
 
+	# Returns if Product is outdated
+	# outdated means that Product was wanted to be destroyed but was kept to
+	# maintain integrity in database for orders that were previously created
+	# with that Product. (See before_destroy) 
+	# User can filter those products by checking this attribute.
+	def is_outdated?
+		self.outdated
+	end
+
   private
 
   def check_for_line_item
     if line_item
     	@@LOG ||= Logger.new('error.log')
       @@LOG.info "cannot delete product while line item exist"
+      self.outdated = true 
       return false # Do not destroy them from database
     end
   end

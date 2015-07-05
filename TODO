@@ -1,15 +1,9 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
-- Avoid deleting products that ara in an order but mark them as 'outdated'
-	Create attribute in Products called outdated that marks it as or being available or not.
-	On the other hand, you can edit the price, name, iva, etc ... of a product and orders previously created
-	will not change their values cause they are saved when the order is created.
-
-	Create test for those scenarios  
-
 - refactor product table. Create button to mark a product as out of order.
-	- Only price
+	Create view that flters products if out of order, hide id column from products
+	Let edit only the product price in table
   	- Add EUR, %, etc to views.
 
 - when creating new products, (product_dialog) misses price_type combobox

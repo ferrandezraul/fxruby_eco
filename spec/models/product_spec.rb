@@ -16,8 +16,6 @@ describe Product do
 
 		@raul_order = Order.create!( :date => Time.now, :customer => @raul )
 		@carmen_order = Order.create!( :date => Time.now, :customer => @carmen )
-
-		@raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
 	end
 
  	it "has a name, price, price type and tax percentage" do
@@ -35,6 +33,8 @@ describe Product do
 	end
 
 	it "is not destroyed from database if product is contained in an order" do
+		@raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
+
 		expect( Product.count).to eq(2)
 
 		@soca.destroy
@@ -44,9 +44,12 @@ describe Product do
     expect( text ).to eq("1 x Soca\n")	
 
     # TODO but product is marked as out_of_list
+    expect( @soca.is_outdated? ).to eq(true) 
 	end
 
 	it "is destroyed from database if product is not contained in an order yet" do
+		@raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
+
 		expect( Product.count).to eq(2)
 		other = create( :product, :name => "What ever", :price_type => Product::PriceType::POR_KILO, :price => 2.5, :tax_percentage => 4 )
 		expect( Product.count).to eq(3)
