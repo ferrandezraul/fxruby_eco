@@ -48,12 +48,16 @@ class ProductsTable < FXTable
   def add_product( product )
     num_rows = getNumRows
     appendRows( 1 )
-    setItemText( num_rows, COLUMN_ID, product.id.to_s )
-    setItemText( num_rows, COLUMN_NAME, product.name )
-    setItemText( num_rows, COLUMN_RAW_PRICE, "#{ sprintf('%.2f', product.price ) }" )
-    setItemText( num_rows, COLUMN_TAX_PERCENTAGE, "#{ sprintf('%.2f', product.tax_percentage ) }" )
-    setItemText( num_rows, COLUMN_TAXES, "#{ sprintf('%.2f', product.taxes ) }" )
-    setItemText( num_rows, COLUMN_TOTAL, "#{ sprintf('%.2f', product.total ) }" )
+    set_product_in_row( num_rows, product )
+  end
+
+  def set_product_in_row( row, product )
+    setItemText( row, COLUMN_ID, product.id.to_s )
+    setItemText( row, COLUMN_NAME, product.name )
+    setItemText( row, COLUMN_RAW_PRICE, "#{ sprintf('%.2f', product.price ) }" )
+    setItemText( row, COLUMN_TAX_PERCENTAGE, "#{ sprintf('%.2f', product.tax_percentage ) }" )
+    setItemText( row, COLUMN_TAXES, "#{ sprintf('%.2f', product.taxes ) }" )
+    setItemText( row, COLUMN_TOTAL, "#{ sprintf('%.2f', product.total ) }" )
   end
 
   def reset

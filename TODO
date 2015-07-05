@@ -1,9 +1,10 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
-- refactor product table. Create button to mark a product as out of order.
-	Create view that flters products if out of order, hide id column from products
+- d column from products can not be hidden
 	Let edit only the product price in table
+		when doing so, total and taxes should be updated, therefore catch the callback update on product and call calculations. Then in the table view call set_product_in_row( row, product )
+		Add missing price_type to table products and handle editing. See nect point and thing about best solution.
   	- Add EUR, %, etc to views.
 
 - when creating new products, (product_dialog) misses price_type combobox
