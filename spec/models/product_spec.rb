@@ -34,4 +34,26 @@ describe Product do
 		expect( Product.count).to eq(3)
 	end
 
+	it "is not destroyed from database if product is contained in an order" do
+		expect( Product.count).to eq(2)
+
+		@soca.destroy
+		expect( Product.count).to eq(2)
+
+		text = all_orders_from_database_to_string
+    expect( text ).to eq("1 x Soca\n")	
+	end
+
+	it "is is destroyed from database if product is not contained in an order yet" do
+		expect( Product.count).to eq(2)
+		other = create( :product, :name => "What ever", :price_type => Product::PriceType::POR_KILO, :price => 2.5, :tax_percentage => 4 )
+		expect( Product.count).to eq(3)
+
+		other.destroy
+		expect( Product.count).to eq(2)
+
+		text = all_orders_from_database_to_string
+    expect( text ).to eq("1 x Soca\n")	
+	end
+
 end

@@ -91,28 +91,6 @@ describe LineItem do
         expect( LineItem.count ).to eq(2)
         expect( Product.count ).to eq(2)
         expect( @carmen_order.line_items.count ).to eq(2)
-
-        ###############################################################
-        ## Deleting a product is not possible if it is already in an order
-        ###############################################################
-        @pigat.destroy # 
-        expect( Product.count ).to eq(2)
-
-        text = all_orders_from_database_to_string
-    	  expect( text ).to eq("2 x Soca\n1 x Pigat\n")	
-
-    	  ###############################################################
-        ## Deleting a product is possible if it is not in an order
-        ###############################################################
-        croscat = create( :product, :name => "Croscat", 
-    														  :price_type => Product::PriceType::POR_UNIDAD,
-    														  :price => 3.25,
-    														  :tax_percentage => 4 )
-
-        expect( Product.count ).to eq(3)
-
-        croscat.destroy # 
-        expect( Product.count ).to eq(2)
 	end
 
 end
