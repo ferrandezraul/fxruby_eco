@@ -14,25 +14,20 @@ describe LineItem do
 		# uses Factories defined in factories.rb
 		@soca = create(:product)
 		@raul = create(:customer)
+		@raul_order = Order.create!( :date => Time.now, :customer => @raul )
 
-		@order = Order.create!( :date => Time.now, :customer => @raul )
+		@raul_order.line_items.create!( :quantity => 1,
+	  						                    :weight => 0,
+	  						                    :product => @soca )
 	end
 
  	it "is created and added to an order" do
  		expect( Order.count ).to eq(1)
-
- 		###############################################################
-    ## Add first line item to order with a product 
-    ###############################################################
-  	@order.line_items.create!( :quantity => 1,
-	  						  :weight => 0,
-	  						  :product => @soca )
-
     expect( LineItem.count ).to eq(1)
     expect( Product.count ).to eq(1)
-    expect( @order.line_items.count ).to eq(1)
+    expect( @raul_order.line_items.count ).to eq(1)
 
-    @order.line_items.each do |line_item|
+    @raul_order.line_items.each do |line_item|
     	expect( line_item.product.name ).to eq("Soca") 
     end
 
@@ -44,18 +39,18 @@ describe LineItem do
 					 :price => 5,
 					 :tax_percentage => 4 )
 
-    @order.line_items.create!( :quantity => 2,
+    @raul_order.line_items.create!( :quantity => 2,
 	  							:weight => 0,
 	  							:product => pigat )
 
-    expect( @order.line_items.count ).to eq(2)
+    expect( @raul_order.line_items.count ).to eq(2)
 
     #text = String.new
-    #@order.line_items.each do |line_item|
+    #@raul_order.line_items.each do |line_item|
    # 	text << "#{line_item.quantity} x #{line_item.product.name}\n"
    # end
 
-    text = line_items_string( @order )
+    text = line_items_string( @raul_order )
 
     expect( text ).to eq("1 x Soca\n2 x Pigat\n")
 
@@ -66,7 +61,7 @@ describe LineItem do
     expect( Order.count ).to eq(2)
 
     expect( order2.line_items.count ).to eq(0)
-    expect( @order.line_items.count ).to eq(2)
+    expect( @raul_order.line_items.count ).to eq(2)
 
     ###############################################################
     ## Add line items to second order with same products from first order 
@@ -81,14 +76,14 @@ describe LineItem do
 
     expect( LineItem.count ).to eq(4)
     expect( Product.count ).to eq(2)
-    expect( @order.line_items.count ).to eq(2)
+    expect( @raul_order.line_items.count ).to eq(2)
     expect( order2.line_items.count ).to eq(2)
 
     text = line_items_string( order2 )
 
 		expect( text ).to eq("2 x Soca\n1 x Pigat\n")
 
-		text = line_items_string( @order )
+		text = line_items_string( @raul_order )
 
 		expect( text ).to eq("1 x Soca\n2 x Pigat\n")
 
@@ -103,7 +98,7 @@ describe LineItem do
     ###############################################################
     ## Deleting an order should remove it from database
     ###############################################################
-    @order.destroy!
+    @raul_order.destroy!
 
     expect( Order.count ).to eq(1)
 
