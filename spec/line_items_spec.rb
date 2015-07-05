@@ -9,10 +9,7 @@ require 'testing_helper'
 describe LineItem do
 	before do
 		# Do something before any single test
-		Product.delete_all
-		LineItem.delete_all
-		Customer.delete_all
-		Order.delete_all
+		delete_all_records
 
 		# uses Factories defined in factories.rb
 		@soca = create(:product)
@@ -99,10 +96,7 @@ describe LineItem do
     ## Órder and line items were writen in database, 
     ## and now they can be read
     ###############################################################
-    text = String.new
-    Order.find_each do |order|
-    		text << line_items_string( order )
-	  end
+    text = all_orders_from_database_to_string
 
     expect( text ).to eq("1 x Soca\n2 x Pigat\n2 x Soca\n1 x Pigat\n")	   
     
@@ -113,10 +107,7 @@ describe LineItem do
 
     expect( Order.count ).to eq(1)
 
-    text = String.new
-    Order.find_each do |order|
-    		text << line_items_string( order )
-	  end
+    text = all_orders_from_database_to_string
 
     expect( text ).to eq("2 x Soca\n1 x Pigat\n")	
 
@@ -129,14 +120,7 @@ describe LineItem do
     ###############################################################
    #  pigat.delete
 
-   #  text = String.new
-   #  Order.find_each do |order|
-	  #   order.line_items.each do |line_item|
-	  #   	# This would crash
-	  #   	text << "#{line_item.quantity} x #{line_item.product.name}\n"
-	  #   end
-	  # end
-
+   #  text = all_orders_from_database_to_string
 	  # expect( text ).to eq("1 x Soca\n2 x Pigat\n2 x Soca\n1 x Pigat\n")
 
 	  #expect( LineItem.count ).to eq(2)
