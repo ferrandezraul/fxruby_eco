@@ -116,7 +116,9 @@ class ProductsTable < FXTable
       product.update( :tax_percentage => new_taxes ) 
       fill_row( row, product )
     else
-      puts "You gave me #{column} -- I have no idea what to do with that."
+      FXMessageBox.warning( self, MBOX_OK, "You can not edit this column", 
+          "You can not edit this column. Only name, price type, price and tax is editable" )
+      fill_row( row, product )
     end
   end
 

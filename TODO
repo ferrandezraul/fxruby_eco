@@ -1,18 +1,8 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
-- id column from products can not be hidden
-	Let edit only the product price in table
-  	- Add EUR, %, etc to views.
-
-- when creating new products, (product_dialog) misses price_type combobox
-
 Small improvements
 Columns can be manually extended, but extend automatically based on content?
 Order products when header is pressed
-Hide columns id (hide them and don't delete them since they are needed to get objects)
 Validate csv files when importing 
 If orders table is empty, presing the header causes a crash
-
-TODO
-rewrite text properly using fixtures or factory_girl.
