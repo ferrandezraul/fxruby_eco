@@ -3,8 +3,6 @@ http://api.rubyonrails.org/
 
 - id column from products can not be hidden
 	Let edit only the product price in table
-		when doing so, total and taxes should be updated on the UI (set_product_in_row( row, product ))
-		Add missing price_type to table products and handle editing. See nect point and thing about best solution.
   	- Add EUR, %, etc to views.
 
 - when creating new products, (product_dialog) misses price_type combobox

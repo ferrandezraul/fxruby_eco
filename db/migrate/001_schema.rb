@@ -6,7 +6,7 @@ class Schema < ActiveRecord::Migration
   def change
     create_table :products, force: true do |t|
       t.string :name
-      t.string :price_type                      # por_unidad o por_kilo
+      t.string :price_type   # por_unidad o por_kilo
       t.decimal :price, precision: 8, scale: 2  # without taxes
       t.decimal :taxes, precision: 8, scale: 2  # taxes
       t.decimal :tax_percentage, precision: 4, scale: 2  # % IVA
