@@ -32,6 +32,22 @@ describe Product do
 		expect( Product.count).to eq(3)
 	end
 
+	it "updates taxes and total price into the database when we change its raw price" do
+		expect( Product.count).to eq(2)
+
+		price_soca = @soca.price
+
+		new_price = price_soca + 1
+
+		@soca.update( :price => new_price )
+
+		new_taxes = new_price * @soca.tax_percentage / 100
+		new_total = new_taxes + new_price
+
+		expect( @soca.total ).to eq(new_total)
+		expect( @soca.taxes ).to eq(new_taxes)
+	end
+
 	it "is not destroyed from database if product is contained in an order" do
 		@raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
 
