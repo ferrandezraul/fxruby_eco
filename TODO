@@ -1,19 +1,19 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
+Implement composite pattern for lotes
+http://stackoverflow.com/questions/17603142/implementing-the-composite-pattern-in-ruby-on-rails
+
 In order to implement a lote, I need to change associations
+
 Create ActiveRecord class Lote
-Class inherits product and overwrites (attributes in migration :name, price, prce_type(por unidad!), tax_percentage, total )
-and has an association has_many products ??
-then i do not need to mention lote in associations from line_item
-and when inspecting order, we avoid getting nil for product in case we hit a lote
 
  order.line_items.each do |line_item|
  	line_item.product
  	line_item.lote
  end
 
- instead, we do
+ ior instead:
 
  order.line_items.each do |line_item|
  	line_item.product # Returns a raw product or a lote
