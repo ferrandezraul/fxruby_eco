@@ -1,6 +1,43 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
+In order to implement a lote, I need to change associations
+Create ActiveRecord class Lote
+Class inherits product and overwrites (attributes in migration :name, price, prce_type(por unidad!), tax_percentage, total )
+and has an association has_many products ??
+then i do not need to mention lote in associations from line_item
+and when inspecting order, we avoid getting nil for product in case we hit a lote
+
+ order.line_items.each do |line_item|
+ 	line_item.product
+ 	line_item.lote
+ end
+
+ instead, we do
+
+ order.line_items.each do |line_item|
+ 	line_item.product # Returns a raw product or a lote
+ end
+
+class Lote < ActiveRecord::Base
+has_many products 
+belongs_to line_tem
+end
+
+class LineItem
+belongs_to :lote  (new)
+belong_to :product
+belongs_to :order
+end
+
+class Order
+belongs_to :customer
+has_many :line_items, :dependent => :destroy 
+has_many :lotes through :line_items (new)  (But should not be destroyed)
+end
+
+Create test for this. 
+
 Small improvements
 Columns can be manually extended, but extend automatically based on content?
 Order products when header is pressed
