@@ -80,13 +80,33 @@ describe Product do
 	it "is might contain subproducts" do
 		lote = Product.create!( :name => "Lote de 5 kilos", :price_type => Product::PriceType::POR_UNIDAD, :price => 20, :tax_percentage => 10 )
 
-		salchichas = Product.create!( :name => "Salchichas", :price_type => Product::PriceType::POR_UNIDAD, :price => 20, :tax_percentage => 10,
+		salchichas = Product.create!( :name => "Salchichas", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 10,
 									  :parent => lote )
 
-		lomo = Product.create!( :name => "Lomo", :price_type => Product::PriceType::POR_UNIDAD, :price => 20, :tax_percentage => 10,
-									  :parent => lote )
+		lomo = Product.create!( :name => "Lomo", :price_type => Product::PriceType::POR_UNIDAD, :price => 6, :tax_percentage => 10,
+							    :parent => lote )
 
+		expect( lote.root? ).to eq( true )
 		expect( lote.has_children? ).to eq( true )
+		expect( lote.price ).to eq( 20 )
+
+		expected_taxes = 20 * 10 / 100
+		expect( lote.taxes ).to eq( expected_taxes )
+		expect( lote.tax_percentage ).to eq( 10 )
+		expect( lote.total ).to eq( expected_taxes + 20 )
+	end
+
+	it "might be contained in several parent products" do
+		# If thi fails, I might need to implement the many to many association explained here
+		# http://stackoverflow.com/questions/17603142/implementing-the-composite-pattern-in-ruby-on-rails
+		lote = Product.create!( :name => "Lote de 5 kilos", :price_type => Product::PriceType::POR_UNIDAD, :price => 20, :tax_percentage => 10 )
+		lote2 = Product.create!( :name => "Lote de 2.5 kilos", :price_type => Product::PriceType::POR_UNIDAD, :price => 10, :tax_percentage => 10 )
+
+		salchichas = Product.create!( :name => "Salchichas", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 10,
+									  :parent => lote ) # parent should be lote and lote2
+
+		lomo = Product.create!( :name => "Lomo", :price_type => Product::PriceType::POR_UNIDAD, :price => 6, :tax_percentage => 10,
+							    :parent => lote ) # parent should be lote and lote2
 	end
 
 end

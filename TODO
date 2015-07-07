@@ -2,7 +2,9 @@ http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
 Implement composite pattern for lotes
+I might need to implement the many to many association explained here
 http://stackoverflow.com/questions/17603142/implementing-the-composite-pattern-in-ruby-on-rails
+and do not use the gem ancestry cause it is only for one to many relationship.
 
 In order to implement a lote, I need to change associations (Use ancestry gem)
 Continue with test for ancestry
