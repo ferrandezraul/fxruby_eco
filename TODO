@@ -1,15 +1,24 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
+TEST
+Rewrite test with better factories
+http://codetunes.com/2013/factorygirl-many-to-many-setup/
+
+Extend test for products that contain subproducts
 Create test cases for an order with a lote. Check final price.
+
+UI
 Refactor product dialog to be able to add lotes (product with subproducts)
 
-Continue with test for products that contain subproducts
+REFACTOR
 See design patterns ruby for creating a helper that prints?
 current to_s in product works nicely.
 
-Small improvements
+SMALL IMPROVEMENTS
 Columns can be manually extended, but extend automatically based on content?
 Order products when header is pressed
-Validate csv files when importing 
+Validate csv files when importing
+
+ISSUES
 If orders table is empty, presing the header causes a crash

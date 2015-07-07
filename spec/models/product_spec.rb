@@ -59,7 +59,6 @@ describe Product do
 		text = all_orders_from_database_to_string
     expect( text ).to eq("1 x Soca\n")	
 
-	  # TODO but product is marked as out_of_list
 	  expect( @soca.is_outdated? ).to eq(true) 
 	end
 
@@ -77,8 +76,8 @@ describe Product do
     expect( text ).to eq("1 x Soca\n")	
 	end
 
-	it "might contain subproducts" do
-		lote = Product.create!( :name => "Lote de 5 kilos", :price_type => Product::PriceType::POR_UNIDAD, :price => 20, :tax_percentage => 10 )
+	it "might contain subproducts children but their prices are ignored" do
+		lote = create(:lote)
 
 		salchichas = Product.create!( :name => "Salchichas", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 10 )
 
@@ -87,31 +86,31 @@ describe Product do
 		lote.children << salchichas
 		lote.children << lomo
 
-		expect( lote.root? ).to eq( true )
-		expect( lomo.root? ).to eq( false )
+		expect( lote.price ).to eq( 40 )
 
-		expect( lote.has_subproducts? ).to eq( true )
-		expect( lote.price ).to eq( 20 )
-
-		expected_taxes = 20 * 10 / 100
+		expected_taxes = 40 * 10 / 100
 		expect( lote.taxes ).to eq( expected_taxes )
 		expect( lote.tax_percentage ).to eq( 10 )
-		expect( lote.total ).to eq( expected_taxes + 20 )
+		expect( lote.total ).to eq( expected_taxes + 40 )
 	end
 
-	it "might be a child of several parent products" do
-		expect(Product.count).to eq(2)
-		lote = Product.create!( :name => "Lote de 5 kilos", 
-			:price_type => Product::PriceType::POR_UNIDAD, 
-			:price => 20, 
-			:tax_percentage => 10 )
+	it "doesn't change its price when children are added" do
+    @lote = create(:lote)
+    price = @lote.price
+    
+    @lote.children << @soca
+    @lote.children << @pigat
 
-		lote2 = Product.create!( :name => "Lote de 2.5 kilos", 
+    expect( @lote.price ).to eq(price)
+  end
+
+	it "might be a child of several parent products" do
+		@lote = create(:lote)
+
+		@lote2 = Product.create!( :name => "Lote de 2.5 kilos", 
 			:price_type => Product::PriceType::POR_UNIDAD, 
 			:price => 10, 
 			:tax_percentage => 10 )
-
-		expect(Product.count).to eq(4)
 
 		salchichas = Product.create!( :name => "Salchichas", 
 			:price_type => Product::PriceType::POR_UNIDAD, 
@@ -123,21 +122,24 @@ describe Product do
 			:price => 6, 
 			:tax_percentage => 10 )
 
-		expect(Product.count).to eq(6)
-
-		lote.children << salchichas
-		lote2.children << salchichas
-		lote2.children << lomo
+		@lote.children << salchichas
+		@lote2.children << salchichas
+		@lote2.children << lomo
 
 		# call save not needed
-		expect( Product.find_by(:name => 'Lote de 5 kilos').children.count ).to eq(1)
+		expect( Product.find_by(:name => 'Lote de 5 Kilos').children.count ).to eq(1)
 		expect( Product.find_by(:name => 'Lote de 2.5 kilos').children.count ).to eq(2)
-
-		expect( lote.root? ).to eq( true )
-		expect( lote2.root? ).to eq( true )
-
-		expect( lote.has_subproducts? ).to eq( true )
-		expect( lote2.has_subproducts? ).to eq( true )
 	end
+
+	it "can be a root and have children" do
+    @lote = create(:lote)
+
+    expect(@lote.has_subproducts?).to eq(false)
+    
+    @lote.children << @soca
+
+    expect(@lote.has_subproducts?).to eq(true)
+    expect(@soca.has_subproducts?).to eq(false)
+  end
 
 end

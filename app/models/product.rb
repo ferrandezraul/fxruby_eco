@@ -6,6 +6,7 @@ class Product < ActiveRecord::Base
 
   # A product might contain subproducts
   # This is an implementation of the composite design pattern
+  # See http://stackoverflow.com/questions/17603142/implementing-the-composite-pattern-in-ruby-on-rails
 	has_and_belongs_to_many :children,
     :class_name => "Product",
     :join_table => "children_containers",
@@ -32,6 +33,11 @@ class Product < ActiveRecord::Base
   # All Products that have no children
   scope :subproducts, -> {where("not exists (select * from children_containers where container_id=components.id)")}
 
+  module PriceType
+	    POR_KILO      = "por_kilo"
+	    POR_UNIDAD    = "por_unidad"
+	end
+
   # Is this Component at root level
   def root?
     self.containers.empty?
@@ -51,11 +57,6 @@ class Product < ActiveRecord::Base
   def to_s(level=0)
     "#{'  ' * level}#{name}\n" + children.map {|c| c.to_s(level + 1)}.join
   end
-
-	module PriceType
-	    POR_KILO      = "por_kilo"
-	    POR_UNIDAD    = "por_unidad"
-	end
 
 	# Returns if Product is outdated
 	# outdated means that Product was wanted to be destroyed but was kept to
