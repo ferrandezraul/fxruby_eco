@@ -4,6 +4,13 @@ require 'customer'
 FactoryGirl.define do
 
   factory :product, class: Product do
+    sequence(:name ) { |n| "Product #{n}" }
+    price_type  Product::PriceType::POR_UNIDAD
+    price SecureRandom.random_number(20)
+    tax_percentage 4
+  end
+
+  factory :soca, class: Product do
     name "Soca"
     price_type  Product::PriceType::POR_UNIDAD
     price 2.5

@@ -8,7 +8,7 @@ describe LineItem do
 		delete_all_records
 
 		# uses Factories defined in factories.rb
-		@soca = create(:product)
+		@soca = create(:soca)
 		@pigat = create( :product, :name => "Pigat", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 4 )
 
 		@raul = create(:customer)

@@ -3,6 +3,7 @@ http://api.rubyonrails.org/
 
 TEST
 Rewrite test with better factories
+http://arjanvandergaag.nl/blog/factory_girl_tips.html
 http://codetunes.com/2013/factorygirl-many-to-many-setup/
 
 Extend test for products that contain subproducts
