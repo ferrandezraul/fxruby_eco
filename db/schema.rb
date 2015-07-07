@@ -13,6 +13,14 @@
 
 ActiveRecord::Schema.define(version: 1) do
 
+  create_table "children_containers", id: false, force: :cascade do |t|
+    t.integer "child_id"
+    t.integer "container_id"
+  end
+
+  add_index "children_containers", ["child_id"], name: "index_children_containers_on_child_id"
+  add_index "children_containers", ["container_id", "child_id"], name: "index_children_containers_on_container_id_and_child_id", unique: true
+
   create_table "customers", force: :cascade do |t|
     t.string   "name"
     t.string   "address"
@@ -58,11 +66,8 @@ ActiveRecord::Schema.define(version: 1) do
     t.decimal  "total",          precision: 8, scale: 2
     t.decimal  "weight",         precision: 8, scale: 3
     t.boolean  "outdated",                               default: false
-    t.string   "ancestry"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
   end
-
-  add_index "products", ["ancestry"], name: "index_products_on_ancestry"
 
 end

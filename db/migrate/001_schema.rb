@@ -13,9 +13,17 @@ class Schema < ActiveRecord::Migration
       t.decimal :total, precision: 8, scale: 2  # total
       t.decimal :weight, precision: 8, scale: 3
       t.boolean :outdated, default: false
-      t.string :ancestry, index: true
       t.timestamps null: false
     end
+
+    # Belongs to the composite pattern for products and subproducts
+    create_table :children_containers, :id => false do |t|
+      t.references :child
+      t.references :container
+    end
+
+    add_index :children_containers, :child_id
+    add_index :children_containers, [:container_id, :child_id], :unique => true
 
     create_table :customers, force: true do |t|
       t.string :name

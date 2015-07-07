@@ -80,14 +80,17 @@ describe Product do
 	it "is might contain subproducts" do
 		lote = Product.create!( :name => "Lote de 5 kilos", :price_type => Product::PriceType::POR_UNIDAD, :price => 20, :tax_percentage => 10 )
 
-		salchichas = Product.create!( :name => "Salchichas", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 10,
-									  :parent => lote )
+		salchichas = Product.create!( :name => "Salchichas", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 10 )
 
-		lomo = Product.create!( :name => "Lomo", :price_type => Product::PriceType::POR_UNIDAD, :price => 6, :tax_percentage => 10,
-							    :parent => lote )
+		lomo = Product.create!( :name => "Lomo", :price_type => Product::PriceType::POR_UNIDAD, :price => 6, :tax_percentage => 10 )
+
+		lote.children << salchichas
+		lote.children << lomo
 
 		expect( lote.root? ).to eq( true )
-		expect( lote.has_children? ).to eq( true )
+		expect( lomo.root? ).to eq( false )
+
+		expect( lote.has_subproducts? ).to eq( true )
 		expect( lote.price ).to eq( 20 )
 
 		expected_taxes = 20 * 10 / 100
@@ -102,11 +105,21 @@ describe Product do
 		lote = Product.create!( :name => "Lote de 5 kilos", :price_type => Product::PriceType::POR_UNIDAD, :price => 20, :tax_percentage => 10 )
 		lote2 = Product.create!( :name => "Lote de 2.5 kilos", :price_type => Product::PriceType::POR_UNIDAD, :price => 10, :tax_percentage => 10 )
 
-		salchichas = Product.create!( :name => "Salchichas", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 10,
-									  :parent => lote ) # parent should be lote and lote2
+		salchichas = Product.create!( :name => "Salchichas", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 10 )
 
-		lomo = Product.create!( :name => "Lomo", :price_type => Product::PriceType::POR_UNIDAD, :price => 6, :tax_percentage => 10,
-							    :parent => lote ) # parent should be lote and lote2
+		lomo = Product.create!( :name => "Lomo", :price_type => Product::PriceType::POR_UNIDAD, :price => 6, :tax_percentage => 10 )
+
+		lote.children << salchichas
+		lote2.children << salchichas
+		lote2.children << lomo
+
+		expect( lote.root? ).to eq( true )
+		expect( lote2.root? ).to eq( true )
+
+		expect( lote.has_subproducts? ).to eq( true )
+		expect( lote2.has_subproducts? ).to eq( true )
+
+		# TODO check iterartio on subproducts
 	end
 
 end

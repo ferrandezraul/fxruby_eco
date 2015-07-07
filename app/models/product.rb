@@ -1,10 +1,22 @@
 require 'active_record'
-require 'ancestry'
 
 class Product < ActiveRecord::Base
 	has_one :line_item  # Each product has many line_items referencing it.
-										  # Each line_item contains a reference to its product id
-	has_ancestry									  
+										  # Each line_item contains a reference to its product id			
+
+  # A product might contain subproducts
+  # This is an implementation of the composite design pattern
+	has_and_belongs_to_many :children,
+    :class_name => "Product",
+    :join_table => "children_containers",
+    :foreign_key => "container_id",
+    :association_foreign_key => "child_id"
+
+  has_and_belongs_to_many :containers,
+    :class_name => "Product",
+    :join_table => "children_containers",
+    :foreign_key => "child_id",
+    :association_foreign_key => "container_id"				  
 
 	validates :name, presence: true, uniqueness: true
 	validates :price, presence: true
@@ -13,6 +25,32 @@ class Product < ActiveRecord::Base
 
 	before_save :calculate
 	before_destroy :check_for_line_item
+
+	# All Products that do not belong to any container
+  scope :roots, -> {where("not exists (select * from children_containers where child_id=components.id)")}
+
+  # All Products that have no children
+  scope :subproducts, -> {where("not exists (select * from children_containers where container_id=components.id)")}
+
+  # Is this Component at root level
+  def root?
+    self.containers.empty?
+  end
+
+  # Is this Component at leaf level
+  def leaf?
+    self.children.empty?
+  end
+
+  def has_subproducts?
+    self.children.any?
+  end
+
+  # Notice the recursive call to traverse the Component hierarchy
+  #   Similarly, it can be written to output using nested <ul> and <li>s as well.
+  def to_s(level=0)
+    "#{'  ' * level}#{name}\n" + children.map {|c| c.to_s(level + 1)}.join
+  end
 
 	module PriceType
 	    POR_KILO      = "por_kilo"
