@@ -1,6 +1,7 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
+Create test cases for an order with a lote. Check final price.
 Refactor product dialog to be able to add lotes (product with subproducts)
 
 Continue with test for products that contain subproducts

@@ -1,10 +1,6 @@
 require "spec_helper"
 
-require 'line_item'
-require 'order'
-require 'customer'
 require 'factories'
-require 'testing_helper'
 
 describe LineItem do
 	before do
