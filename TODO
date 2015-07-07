@@ -1,15 +1,11 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
-Implement composite pattern for lotes
-I might need to implement the many to many association explained here
-http://stackoverflow.com/questions/17603142/implementing-the-composite-pattern-in-ruby-on-rails
-and do not use the gem ancestry cause it is only for one to many relationship.
+Refactor product dialog to be able to add lotes (product with subproducts)
 
-In order to implement a lote, I need to change associations (Use ancestry gem)
-Continue with test for ancestry
-
-Create test for this. 
+Continue with test for products that contain subproducts
+See design patterns ruby for creating a helper that prints?
+current to_s in product works nicely.
 
 Small improvements
 Columns can be manually extended, but extend automatically based on content?

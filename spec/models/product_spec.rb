@@ -57,10 +57,10 @@ describe Product do
 		expect( Product.count).to eq(2)
 
 		text = all_orders_from_database_to_string
-        expect( text ).to eq("1 x Soca\n")	
+    expect( text ).to eq("1 x Soca\n")	
 
-	    # TODO but product is marked as out_of_list
-	    expect( @soca.is_outdated? ).to eq(true) 
+	  # TODO but product is marked as out_of_list
+	  expect( @soca.is_outdated? ).to eq(true) 
 	end
 
 	it "is destroyed from database if product is not contained in an order yet" do
@@ -74,10 +74,10 @@ describe Product do
 		expect( Product.count).to eq(2)
 
 		text = all_orders_from_database_to_string
-        expect( text ).to eq("1 x Soca\n")	
+    expect( text ).to eq("1 x Soca\n")	
 	end
 
-	it "is might contain subproducts" do
+	it "might contain subproducts" do
 		lote = Product.create!( :name => "Lote de 5 kilos", :price_type => Product::PriceType::POR_UNIDAD, :price => 20, :tax_percentage => 10 )
 
 		salchichas = Product.create!( :name => "Salchichas", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 10 )
@@ -99,27 +99,45 @@ describe Product do
 		expect( lote.total ).to eq( expected_taxes + 20 )
 	end
 
-	it "might be contained in several parent products" do
-		# If thi fails, I might need to implement the many to many association explained here
-		# http://stackoverflow.com/questions/17603142/implementing-the-composite-pattern-in-ruby-on-rails
-		lote = Product.create!( :name => "Lote de 5 kilos", :price_type => Product::PriceType::POR_UNIDAD, :price => 20, :tax_percentage => 10 )
-		lote2 = Product.create!( :name => "Lote de 2.5 kilos", :price_type => Product::PriceType::POR_UNIDAD, :price => 10, :tax_percentage => 10 )
+	it "might be a child of several parent products" do
+		expect(Product.count).to eq(2)
+		lote = Product.create!( :name => "Lote de 5 kilos", 
+			:price_type => Product::PriceType::POR_UNIDAD, 
+			:price => 20, 
+			:tax_percentage => 10 )
 
-		salchichas = Product.create!( :name => "Salchichas", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 10 )
+		lote2 = Product.create!( :name => "Lote de 2.5 kilos", 
+			:price_type => Product::PriceType::POR_UNIDAD, 
+			:price => 10, 
+			:tax_percentage => 10 )
 
-		lomo = Product.create!( :name => "Lomo", :price_type => Product::PriceType::POR_UNIDAD, :price => 6, :tax_percentage => 10 )
+		expect(Product.count).to eq(4)
+
+		salchichas = Product.create!( :name => "Salchichas", 
+			:price_type => Product::PriceType::POR_UNIDAD, 
+			:price => 5, 
+			:tax_percentage => 10 )
+
+		lomo = Product.create!( :name => "Lomo", 
+			:price_type => Product::PriceType::POR_UNIDAD, 
+			:price => 6, 
+			:tax_percentage => 10 )
+
+		expect(Product.count).to eq(6)
 
 		lote.children << salchichas
 		lote2.children << salchichas
 		lote2.children << lomo
+
+		# call save not needed
+		expect( Product.find_by(:name => 'Lote de 5 kilos').children.count ).to eq(1)
+		expect( Product.find_by(:name => 'Lote de 2.5 kilos').children.count ).to eq(2)
 
 		expect( lote.root? ).to eq( true )
 		expect( lote2.root? ).to eq( true )
 
 		expect( lote.has_subproducts? ).to eq( true )
 		expect( lote2.has_subproducts? ).to eq( true )
-
-		# TODO check iterartio on subproducts
 	end
 
 end

@@ -1,3 +1,8 @@
+require 'product'
+require 'line_item'
+require 'customer'
+require 'order'
+
 module TestingHelper
 
   # Returns a string containing the line items from an order
