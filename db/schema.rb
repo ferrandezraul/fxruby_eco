@@ -58,8 +58,11 @@ ActiveRecord::Schema.define(version: 1) do
     t.decimal  "total",          precision: 8, scale: 2
     t.decimal  "weight",         precision: 8, scale: 3
     t.boolean  "outdated",                               default: false
+    t.string   "ancestry"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
   end
+
+  add_index "products", ["ancestry"], name: "index_products_on_ancestry"
 
 end

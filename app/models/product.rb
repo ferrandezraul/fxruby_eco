@@ -1,8 +1,10 @@
 require 'active_record'
+require 'ancestry'
 
 class Product < ActiveRecord::Base
 	has_one :line_item  # Each product has many line_items referencing it.
 										  # Each line_item contains a reference to its product id
+	has_ancestry									  
 
 	validates :name, presence: true, uniqueness: true
 	validates :price, presence: true

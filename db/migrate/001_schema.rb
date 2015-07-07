@@ -13,6 +13,7 @@ class Schema < ActiveRecord::Migration
       t.decimal :total, precision: 8, scale: 2  # total
       t.decimal :weight, precision: 8, scale: 3
       t.boolean :outdated, default: false
+      t.string :ancestry, index: true
       t.timestamps null: false
     end
 

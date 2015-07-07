@@ -4,37 +4,8 @@ http://api.rubyonrails.org/
 Implement composite pattern for lotes
 http://stackoverflow.com/questions/17603142/implementing-the-composite-pattern-in-ruby-on-rails
 
-In order to implement a lote, I need to change associations
-
-Create ActiveRecord class Lote
-
- order.line_items.each do |line_item|
- 	line_item.product
- 	line_item.lote
- end
-
- ior instead:
-
- order.line_items.each do |line_item|
- 	line_item.product # Returns a raw product or a lote
- end
-
-class Lote < ActiveRecord::Base
-has_many products 
-belongs_to line_tem
-end
-
-class LineItem
-belongs_to :lote  (new)
-belong_to :product
-belongs_to :order
-end
-
-class Order
-belongs_to :customer
-has_many :line_items, :dependent => :destroy 
-has_many :lotes through :line_items (new)  (But should not be destroyed)
-end
+In order to implement a lote, I need to change associations (Use ancestry gem)
+Continue with test for ancestry
 
 Create test for this. 
 

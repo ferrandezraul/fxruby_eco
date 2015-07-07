@@ -57,10 +57,10 @@ describe Product do
 		expect( Product.count).to eq(2)
 
 		text = all_orders_from_database_to_string
-    expect( text ).to eq("1 x Soca\n")	
+        expect( text ).to eq("1 x Soca\n")	
 
-    # TODO but product is marked as out_of_list
-    expect( @soca.is_outdated? ).to eq(true) 
+	    # TODO but product is marked as out_of_list
+	    expect( @soca.is_outdated? ).to eq(true) 
 	end
 
 	it "is destroyed from database if product is not contained in an order yet" do
@@ -74,7 +74,19 @@ describe Product do
 		expect( Product.count).to eq(2)
 
 		text = all_orders_from_database_to_string
-    expect( text ).to eq("1 x Soca\n")	
+        expect( text ).to eq("1 x Soca\n")	
+	end
+
+	it "is might contain subproducts" do
+		lote = Product.create!( :name => "Lote de 5 kilos", :price_type => Product::PriceType::POR_UNIDAD, :price => 20, :tax_percentage => 10 )
+
+		salchichas = Product.create!( :name => "Salchichas", :price_type => Product::PriceType::POR_UNIDAD, :price => 20, :tax_percentage => 10,
+									  :parent => lote )
+
+		lomo = Product.create!( :name => "Lomo", :price_type => Product::PriceType::POR_UNIDAD, :price => 20, :tax_percentage => 10,
+									  :parent => lote )
+
+		expect( lote.has_children? ).to eq( true )
 	end
 
 end
