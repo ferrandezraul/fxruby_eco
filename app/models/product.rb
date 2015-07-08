@@ -28,10 +28,10 @@ class Product < ActiveRecord::Base
 	before_destroy :check_for_line_item
 
 	# All Products that do not belong to any container
-  scope :roots, -> {where("not exists (select * from children_containers where child_id=components.id)")}
+  scope :roots, -> {where("not exists (select * from children_containers where child_id=products.id)")}
 
   # All Products that have no children
-  scope :subproducts, -> {where("not exists (select * from children_containers where container_id=components.id)")}
+  scope :subproducts, -> {where("not exists (select * from children_containers where container_id=products.id)")}
 
   module PriceType
 	    POR_KILO      = "por_kilo"
