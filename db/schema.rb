@@ -70,4 +70,12 @@ ActiveRecord::Schema.define(version: 1) do
     t.datetime "updated_at",                                             null: false
   end
 
+  create_table "subitems_containers", id: false, force: :cascade do |t|
+    t.integer "subitem_id"
+    t.integer "container_id"
+  end
+
+  add_index "subitems_containers", ["container_id", "subitem_id"], name: "index_subitems_containers_on_container_id_and_subitem_id", unique: true
+  add_index "subitems_containers", ["subitem_id"], name: "index_subitems_containers_on_subitem_id"
+
 end

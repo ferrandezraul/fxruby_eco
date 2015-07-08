@@ -22,9 +22,17 @@ class Schema < ActiveRecord::Migration
       t.references :child
       t.references :container
     end
+    
+    create_table :subitems_containers, :id => false do |t|
+      t.references :subitem
+      t.references :container
+    end
 
     add_index :children_containers, :child_id
     add_index :children_containers, [:container_id, :child_id], :unique => true
+
+    add_index :subitems_containers, :subitem_id
+    add_index :subitems_containers, [:container_id, :subitem_id], :unique => true
 
     create_table :customers, force: true do |t|
       t.string :name

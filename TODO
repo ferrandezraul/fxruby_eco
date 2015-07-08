@@ -1,9 +1,12 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
+Continue TDD in last product_spec (implementing order.to_s)
+Rename associations in product?
 
-Test new associations accordingly, and continue with the UI when creating new product with subproducts.
-Add order.to_s
+Test new associations accordingly, and rename testing_helper module 
+to tokenizer_helper. 
+Continue with the UI when creating new product with subproducts.
 Re-write test for new associations.
 
 TEST
