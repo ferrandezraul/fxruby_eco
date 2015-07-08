@@ -1,11 +1,9 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
-A product might contain line_items instead of products cause I need to specify quantity or weight
-when creating lotes.
 
-Indeed it will contain subproducts through line_items. (Ignore line_items prices in parent product. Parent product has a fixed price)
-Re-write associations accordingly, and continue with the UI when creating new product with subproducts.
+Test new associations accordingly, and continue with the UI when creating new product with subproducts.
+Add order.to_s
 Re-write test for new associations.
 
 TEST

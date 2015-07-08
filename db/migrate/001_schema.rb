@@ -17,6 +17,7 @@ class Schema < ActiveRecord::Migration
     end
 
     # Belongs to the composite pattern for products and subproducts
+    # and also for line_items and sub line items
     create_table :children_containers, :id => false do |t|
       t.references :child
       t.references :container

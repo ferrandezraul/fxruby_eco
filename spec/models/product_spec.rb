@@ -134,9 +134,23 @@ describe Product do
     expect(@lote.has_subproducts?).to eq(false)
     
     @lote.children << @soca
+    @lote.children << @pigat
 
     expect(@lote.has_subproducts?).to eq(true)
     expect(@soca.has_subproducts?).to eq(false)
+
+    lote_item = @raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @lote )
+
+    @lote.children.each do |subproduct|
+    	lote_item.children << LineItem.create!( :quantity => 3, :product => subproduct )
+    end
+    ## Now check things
+    expect( @raul_order.line_items.count ).to eq( 1 )
+    
+    expect( line_items_string( @raul_order) ).to eq( "1 x Lote de 5 Kilos\n\t3 x Soca\n\t3 x Pigat\n" )
+
+    # implement order.to_s
+    #expect( @raul_order.to_s ).to eq(  )
   end
 
 end
