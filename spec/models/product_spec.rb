@@ -149,12 +149,10 @@ describe Product do
     
     expect( line_items_string( @raul_order) ).to eq( "1 x Lote de 5 Kilos\n\t3 x Soca\n\t3 x Pigat\n" )
 
-    puts "\n"
-    puts @raul_order
-    expect( Order.find_by!( :id => @raul_order.id ).to_s).to eq("Test")
-
-    # implement order.to_s
-    #expect( @raul_order.to_s ).to eq(  )
+    #puts "\n"
+    # implement order.to_s ??
+    #puts @raul_order
+    #expect( Order.find_by!( :id => @raul_order.id ).to_s).to eq("Test") 
   end
 
 end

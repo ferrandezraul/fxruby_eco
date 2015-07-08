@@ -2,9 +2,9 @@ class ProductPickerDialog < FXDialogBox
   attr_accessor :product
 
   def initialize(parent)
-	super(parent, "Choose product", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
+    super(parent, "Choose product", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
-	construct_page
+    construct_page
   	add_terminating_buttons
   end
 
@@ -25,7 +25,7 @@ class ProductPickerDialog < FXDialogBox
     end
 
     product_combo_box.editable = false 
-    product_combo_box.setCurrentItem(1, true) if Customer.count > 0
+    product_combo_box.setCurrentItem(1, true) if Product.count > 0
   end
 
   def add_terminating_buttons

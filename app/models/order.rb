@@ -8,10 +8,6 @@ class Order < ActiveRecord::Base
 
   	before_save :calculate_prices
 
-    def to_s
-      "Test"
-    end
-
   	def calculate_prices
   		self.price, self.taxes, self.total = BigDecimal.new("0.0"), BigDecimal.new("0.0"), BigDecimal.new("0.0")
   		if self.line_items

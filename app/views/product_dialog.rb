@@ -27,9 +27,9 @@ class ProductDialog < FXDialogBox
 	    price_type_combo_box = FXComboBox.new(form, 20, 
 	    		:opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN )
 			
-		price_type_combo_box.appendItem( Product::PriceType::POR_KILO )
-		price_type_combo_box.appendItem( Product::PriceType::POR_UNIDAD )
-		price_type_combo_box.editable = false
+			price_type_combo_box.appendItem( Product::PriceType::POR_KILO )
+			price_type_combo_box.appendItem( Product::PriceType::POR_UNIDAD )
+			price_type_combo_box.editable = false
 
 	    price_type_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
 	    	@product.price_type = text
@@ -62,14 +62,21 @@ class ProductDialog < FXDialogBox
 
 	    FXLabel.new(form, "Create lote?")
 	    add_subproduct_button = FXButton.new( form, "Add subproduct", :opts => BUTTON_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+
+	    FXLabel.new(form, "Subproducts:\n" )
+	    subproducts_label = FXLabel.new(form, String.new,
+	    	:opts => LAYOUT_FILL_X|LAYOUT_FILL_COLUMN )
+	    subproducts_label.justify = JUSTIFY_LEFT
+
 	    add_subproduct_button.connect(SEL_COMMAND) do |sender, sel, data|
 	    	subproduct_dialog = ProductPickerDialog.new(self)
 	    	if subproduct_dialog.execute != 0
 	    		# Does @product needs to be in database?
 	    		@product.children << subproduct_dialog.product
-	    		# TODO update view
+	    		subproducts_label.text += "#{subproduct_dialog.product.name}\n"
 	    	end
 	    end
+
 	 end
 
 	 def add_terminating_buttons
