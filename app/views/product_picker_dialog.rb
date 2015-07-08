@@ -1,31 +1,31 @@
-class CustomerPickerDialog < FXDialogBox
-  attr_accessor :customer
+class ProductPickerDialog < FXDialogBox
+  attr_accessor :product
 
   def initialize(parent)
-	super(parent, "Choose custumer", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
+	super(parent, "Choose product", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
 	construct_page
   	add_terminating_buttons
   end
 
   def construct_page
-  	customer_form = FXHorizontalFrame.new( self, :opts => LAYOUT_FILL )
+  	form = FXHorizontalFrame.new( self, :opts => LAYOUT_FILL )
     
-  	FXLabel.new( customer_form, "Customer:" )
-    customer_combo_box = FXComboBox.new(customer_form, 20, 
+  	FXLabel.new( form, "Product:" )
+    product_combo_box = FXComboBox.new(form, 20, 
       :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X)
 
-    Customer.all.each do | customer |
-    	customer_combo_box.appendItem( customer.name, customer )
+    Product.all.each do | product |
+    	product_combo_box.appendItem( product.name, product )
     end
 
-    customer_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
+    product_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
     	index = sender.findItem(text)
-    	@customer = sender.getItemData( index ) 
+    	@product = sender.getItemData( index ) 
     end
 
-    customer_combo_box.editable = false 
-    customer_combo_box.setCurrentItem(1, true) if Customer.count > 0
+    product_combo_box.editable = false 
+    product_combo_box.setCurrentItem(1, true) if Customer.count > 0
   end
 
   def add_terminating_buttons
@@ -44,7 +44,7 @@ class CustomerPickerDialog < FXDialogBox
 
 		# Disable ok button if there are no values on order attributes
 		ok_button.connect(SEL_UPDATE) do |sender, sel, data| 
-			sender.enabled = !@customer.nil?
+			sender.enabled = !@product.nil?
 		end
 
 		# Connect signal button pressed with sending an ID_ACCEPT event 

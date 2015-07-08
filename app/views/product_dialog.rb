@@ -1,3 +1,5 @@
+require 'product_picker_dialog'
+
 class ProductDialog < FXDialogBox 
 	attr_accessor :product
 	
@@ -7,11 +9,70 @@ class ProductDialog < FXDialogBox
 		# Create but not in database
 		@product = Product.new
 
-	  construct_product_page
+	  	construct_product_page
 		add_terminating_buttons
 	end
 
-	def add_terminating_buttons
+	def construct_product_page	    
+	    form = FXMatrix.new( self, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
+	    
+	    FXLabel.new( form, "Name:")
+	    name = FXTextField.new(form, 20,
+	        :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    name.connect( SEL_COMMAND ) do |sender, sel, text|
+	    	@product.name = text
+	    end
+
+	    FXLabel.new(form, "Price Type:")
+	    price_type_combo_box = FXComboBox.new(form, 20, 
+	    		:opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN )
+			
+		price_type_combo_box.appendItem( Product::PriceType::POR_KILO )
+		price_type_combo_box.appendItem( Product::PriceType::POR_UNIDAD )
+		price_type_combo_box.editable = false
+
+	    price_type_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
+	    	@product.price_type = text
+	    end
+
+	    # Cal this in order to set a price_type in product.
+	    price_type_combo_box.setCurrentItem( 0, true )
+
+	    FXLabel.new(form, "Price:")
+	    price = FXTextField.new(form, 20, 
+	    	:opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    price.text = "Press any key and enter price ..."
+	    price.connect(SEL_KEYPRESS) do |sender, sel, data|
+	    	precio = FXInputDialog.getReal(0, self, 
+	    		"Price", "Price", nil, 0, 1000)
+	    	@product.price = precio
+	    	sender.text = "#{precio.to_s} EUR"
+	    end
+
+	    FXLabel.new(form, "IVA:")
+	    tax = FXTextField.new(form, 20, 
+	    	:opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    tax.text = "Press any key and enter IVA in %..."
+	    tax.connect(SEL_KEYPRESS) do |sender, sel, data|
+	    	taxes = FXInputDialog.getReal(0, self, 
+	    		"IVA", "IVA", nil, 0, 20)
+	    	@product.tax_percentage = taxes
+	    	sender.text = "#{taxes.to_s} %"
+	    end
+
+	    FXLabel.new(form, "Create lote?")
+	    add_subproduct_button = FXButton.new( form, "Add subproduct", :opts => BUTTON_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
+	    add_subproduct_button.connect(SEL_COMMAND) do |sender, sel, data|
+	    	subproduct_dialog = ProductPickerDialog.new(self)
+	    	if subproduct_dialog.execute != 0
+	    		# Does @product needs to be in database?
+	    		@product.children << subproduct_dialog.product
+	    		# TODO update view
+	    	end
+	    end
+	 end
+
+	 def add_terminating_buttons
 		buttons = FXHorizontalFrame.new(self, 
 					:opts => LAYOUT_FILL_X|LAYOUT_SIDE_BOTTOM|PACK_UNIFORM_WIDTH) 
 
@@ -54,54 +115,6 @@ class ProductDialog < FXDialogBox
 		   end
 		end
 	end
-
-	def construct_product_page	    
-    form = FXMatrix.new( self, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
-    
-    FXLabel.new( form, "Name:")
-    name = FXTextField.new(form, 20,
-        :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
-    name.connect( SEL_COMMAND ) do |sender, sel, text|
-    	@product.name = text
-    end
-
-    FXLabel.new(form, "Price Type:")
-    price_type_combo_box = FXComboBox.new(form, 20, 
-    		:opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN )
-		
-		price_type_combo_box.appendItem( Product::PriceType::POR_KILO )
-		price_type_combo_box.appendItem( Product::PriceType::POR_UNIDAD )
-		price_type_combo_box.editable = false
-
-    price_type_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
-    	@product.price_type = text
-    end
-
-    # Cal this in order to set a price_type in product.
-    price_type_combo_box.setCurrentItem( 0, true )
-
-    FXLabel.new(form, "Price:")
-    price = FXTextField.new(form, 20, 
-    	:opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
-    price.text = "Press any key and enter price ..."
-    price.connect(SEL_KEYPRESS) do |sender, sel, data|
-    	precio = FXInputDialog.getReal(0, self, 
-    		"Price", "Price", nil, 0, 1000)
-    	@product.price = precio
-    	sender.text = "#{precio.to_s} EUR"
-    end
-
-    FXLabel.new(form, "IVA:")
-    tax = FXTextField.new(form, 20, 
-    	:opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
-    tax.text = "Press any key and enter IVA in %..."
-    tax.connect(SEL_KEYPRESS) do |sender, sel, data|
-    	taxes = FXInputDialog.getReal(0, self, 
-    		"IVA", "IVA", nil, 0, 20)
-    	@product.tax_percentage = taxes
-    	sender.text = "#{taxes.to_s} %"
-    end
-	 end
 
 	 def is_data_filled?
 	 	( @product.name ) && ( @product.price ) && ( @product.tax_percentage )
