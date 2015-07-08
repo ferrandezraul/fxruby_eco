@@ -1,6 +1,13 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
+A product might contain line_items instead of products cause I need to specify quantity or weight
+when creating lotes.
+
+Indeed it will contain subproducts through line_items. (Ignore line_items prices in parent product. Parent product has a fixed price)
+Re-write associations accordingly, and continue with the UI when creating new product with subproducts.
+Re-write test for new associations.
+
 TEST
 Rewrite test with better factories
 http://arjanvandergaag.nl/blog/factory_girl_tips.html
@@ -23,10 +30,3 @@ Validate csv files when importing
 
 ISSUES
 If orders table is empty, presing the header causes a crash
-
-A product might contain line_items instead of products cause I need to specify quantity or weight
-when creating lotes.
-
-Indeed it will contain subproducts through line_items. (Ignore line_items prices in parent product. Parent product has a fixed price)
-Re-write associations accordingly, and continue with the UI when creating new product with subproducts.
-Re-write test for new associations.
