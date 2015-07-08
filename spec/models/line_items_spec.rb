@@ -1,7 +1,5 @@
 require "spec_helper"
 
-require 'factories'
-
 describe LineItem do
 	before do
 		# Do something before any single test

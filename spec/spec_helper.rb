@@ -24,6 +24,7 @@ $LOAD_PATH.unshift './spec/support/'
 
 require 'rake'
 require 'factory_girl_rails'
+require 'factories'
 require 'testing_helper'
 
 # Add factory girl
