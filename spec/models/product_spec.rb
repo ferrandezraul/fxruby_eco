@@ -9,7 +9,7 @@ describe Product do
 
 		# uses Factories defined in factories.rb
 		@soca = create(:soca)
-		@pigat = create( :product, :name => "Pigat", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 4 )
+		@pigat = create(:pigat)
 
 		@raul = create(:customer)
 		@carmen = create(:customer, :name => 'Carmen', :address => 'Riudaura', :nif => '23238768Y')
@@ -64,16 +64,13 @@ describe Product do
 
 	it "is destroyed from database if product is not contained in an order yet" do
 		@raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
-
 		expect( Product.count).to eq(2)
-		other = create( :product, :name => "What ever", :price_type => Product::PriceType::POR_KILO, :price => 2.5, :tax_percentage => 4 )
-		expect( Product.count).to eq(3)
 
-		other.destroy
-		expect( Product.count).to eq(2)
+		@pigat.destroy
+		expect( Product.count).to eq(1)
 
 		text = all_orders_from_database_to_string
-    expect( text ).to eq("1 x Soca\n")	
+    	expect( text ).to eq("1 x Soca\n")	
 	end
 
 	it "might contain subproducts children but their prices are ignored" do
@@ -95,14 +92,14 @@ describe Product do
 	end
 
 	it "doesn't change its price when children are added" do
-    @lote = create(:lote)
-    price = @lote.price
-    
-    @lote.children << @soca
-    @lote.children << @pigat
+	    @lote = create(:lote)
+	    price = @lote.price
+	    
+	    @lote.children << @soca
+	    @lote.children << @pigat
 
-    expect( @lote.price ).to eq(price)
-  end
+	    expect( @lote.price ).to eq(price)
+	end
 
 	it "might be a child of several parent products" do
 		@lote = create(:lote)

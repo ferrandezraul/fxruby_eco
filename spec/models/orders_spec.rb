@@ -9,7 +9,7 @@ describe Order do
 
     # uses Factories defined in factories.rb
     @soca = create(:soca)
-    @pigat = create(:product, :name => "Pigat", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 4 )
+    @pigat = create(:pigat )
 
     @raul = create(:customer)
     @carmen = create(:customer, :name => 'Carmen', :address => 'Riudaura', :nif => '23238768Y')

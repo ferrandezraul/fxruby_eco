@@ -17,6 +17,13 @@ FactoryGirl.define do
     tax_percentage 4
   end
 
+  factory :pigat, class: Product do
+    name "Pigat"
+    price_type  Product::PriceType::POR_UNIDAD
+    price 5
+    tax_percentage 4
+  end
+
   # children added in specs
   factory :lote, class: Product do
     name "Lote de 5 Kilos"
