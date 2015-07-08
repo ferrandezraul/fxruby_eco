@@ -19,6 +19,7 @@
 
 # add current dir to LOAD_PATH 
 $LOAD_PATH.unshift '.'
+$LOAD_PATH.unshift './app/'
 $LOAD_PATH.unshift './app/models/'
 $LOAD_PATH.unshift './spec/support/'
 
@@ -26,6 +27,7 @@ require 'rake'
 require 'factory_girl_rails'
 require 'factories'
 require 'testing_helper'
+require 'tokenizer_helper'
 
 # Add factory girl
 #require File.dirname(__FILE__) + "/support/factory_girl"
@@ -134,4 +136,5 @@ RSpec.configure do |config|
 
   config.include FactoryGirl::Syntax::Methods
   config.include TestingHelper
+  config.include TokenizerHelper
 end
