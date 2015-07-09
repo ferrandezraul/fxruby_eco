@@ -1,6 +1,8 @@
 require "spec_helper"
 
-describe do
+require 'line_item'
+
+describe LineItem do
   before do
     # Do something before any single test
     delete_all_records

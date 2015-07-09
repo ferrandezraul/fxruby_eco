@@ -18,7 +18,7 @@ class ProductsTable < FXTable
   def initialize(parent)
     super(parent, :opts => TABLE_COL_SIZABLE|TABLE_ROW_SIZABLE|LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
-    fill_table(Product.all.where( :outdated => false ))
+    fill_table(Product.all.where( :outdated => false ) )
 
     self.connect(SEL_REPLACED, method(:on_cell_changed))
     self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))

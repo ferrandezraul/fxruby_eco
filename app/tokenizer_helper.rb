@@ -21,7 +21,8 @@ module TokenizerHelper
 
   def product_to_s(product)
     text = "#{product.name}"
-    if product.has_subproducts?
+    #if product.has_subproducts?
+    if product.children.count > 0
       text << "\n"
       num_children = product.children.count
       product.children.each_with_index do |c, index|

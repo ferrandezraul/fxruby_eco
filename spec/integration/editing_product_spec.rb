@@ -1,8 +1,8 @@
-require "spec_helper"
+#require "spec_helper"
 
 require "product"
 
-describe do
+describe Product do
 	before do
 		# Do something before any single test
 		delete_all_records
@@ -16,20 +16,6 @@ describe do
 
 		@raul_order = Order.create!( :date => Time.now, :customer => @raul )
 		@carmen_order = Order.create!( :date => Time.now, :customer => @carmen )
-	end
-
- 	it "has a name, price, price type and tax percentage" do
-	    expect( @pigat.name ).to eq("Pigat")
-	    expect( @pigat.price ).to eq(5)
-	    expect( @pigat.price_type ).to eq(Product::PriceType::POR_UNIDAD)
-	    expect( @pigat.tax_percentage ).to eq(4)
-	end
-
-	it "saves data into the database with create function" do
-		expect( Product.count).to eq(2)
-
-		create( :product, :name => "What ever", :price_type => Product::PriceType::POR_KILO, :price => 2.5, :tax_percentage => 4 )
-		expect( Product.count).to eq(3)
 	end
 
 	it "updates taxes and total price into the database when we change its raw price" do
@@ -89,16 +75,6 @@ describe do
 		expect( lote.taxes ).to eq( expected_taxes )
 		expect( lote.tax_percentage ).to eq( 10 )
 		expect( lote.total ).to eq( expected_taxes + 40 )
-	end
-
-	it "doesn't change its price when children are added" do
-	    @lote = create(:lote)
-	    price = @lote.price
-	    
-	    @lote.children << @soca
-	    @lote.children << @pigat
-
-	    expect( @lote.price ).to eq(price)
 	end
 
 	it "might be a child of several parent products" do
