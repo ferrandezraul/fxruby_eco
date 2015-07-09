@@ -15,10 +15,8 @@ class LineItemDialog < FXDialogBox
 		add_terminating_buttons
 	end
 
-	def quantity_and_weight(form)
-		matrix = FXMatrix.new( form, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
-	    
-	  FXLabel.new( matrix, "Quantity:" )
+	def construct_quantity(matrix)
+		FXLabel.new( matrix, "Quantity:" )
 	  quantity = FXTextField.new(matrix, 20, 
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
 	  quantity.text = "Press any key and enter quantity ..."
@@ -29,7 +27,9 @@ class LineItemDialog < FXDialogBox
 	  	@item[:quantity] = cantidad
 	  	sender.text = "#{cantidad.to_s}"
 		end
+	end
 
+	def construct_weight(matrix)
 	  FXLabel.new( matrix, "Weight:" )
 	  @weight_field = FXTextField.new(matrix, 20, 
 	      :opts => TEXTFIELD_NORMAL|LAYOUT_FILL_X|LAYOUT_FILL_COLUMN)
@@ -47,8 +47,10 @@ class LineItemDialog < FXDialogBox
 
 	def construct_page
 		form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
-
-		quantity_and_weight(form)
+		matrix = FXMatrix.new( form, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
+	    
+	  construct_quantity(matrix)
+		construct_weight(matrix)
 
 		product_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 	  price_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
@@ -57,14 +59,14 @@ class LineItemDialog < FXDialogBox
 		@product_combo_box = FXComboBox.new(product_frame, 
 			20, nil, 0, LAYOUT_FILL_Y, 20, 20 ) 
 
-		price_label = FXLabel.new( product_frame, "Price:", :opts => LAYOUT_FILL_X )
-	  price_label.justify = JUSTIFY_RIGHT
+		@price_label = FXLabel.new( product_frame, "Price:", :opts => LAYOUT_FILL_X )
+	  @price_label.justify = JUSTIFY_RIGHT
 
-	  iva_label = FXLabel.new( product_frame, "IVA:", :opts => LAYOUT_FILL_X )
-	  iva_label.justify = JUSTIFY_RIGHT
+	  @iva_label = FXLabel.new( product_frame, "IVA:", :opts => LAYOUT_FILL_X )
+	  @iva_label.justify = JUSTIFY_RIGHT
 
-    total_label = FXLabel.new( product_frame, "Total:", :opts => LAYOUT_FILL_X )
-	  total_label.justify = JUSTIFY_RIGHT
+    @total_label = FXLabel.new( product_frame, "Total:", :opts => LAYOUT_FILL_X )
+	  @total_label.justify = JUSTIFY_RIGHT
 
 	  Product.all.where( :outdated => false ).each do | product |
 	    	@product_combo_box.appendItem( product.name, product )
@@ -75,20 +77,27 @@ class LineItemDialog < FXDialogBox
 	   	product = sender.getItemData( index )
 
 	   	raise Exception.new("product can not be nil") if product.nil? 
-	   	@weight_field.enabled = ( product.price_type == Product::PriceType::POR_KILO )
 
-	   	price_label.text = "Price: #{product.price} EUR"
-	   	iva_label.text = "IVA: #{product.tax_percentage} %"
-	   	total_label.text = "Total: #{product.total} EUR"
-	   	@item[:product] = product
-	  end 
+	   	on_new_product_selected(product)
+	  end
 
 	  # This needs to be after the connection above
 	  # otherwise @item[:product] = nil although current product in combobox is not nil
 	  @product_combo_box.setCurrentItem(1, true) if Product.count > 0
 	  @product_combo_box.editable = false 
+	  	 	
 	  #@product_combo_box.numVisible( 5 ) # not working
 	end
+
+	def on_new_product_selected(product)
+		@weight_field.enabled = ( product.price_type == Product::PriceType::POR_KILO )
+	  @price_label.text = "Price: #{product.price} EUR"
+	  @iva_label.text = "IVA: #{product.tax_percentage} %"
+	  @total_label.text = "Total: #{product.total} EUR"
+	  @item[:product] = product
+
+	  #TODO If product contains subproducts, create subitems
+	end 
 
 	def add_terminating_buttons
 		buttons = FXHorizontalFrame.new(self, 
