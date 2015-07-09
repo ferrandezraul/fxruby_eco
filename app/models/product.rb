@@ -34,8 +34,8 @@ class Product < ActiveRecord::Base
   scope :subproducts, -> {where("not exists (select * from children_containers where container_id=products.id)")}
 
   module PriceType
-	    POR_KILO      = "por_kilo"
-	    POR_UNIDAD    = "por_unidad"
+    POR_KILO      = "por_kilo"
+    POR_UNIDAD    = "por_unidad"
 	end
 
   # Is this Component at root level

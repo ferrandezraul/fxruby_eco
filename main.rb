@@ -9,6 +9,7 @@
 
 # add current dir to LOAD_PATH 
 $LOAD_PATH.unshift '.'
+$LOAD_PATH.unshift './app/'
 $LOAD_PATH.unshift './app/models/'
 $LOAD_PATH.unshift './app/views/'
 

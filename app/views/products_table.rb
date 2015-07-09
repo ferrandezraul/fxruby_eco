@@ -1,4 +1,7 @@
+require 'tokenizer_helper'
+
 include Fox
+include TokenizerHelper
 
 class ProductsTable < FXTable
   attr_reader :current_product
@@ -56,7 +59,7 @@ class ProductsTable < FXTable
 
   def fill_row( row, product )
     setItemText( row, COLUMN_ID, product.id.to_s )
-    setItemText( row, COLUMN_NAME, product.name )
+    setItemText( row, COLUMN_NAME, product_to_s(product) )
     setItemText( row, COLUMN_PRICE_TYPE, product.price_type )
     setItemText( row, COLUMN_RAW_PRICE, "#{ sprintf('%.2f', product.price ) }" )
     setItemText( row, COLUMN_TAX_PERCENTAGE, "#{ sprintf('%.2f', product.tax_percentage ) }" )
