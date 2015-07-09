@@ -2,7 +2,7 @@ require "spec_helper"
 
 require "product"
 
-describe Product do
+describe do
 	before do
 		# Do something before any single test
 		delete_all_records
