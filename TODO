@@ -1,7 +1,7 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
-In products view, show children products
+Create test for Tokenizer helper functions
 Continue TDD in last product_spec (implementing order.to_s)
 Rename associations in product?
 
