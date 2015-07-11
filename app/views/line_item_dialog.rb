@@ -80,8 +80,7 @@ class LineItemDialog < FXDialogBox
 	  # This needs to be after the connection above
 	  # otherwise @item[:product] = nil although current product in combobox is not nil
 	  @product_combo_box.setCurrentItem(1, true) if Product.count > 0
-	  @product_combo_box.editable = false 
-	  	 	
+	  @product_combo_box.editable = false   	 	
 	  #@product_combo_box.numVisible( 5 ) # not working
 	end
 
@@ -101,8 +100,6 @@ class LineItemDialog < FXDialogBox
 	  @iva_label.text = "IVA: #{product.tax_percentage} %"
 	  @total_label.text = "Total: #{product.total} EUR"
 	  @item[:product] = product
-
-	  #TODO If product contains subproducts, create subitems
 	end 
 
 	def add_terminating_buttons
@@ -128,7 +125,14 @@ class LineItemDialog < FXDialogBox
 		# from this FXDialogBox. Note that the cancel button is automatically tied
 		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
-		    self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+			if item[:product].has_subproducts?
+				FXMessageBox.warning( self, MBOX_OK, "Now select subproducts", "Now select subproducts" )
+				subproducts = item[:product].has_subproducts?
+				# Iterate subproducts and create map or hash that contains 
+				# weight, quantity and string with observations 
+			else
+				self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+			end
 		end
 	end
 

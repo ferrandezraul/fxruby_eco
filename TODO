@@ -1,6 +1,11 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
+Rewrite line_items_dialog to return a LineItem object with its children built
+instead of returning a hash.
+The new dialogs for subitems should return a LineItem filled with subitems without being
+saved into the database
+
 Create test for Tokenizer helper functions
 Continue TDD in last product_spec (implementing order.to_s)
 Rename associations in product?
