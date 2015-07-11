@@ -44,14 +44,18 @@ class LineItemDialog < FXDialogBox
 	  @weight_field.enabled = false
 	end
 
+	def construct_product_info(frame)
+		@price_label = FXLabel.new( frame, "Price:", :opts => LAYOUT_FILL_X )
+	  @price_label.justify = JUSTIFY_RIGHT
 
-	def construct_page
-		form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
-		matrix = FXMatrix.new( form, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
-	    
-	  construct_quantity(matrix)
-		construct_weight(matrix)
+	  @iva_label = FXLabel.new( frame, "IVA:", :opts => LAYOUT_FILL_X )
+	  @iva_label.justify = JUSTIFY_RIGHT
 
+    @total_label = FXLabel.new( frame, "Total:", :opts => LAYOUT_FILL_X )
+	  @total_label.justify = JUSTIFY_RIGHT
+	end
+
+	def construct_product(form)
 		product_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 	  price_frame = FXHorizontalFrame.new( form, :opts => LAYOUT_FILL_X )
 
@@ -59,15 +63,8 @@ class LineItemDialog < FXDialogBox
 		@product_combo_box = FXComboBox.new(product_frame, 
 			20, nil, 0, LAYOUT_FILL_Y, 20, 20 ) 
 
-		@price_label = FXLabel.new( product_frame, "Price:", :opts => LAYOUT_FILL_X )
-	  @price_label.justify = JUSTIFY_RIGHT
-
-	  @iva_label = FXLabel.new( product_frame, "IVA:", :opts => LAYOUT_FILL_X )
-	  @iva_label.justify = JUSTIFY_RIGHT
-
-    @total_label = FXLabel.new( product_frame, "Total:", :opts => LAYOUT_FILL_X )
-	  @total_label.justify = JUSTIFY_RIGHT
-
+		construct_product_info(product_frame)
+		
 	  Product.all.where( :outdated => false ).each do | product |
 	    	@product_combo_box.appendItem( product.name, product )
 	  end
@@ -75,7 +72,6 @@ class LineItemDialog < FXDialogBox
 	  @product_combo_box.connect(SEL_COMMAND) do |sender, sel, text|
 	  	index = sender.findItem(text)
 	   	product = sender.getItemData( index )
-
 	   	raise Exception.new("product can not be nil") if product.nil? 
 
 	   	on_new_product_selected(product)
@@ -87,6 +83,16 @@ class LineItemDialog < FXDialogBox
 	  @product_combo_box.editable = false 
 	  	 	
 	  #@product_combo_box.numVisible( 5 ) # not working
+	end
+
+
+	def construct_page
+		form = FXVerticalFrame.new( self, :opts => LAYOUT_FILL)
+		matrix = FXMatrix.new( form, 2, :opts => MATRIX_BY_COLUMNS|LAYOUT_FILL_X )
+	    
+	  construct_quantity(matrix)
+		construct_weight(matrix)
+		construct_product(form)
 	end
 
 	def on_new_product_selected(product)
