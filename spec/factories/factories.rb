@@ -32,6 +32,15 @@ FactoryGirl.define do
     tax_percentage 10
   end
 
+  # children added in specs
+  factory :lote_de_pan, class: Product do
+    name "Lote de pan"
+    price_type  Product::PriceType::POR_UNIDAD
+    price 20
+    tax_percentage 10
+    after(:create) {|lote_de_pan| lote_de_pan.children = [create(:product),create(:product)]}
+  end
+
   factory :customer, class: Customer do
     name "Raul"
     address  "Oxford Street"

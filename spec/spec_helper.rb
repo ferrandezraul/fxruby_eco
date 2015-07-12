@@ -22,6 +22,7 @@ $LOAD_PATH.unshift '.'
 $LOAD_PATH.unshift './app/'
 $LOAD_PATH.unshift './app/models/'
 $LOAD_PATH.unshift './spec/support/'
+$LOAD_PATH.unshift './spec/factories/'
 
 require 'rake'
 require 'factory_girl_rails'
