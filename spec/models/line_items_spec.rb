@@ -8,7 +8,7 @@ describe LineItem do
 
   it "is deleted when the order is deleted without deleting the product" do
     @soca = create(:soca)
-    @pigat = create( :product, :name => "Pigat", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 4 )
+    @pigat = create(:product, :name => "Pigat", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 4 )
 
     @raul = create(:customer)
 
@@ -25,6 +25,23 @@ describe LineItem do
     expect( Order.count ).to eq(0)
     expect( LineItem.count ).to eq(0)
     expect( Product.count ).to eq(2)
-  end 
+  end
 
+  it "might contain subitems" do
+    @raul = create(:customer)
+    @raul_order = Order.create!( :date => Time.now, :customer => @raul )
+
+    items = Array.new
+    lote = create(:lote_de_pan) 
+    lote.children.each do |subproduct|
+        items << LineItem.new( :order => @raul_order,
+                               :product => subproduct,
+                               :quantity => 1,
+                               :weight => 2 )
+    end
+
+    parent_item = @raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => lote )
+    parent_item.subitems << items
+    # TODO check results
+  end
 end

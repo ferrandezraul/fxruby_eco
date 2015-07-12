@@ -32,7 +32,6 @@ FactoryGirl.define do
     tax_percentage 10
   end
 
-  # children added in specs
   factory :lote_de_pan, class: Product do
     name "Lote de pan"
     price_type  Product::PriceType::POR_UNIDAD

@@ -1,6 +1,7 @@
 http://www.rubydoc.info/gems/fxruby/Fox
 http://api.rubyonrails.org/
 
+Continue with test spec/models/line_items_spec.rb
 Rewrite line_items_dialog to return a LineItem object with its children built
 instead of returning a hash.
 The new dialogs for subitems should return a LineItem filled with subitems without being
