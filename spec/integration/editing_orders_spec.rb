@@ -6,19 +6,19 @@ describe Order do
   before do
     # Do something before any single test
     delete_all_records
+  end
 
+  it "created and saved to database" do
     # uses Factories defined in factories.rb
     @soca = create(:soca)
-    @pigat = create(:pigat )
+    @pigat = create(:pigat)
 
     @raul = create(:customer)
     @carmen = create(:customer, :name => 'Carmen', :address => 'Riudaura', :nif => '23238768Y')
 
     @raul_order = Order.create!( :date => Time.now, :customer => @raul )
     @carmen_order = Order.create!( :date => Time.now, :customer => @carmen )
-  end
 
-  it "created and saved to database" do
     @raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
 
     expect( Order.count ).to eq(2)
@@ -30,6 +30,16 @@ describe Order do
   end
 
   it "is deleted from database, deleting their line items but not their products" do
+    # uses Factories defined in factories.rb
+    @soca = create(:soca)
+    @pigat = create(:pigat )
+
+    @raul = create(:customer)
+    @carmen = create(:customer, :name => 'Carmen', :address => 'Riudaura', :nif => '23238768Y')
+
+    @raul_order = Order.create!( :date => Time.now, :customer => @raul )
+    @carmen_order = Order.create!( :date => Time.now, :customer => @carmen )
+
     @raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
     
     expect( Order.count ).to eq(2)
