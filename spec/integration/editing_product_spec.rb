@@ -6,20 +6,15 @@ describe Product do
 	before do
 		# Do something before any single test
 		delete_all_records
-
-		# uses Factories defined in factories.rb
-		@soca = create(:soca)
-		@pigat = create(:pigat)
-
-		@raul = create(:customer)
-		@carmen = create(:customer, :name => 'Carmen', :address => 'Riudaura', :nif => '23238768Y')
-
-		@raul_order = Order.create!( :date => Time.now, :customer => @raul )
-		@carmen_order = Order.create!( :date => Time.now, :customer => @carmen )
 	end
 
 	it "updates taxes and total price into the database when we change its raw price" do
-		expect( Product.count).to eq(2)
+    # uses Factories defined in factories.rb
+    @soca = create(:soca)
+
+    @raul = create(:customer)
+
+    @raul_order = Order.create!( :date => Time.now, :customer => @raul )
 
 		price_soca = @soca.price
 
@@ -35,6 +30,14 @@ describe Product do
 	end
 
 	it "is not destroyed from database if product is contained in an order" do
+    # uses Factories defined in factories.rb
+    @soca = create(:soca)
+    @pigat = create(:pigat)
+
+    @raul = create(:customer)
+
+    @raul_order = Order.create!( :date => Time.now, :customer => @raul )
+
 		@raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
 
 		expect( Product.count).to eq(2)
@@ -49,6 +52,14 @@ describe Product do
 	end
 
 	it "is destroyed from database if product is not contained in an order yet" do
+    # uses Factories defined in factories.rb
+    @soca = create(:soca)
+    @pigat = create(:pigat)
+
+    @raul = create(:customer)
+
+    @raul_order = Order.create!( :date => Time.now, :customer => @raul )
+
 		@raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @soca )
 		expect( Product.count).to eq(2)
 
@@ -60,6 +71,14 @@ describe Product do
 	end
 
 	it "might contain subproducts children but their prices are ignored" do
+    # uses Factories defined in factories.rb
+    @soca = create(:soca)
+    @pigat = create(:pigat)
+
+    @raul = create(:customer)
+
+    @raul_order = Order.create!( :date => Time.now, :customer => @raul )
+
 		lote = create(:lote)
 
 		salchichas = Product.create!( :name => "Salchichas", :price_type => Product::PriceType::POR_UNIDAD, :price => 5, :tax_percentage => 10 )
@@ -78,6 +97,14 @@ describe Product do
 	end
 
 	it "might be a child of several parent products" do
+    # uses Factories defined in factories.rb
+    @soca = create(:soca)
+    @pigat = create(:pigat)
+
+    @raul = create(:customer)
+
+    @raul_order = Order.create!( :date => Time.now, :customer => @raul )
+
 		@lote = create(:lote)
 
 		@lote2 = Product.create!( :name => "Lote de 2.5 kilos", 
@@ -105,6 +132,14 @@ describe Product do
 	end
 
 	it "can be a root and have children" do
+    # uses Factories defined in factories.rb
+    @soca = create(:soca)
+    @pigat = create(:pigat)
+
+    @raul = create(:customer)
+
+    @raul_order = Order.create!( :date => Time.now, :customer => @raul )
+
     @lote = create(:lote)
 
     expect(@lote.has_subproducts?).to eq(false)
@@ -124,11 +159,6 @@ describe Product do
     expect( @raul_order.line_items.count ).to eq( 1 )
     
     expect( line_items_string( @raul_order) ).to eq( "1 x Lote de 5 Kilos\n\t3 x Soca\n\t3 x Pigat\n" )
-
-    #puts "\n"
-    # implement order.to_s ??
-    #puts @raul_order
-    #expect( Order.find_by!( :id => @raul_order.id ).to_s).to eq("Test") 
   end
 
 end
