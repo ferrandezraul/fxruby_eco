@@ -27,7 +27,7 @@ describe LineItem do
     expect( Product.count ).to eq(2)
   end
 
-  it "might contain subitems" do
+  it "might be a root line item that contains subitems" do
     @raul = create(:customer)
     @raul_order = Order.create!( :date => Time.now, :customer => @raul )
 
@@ -41,7 +41,17 @@ describe LineItem do
     end
 
     parent_item = @raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => lote )
-    parent_item.subitems << items
-    # TODO check results
+    parent_item.subitems << items    
+
+    expect( @raul_order.line_items.count ).to eq(3)
+    expect( LineItem.count ).to eq(3) # Saved to database
+
+    expect( @raul_order.line_items.roots.count ).to eq(1)
+
+    copy_of_parent = @raul_order.line_items.roots.first
+    expect( copy_of_parent.subitems.count).to eq(2)
+
+    @raul_order.save
+    expect(parent_item.total).to eq(@raul_order.total)
   end
 end

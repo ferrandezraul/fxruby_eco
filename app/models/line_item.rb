@@ -18,7 +18,7 @@ class LineItem < ActiveRecord::Base
     :association_foreign_key => "container_id"	
 
     # All Products that do not belong to any container
-  #scope :roots, -> {where("not exists (select * from subitems_containers where subitem_id=line_items.id)")}
+  scope :roots, -> {where("not exists (select * from subitems_containers where subitem_id=line_items.id)")}
 
   # All Products that have no children
   #scope :subitems, -> {where("not exists (select * from subitems_containers where container_id=line_items.id)")}
