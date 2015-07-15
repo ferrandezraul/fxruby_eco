@@ -45,6 +45,7 @@ describe LineItem do
 
     expect( @raul_order.line_items.count ).to eq(3)
     expect( LineItem.count ).to eq(3) # Saved to database
+    expect( LineItem.all.roots.count ).to eq(1) # Saved to database
 
     expect( @raul_order.line_items.roots.count ).to eq(1)
 

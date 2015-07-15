@@ -4,9 +4,10 @@ require 'line_items_table'
 class LineItemDialog < FXDialogBox 
 	attr_accessor :item
 	
-	def initialize(owner)
+	def initialize(owner, order)
 		super(owner, "New Line Item", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL_X) 
 
+		@order = order
 		@item = { :quantity => 0,
 				  :weight => 0,
 				  :product => nil }
@@ -125,14 +126,29 @@ class LineItemDialog < FXDialogBox
 		# from this FXDialogBox. Note that the cancel button is automatically tied
 		# with the event ID_CANCEL from this FXDialog in the constructor of the cancel button.
 		ok_button.connect(SEL_COMMAND) do |sender, sel, data|
+			@order.save! # Need to have order in database before creating line_items on database
+			parent_item = @order.line_items.create!( item )	
 			if item[:product].has_subproducts?
 				FXMessageBox.warning( self, MBOX_OK, "Now select subproducts", "Now select subproducts" )
-				subproducts = item[:product].has_subproducts?
-				# Iterate subproducts and create map or hash that contains 
-				# weight, quantity and string with observations 
-			else
-				self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
+				items = Array.new
+				item[:product].children.each do |subproduct|
+					peso = 0
+					cantidad = FXInputDialog.getInteger(0, self, "Select quantity for #{subproduct.name}",
+					 "Select quantity for #{subproduct.name}", nil, 1, 100)
+					if subproduct.price_type == Product::PriceType::POR_KILO
+					 	peso = FXInputDialog.getReal(0, self, "Select weight in kg for #{subproduct.name}", 
+					 		"Select weight in kg for #{subproduct.name}", nil, 0, 100)
+					end
+					items << LineItem.new( :order => @order,
+																 :product => subproduct,
+                                 :quantity => cantidad,
+                                 :weight => peso )
+				end
+
+				parent_item.subitems << items
 			end
+
+			self.handle(sender, FXSEL(SEL_COMMAND, FXDialogBox::ID_ACCEPT), nil)
 		end
 	end
 

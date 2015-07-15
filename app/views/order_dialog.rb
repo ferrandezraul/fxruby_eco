@@ -37,10 +37,8 @@ class OrderDialog < FXDialogBox
 	def construct_line_items_form(matrix)
 		add_item_button = FXButton.new( matrix, "Add Line Item", :opts => BUTTON_NORMAL)
 	    add_item_button.connect( SEL_COMMAND) do |sender, sel, data|
-	    	line_item_dialog = LineItemDialog.new(self)
+	    	line_item_dialog = LineItemDialog.new(self, @order )
 	    	if line_item_dialog.execute != 0
-	    		@order.save! # Need to have order in database before creating line_items on database
-	    		@order.line_items.create!( line_item_dialog.item )	    		
 	    		@line_items_table.reset( @order.line_items )
 	    	end	    	
 	    end
