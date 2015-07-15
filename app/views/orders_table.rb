@@ -1,6 +1,7 @@
 include Fox
 
 class OrdersTable < FXTable
+  attr_reader :current_order
 
   COLUMN_ID = 0
   COLUMN_DATE = 1
@@ -16,6 +17,7 @@ class OrdersTable < FXTable
 
     fill_table
 
+    self.connect(SEL_COMMAND, method(:on_new_selected))
     #self.connect(SEL_REPLACED, method(:on_cell_changed))
     #self.connect(SEL_DOUBLECLICKED, method(:on_cell_double_clicled))
   end
@@ -69,7 +71,13 @@ class OrdersTable < FXTable
 
   def reset
     clearItems
+    @current_order = nil
     fill_table
+  end
+
+  def on_new_selected( sender, sel, table_pos)
+    row = table_pos.row
+    @current_order = Order.find_by!( :id => getItemText( row, COLUMN_ID ) ) 
   end
 
   def create

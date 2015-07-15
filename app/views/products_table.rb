@@ -69,6 +69,7 @@ class ProductsTable < FXTable
 
   def reset
     clearItems
+    @current_product = nil
     fill_table(Product.all.where( :outdated => false ))
   end
 
