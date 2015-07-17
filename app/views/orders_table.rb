@@ -36,6 +36,14 @@ class OrdersTable < FXTable
     setColumnText(COLUMN_TAXES, "Taxes")
     setColumnText(COLUMN_TOTAL, "Total")
 
+    setColumnWidth(COLUMN_ID, 50)
+    setColumnWidth(COLUMN_DATE, 200)
+    setColumnWidth(COLUMN_CUSTOMER, 200)
+    setColumnWidth(COLUMN_ITEMS, 200)
+    setColumnWidth(COLUMN_RAW_PRICE, 200)
+    setColumnWidth(COLUMN_TAXES, 200)
+    setColumnWidth(COLUMN_TOTAL, 200)
+
     columnHeader.setItemJustify(COLUMN_ID, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_DATE, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_CUSTOMER, FXHeaderItem::CENTER_X)

@@ -38,6 +38,14 @@ class ProductsTable < FXTable
     setColumnText(COLUMN_TAXES, "IVA EUR")
     setColumnText(COLUMN_TOTAL, "TOTAL")
 
+    setColumnWidth(COLUMN_ID, 50)
+    setColumnWidth(COLUMN_NAME, 200)
+    setColumnWidth(COLUMN_PRICE_TYPE, 200)
+    setColumnWidth(COLUMN_RAW_PRICE, 200)
+    setColumnWidth(COLUMN_TAX_PERCENTAGE, 200)
+    setColumnWidth(COLUMN_TAXES, 200)
+    setColumnWidth(COLUMN_TOTAL, 200)
+
     columnHeader.setItemJustify(COLUMN_ID, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_NAME, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_PRICE_TYPE, FXHeaderItem::CENTER_X)

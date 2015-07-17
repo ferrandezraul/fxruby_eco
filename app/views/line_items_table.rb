@@ -31,6 +31,14 @@ class LineItemsTable < FXTable
 
     rowHeaderMode = LAYOUT_FILL_X
 
+    setColumnWidth(COLUMN_QUANTITY, 50)
+    setColumnWidth(COLUMN_WEIGHT, 100)
+    setColumnWidth(COLUMN_NAME, 200)
+    setColumnWidth(COLUMN_RAW_PRICE, 200)
+    setColumnWidth(COLUMN_TAX_PERCENTAGE, 200)
+    setColumnWidth(COLUMN_TAXES, 200)
+    setColumnWidth(COLUMN_TOTAL, 200)
+
     columnHeader.setItemJustify(COLUMN_QUANTITY, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_WEIGHT, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_NAME, FXHeaderItem::CENTER_X)

@@ -31,6 +31,12 @@ class CustomersTable < FXTable
     setColumnText(COLUMN_NIF, "NIF")
     setColumnText(COLUMN_CUSTOMER_TYPE, "Customer Type")
 
+    setColumnWidth(COLUMN_ID, 50)
+    setColumnWidth(COLUMN_NAME, 100)
+    setColumnWidth(COLUMN_ADDRESS, 200)
+    setColumnWidth(COLUMN_NIF, 200)
+    setColumnWidth(COLUMN_CUSTOMER_TYPE, 200)
+
     columnHeader.setItemJustify(COLUMN_ID, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_NAME, FXHeaderItem::CENTER_X)
     columnHeader.setItemJustify(COLUMN_ADDRESS, FXHeaderItem::CENTER_X)
