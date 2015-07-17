@@ -64,7 +64,10 @@ class ProductsTable < FXTable
     setItemText( row, COLUMN_RAW_PRICE, "#{ sprintf('%.2f', product.price ) }" )
     setItemText( row, COLUMN_TAX_PERCENTAGE, "#{ sprintf('%.2f', product.tax_percentage ) }" )
     setItemText( row, COLUMN_TAXES, "#{ sprintf('%.2f', product.taxes ) }" )
-    setItemText( row, COLUMN_TOTAL, "#{ sprintf('%.2f', product.total ) }" )
+    setItemText( row, COLUMN_TOTAL, "#{ sprintf('%.2f', product.total ) }" )    
+    if product.has_subproducts?
+      setRowHeight( row, product.children.count * 50 ) 
+    end
   end
 
   def reset
