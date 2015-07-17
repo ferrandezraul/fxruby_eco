@@ -41,7 +41,7 @@ class OrdersView < FXPacker
     end
   end
 
-  def get_new_order
+  def get_new_order( sender, sel, data )
   	date = get_date
 
   	if date

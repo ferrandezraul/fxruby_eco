@@ -11,7 +11,7 @@ class OrderDialog < FXDialogBox
 	attr_accessor :order
 	
 	def initialize(owner, date, customer)
-		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL) 
+		super(owner, "New Order", DECOR_TITLE|DECOR_BORDER|DECOR_RESIZE|LAYOUT_FILL, 0, 0, 1000, 1000) 
 
 	  @order = Order.new( :date => date, :customer => customer )
 
