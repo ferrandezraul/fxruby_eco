@@ -36,7 +36,7 @@ class ProductDialog < FXDialogBox
 	    end
 
 	    # Cal this in order to set a price_type in product.
-	    price_type_combo_box.setCurrentItem( 0, true )
+	    price_type_combo_box.setCurrentItem( 1, true )
 
 	    FXLabel.new(form, "Price:")
 	    price = FXTextField.new(form, 20, 
