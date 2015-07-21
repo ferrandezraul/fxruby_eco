@@ -61,12 +61,7 @@ class OrdersTable < FXTable
     num_rows = getNumRows
     appendRows( 1 )
 
-    line_items_text = String.new
-    order.line_items.each do |line_item|
-      # TODO
-      # It should be line_item.name (name should be set first in active record when line_item is created)
-      line_items_text << "#{line_item.quantity} x #{line_item.product.name}\n"
-    end
+    line_items_text = TokenizerHelper.line_items_string( order )
 
     setItemText( num_rows, COLUMN_ID, order.id.to_s )
     setItemText( num_rows, COLUMN_DATE, order.date.strftime("%d/%m/%Y") )
@@ -75,6 +70,9 @@ class OrdersTable < FXTable
     setItemText( num_rows, COLUMN_RAW_PRICE, "#{sprintf('%.2f', order.price )} EUR" )
     setItemText( num_rows, COLUMN_TAXES, "#{sprintf('%.2f', order.taxes )} EUR" )
     setItemText( num_rows, COLUMN_TOTAL, "#{sprintf('%.2f', order.total )} EUR" )
+
+    # Set row height based on the number of lines in line items
+    setRowHeight( num_rows, line_items_text.scan(/\n/).length * 30 ) 
   end
 
   def reset
