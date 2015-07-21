@@ -152,13 +152,21 @@ describe Product do
 
     lote_item = @raul_order.line_items.create!( :quantity => 1, :weight => 0, :product => @lote )
 
+    subitems = Array.new
     @lote.children.each do |subproduct|
-    	lote_item.subitems << LineItem.create!( :quantity => 3, :product => subproduct )
+      # Order has to be given
+    	subitems << LineItem.new( :quantity => 3, :product => subproduct, :order => @raul_order )
     end
+
+    lote_item.subitems << subitems
+    lote_item.save!    
+
+    expect( lote_item.has_subitems? ).to eq( true )
+
     ## Now check things
-    expect( @raul_order.line_items.count ).to eq( 1 )
+    expect( @raul_order.line_items.count ).to eq( 3 )
     
-    expect( line_items_string( @raul_order) ).to eq( "1 x Lote de 5 Kilos\n\t3 x Soca\n\t3 x Pigat\n" )
+    expect( line_items_string( @raul_order) ).to eq( "1 x Lote de 5 Kilos\n3 x Soca\n3 x Pigat\n" )
   end
 
 end

@@ -48,7 +48,7 @@ class LineItemsTable < FXTable
     columnHeader.setItemJustify(COLUMN_TOTAL, FXHeaderItem::CENTER_X)
 
     line_items.each do |line_item|
-      add_line_item(line_item)
+      add_line_item(line_item) if line_item.root?
     end
   end
 
@@ -57,7 +57,7 @@ class LineItemsTable < FXTable
     appendRows( 1 )
     setItemText( num_rows, COLUMN_QUANTITY, line_item.quantity.to_s )
     setItemText( num_rows, COLUMN_WEIGHT, line_item.weight.to_s )
-    setItemText( num_rows, COLUMN_NAME, line_item.product.name )
+    setItemText( num_rows, COLUMN_NAME, line_item_string( line_item ) )
     setItemText( num_rows, COLUMN_RAW_PRICE, "#{sprintf('%.2f', line_item.price )} EUR" )
     setItemText( num_rows, COLUMN_TAX_PERCENTAGE, "#{sprintf('%.2f', line_item.product.tax_percentage )} %" )
     setItemText( num_rows, COLUMN_TAXES, "#{sprintf('%.2f', line_item.taxes )} EUR" )

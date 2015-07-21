@@ -34,6 +34,11 @@ class LineItem < ActiveRecord::Base
     self.subitems.any?
   end
 
+  # Is this Component at root level
+  def root?
+    self.containers.empty?
+  end
+
 	def calculate_price
 		self.total, self.price, self.taxes = BigDecimal.new("0.0"), BigDecimal.new("0.0"), BigDecimal.new("0.0")
 		if self.product.price_type == Product::PriceType::POR_KILO
