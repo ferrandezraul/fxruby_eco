@@ -1,0 +1,38 @@
+id,name,price,price_type,tax_percentage
+1,Costella a talls,8.5,por_kilo,10
+2,Tall per rostir,10.5,por_kilo,10
+3,Bistec,11,por_kilo,10
+4,Filet,16,por_kilo,10
+5,Secret,14,por_kilo,10
+6,Pedacet,9,por_kilo,10
+7,Llom,13.5,por_kilo,10
+8,Cap de llom,9,por_kilo,10
+9,Ossos d'espinada ,3,por_kilo,10
+10,Cua,7,por_kilo,10
+11,Galtes,6.5,por_kilo,10
+12,Fetge,3.5,por_kilo,10
+13,Peu (2 meitats),5,por_kilo,10
+14,Peu cuit (2 meitats),5.5,por_kilo,10
+15,Llonzat,11.5,por_kilo,10
+16,Cansalada,4,por_kilo,10
+17,Carn per estofar,9,por_kilo,10
+18,Panxeta ,7,por_kilo,10
+19,Botifarra,9.5,por_kilo,10
+20,Salsitxa,10.5,por_kilo,10
+21,Carn picada,8.5,por_kilo,10
+22,Hamburguesa,9.5,por_kilo,10
+23,Bull d'ou / blanc / de fetge o negre,13.5,por_kilo,10
+24,Botifarra d'ou / blanca / de fetge o negre,13.5,por_kilo,10
+25,Bull de cap,14,por_kilo,10
+26,Fuet,19,por_kilo,10
+27,Llonganissa,23,por_kilo,10
+28,Xoriç embotit,19,por_kilo,10
+29,Papada a granel,4,por_kilo,10
+30,Espatlla sense pell a granel,6.2,por_kilo,10
+31,Espatlla amb pell a granel,5.7,por_kilo,10
+32,Retall magre 1ª a granel,6.7,por_kilo,10
+33,Retall sense triar,6,por_kilo,10
+34,Costellar sencer,8,por_kilo,10
+35,Llom de canya sencer,13,por_kilo,10
+36,Cap de llom sencer,8.5,por_kilo,10
+37,Llonzat sencer,11,por_kilo,10

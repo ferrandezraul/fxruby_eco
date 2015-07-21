@@ -83,7 +83,7 @@ class EcocityAdmin < FXMainWindow
 
     import_test_data = FXMenuCommand.new(import_menu_pane, "Import test data")
     import_test_data.connect(SEL_COMMAND) do
-      ProductsCSVBuilder::create_from_csv("db/products.csv")
+      ProductsCSVBuilder::create_from_csv("db/products_mock.csv")
       CustomersCSVBuilder::create_from_csv("db/customers.csv")
       @products_view.reset
       @customers_view.reset
@@ -133,7 +133,7 @@ class EcocityAdmin < FXMainWindow
       if dialog.execute != 0
         ProductsCSVBuilder::create_from_csv(dialog.filename)
         # Update UI !!
-        @products_view.reset(Product.all.where( :outdated => false ))
+        @products_view.reset
         FXMessageBox.warning( self, MBOX_OK, "#{Product.count} Products Imported", 
           "#{Product.count} Products Imported")
         end
